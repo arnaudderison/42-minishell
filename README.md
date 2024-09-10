@@ -12,5 +12,6 @@ par des minishtres pour des minishtres
 
 # Sources
 [Medium](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218)
-[Medium](https://42-cursus.gitbook.io/guide/rank-03/minishell)
+
+[GitBook](https://42-cursus.gitbook.io/guide/rank-03/minishell)
 

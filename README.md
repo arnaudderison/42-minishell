@@ -10,7 +10,7 @@
 par des minishtres pour des minishtres
 
 ```                                                              
-🧠 [Plachard](https://github.com/Lopine)
+(http://i.imgur.com/ng75ubV.png) [Plachard](https://github.com/Lopine)
 
 🧠 [Aderison](https://github.com/arnaudderison)
 

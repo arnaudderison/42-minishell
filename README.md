@@ -11,4 +11,4 @@ par des minishtres pour des minishtres
 ```                                                              
 
 # Sources
-[README]((https://github.com/arnaudderison/42-minishell/edit/main/README.md))
+[README](https://github.com/arnaudderison/42-minishell/edit/main/README.md)

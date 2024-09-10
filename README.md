@@ -14,7 +14,7 @@ par des minishtres pour des minishtres
 
 🧠 [Aderison](https://github.com/arnaudderison)
 
-# Sources
+# Shources
 [Medium](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218)
 
 [GitBook](https://42-cursus.gitbook.io/guide/rank-03/minishell)

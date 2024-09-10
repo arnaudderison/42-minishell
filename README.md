@@ -11,4 +11,4 @@ par des minishtres pour des minishtres
 ```                                                              
 
 # Sources
-[README](https://github.com/arnaudderison/42-minishell/edit/main/README.md)
+[medium](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218))

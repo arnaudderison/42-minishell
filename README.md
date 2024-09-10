@@ -8,6 +8,7 @@
 |___|\__/|___|(__\_|_)\___|\____\)(__\_|_)(_______/  \__|  |__/
 
 par des minishtres pour des minishtres
+[👥 Lopine](https://github.com/Lopine)
 ```                                                              
 
 # Sources

@@ -20,7 +20,6 @@ par des minishtres pour des minishtres
 [GitBook](https://42-cursus.gitbook.io/guide/rank-03/minishell)
 
 ```
-<!-- 
 
          /|
       /\/ |/\
@@ -44,5 +43,4 @@ par des minishtres pour des minishtres
        |    |
        |    | 
       
-  -->
 ```

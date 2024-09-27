@@ -19,4 +19,30 @@ par des minishtres pour des minishtres
 
 [GitBook](https://42-cursus.gitbook.io/guide/rank-03/minishell)
 
-![image](https://github.com/user-attachments/assets/4116cc7e-35dd-4a40-ae3d-4bd190ad89fe)
+```
+<!-- 
+
+         /|
+      /\/ |/\
+      \  ^   | /\  /\
+(\/\  / ^   /\/  )/^ )
+\  \/^ /\       ^  /
+  )^       ^ \     (
+(   ^   ^      ^\  )
+ \___\/____/______/
+ [________________]
+  |              |
+  |     //\\     |
+  |    <<()>>    |
+  |     \\//     |
+   \____________/
+       |    |
+       |    |
+       |    |
+       |    |
+       |    |
+       |    |
+       |    | 
+      
+  -->
+```

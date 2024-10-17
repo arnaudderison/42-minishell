@@ -9,7 +9,10 @@
 
 par des minishtres pour des minishtres
 
-```                                                              
+```
+```
+message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"
+```
 😳 [Plachard](https://github.com/Lopine)
 
 🔦 [Aderison](https://github.com/arnaudderison)

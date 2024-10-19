@@ -18,6 +18,8 @@ message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"
 🔦 [Aderison](https://github.com/arnaudderison)
 
 
+# Memo pour les commandes git
+[Commandes GIT](./GIT.md)
 # Développement de minishell pour Linux et macOS
 
 ## 1. Gestion des bibliothèques système

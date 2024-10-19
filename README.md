@@ -17,6 +17,71 @@ message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"
 
 🔦 [Aderison](https://github.com/arnaudderison)
 
+
+# Développement de minishell pour Linux et macOS
+
+## 1. Gestion des bibliothèques système
+
+- **Linux** : Utilise GNU libc (glibc)
+- **macOS** : Utilise libc de BSD
+
+### Implications :
+- Certaines fonctions peuvent avoir des comportements légèrement différents
+- Certaines fonctions peuvent exister sur une plateforme mais pas sur l'autre
+
+## 2. Compilation conditionnelle
+
+Utilisez des macros de préprocesseur pour gérer les différences :
+
+```c
+#ifdef __APPLE__
+    // Code spécifique à macOS
+#elif defined(__linux__)
+    // Code spécifique à Linux
+#else
+    #error "Système d'exploitation non supporté"
+#endif
+```
+
+## 3. Différences spécifiques
+
+### Gestion des processus
+- **Linux** : Utilise `wait3()` et `wait4()`
+- **macOS** : Préfère `waitpid()`
+
+### Manipulation de chaînes
+- **Linux** : `strerror_r()` retourne un `int`
+- **macOS** : `strerror_r()` retourne un `char*`
+
+### Signaux
+- Les masques de signaux peuvent différer
+
+### Terminaux
+- Les structures et fonctions pour la manipulation des terminaux peuvent varier
+
+## 4. Makefile
+
+Adaptez votre Makefile pour détecter l'OS et compiler en conséquence :
+
+```makefile
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    CFLAGS += -D LINUX
+endif
+ifeq ($(UNAME_S),Darwin)
+    CFLAGS += -D OSX
+endif
+```
+
+## 5. Tests
+
+- Testez régulièrement sur les deux plateformes
+- Utilisez des outils de CI/CD pour automatiser les tests sur différents OS
+
+## 6. Documentation
+
+- Documentez clairement les différences de comportement entre les deux OS
+- Fournissez des instructions d'installation et d'utilisation spécifiques à chaque plateforme
 # Tokenisation
 
 ### 1. **Structure d'un token**

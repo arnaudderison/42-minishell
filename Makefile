@@ -14,6 +14,14 @@ YELLOW=\033[1;33m
 CYAN=\033[0;36m
 NC=\033[0m
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    CFLAGS += -D LINUX
+endif
+ifeq ($(UNAME_S),Darwin)
+    CFLAGS += -D OSX
+endif
+
 MINISH_SRCS = src/main.c $(wildcard src/*/*.c)
 MINISH_OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(MINISH_SRCS))
 

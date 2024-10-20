@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 08:56:04 by arnaud            #+#    #+#             */
-/*   Updated: 2024/04/05 20:37:41 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/20 07:28:15 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strlen(const char *s)
 {
-	int	i;
+	unsigned int	i;
 
 	if (!s)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 03:46:07 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/20 07:20:17 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,17 @@ t_bool	tokeniser(const char *input)
 	tokens = NULL;
 	if (!input)
 	{
-		print_error(ERR_NULL_PTR, "tokeniser.c", 79);
+		print_error(ERR_NULL_PTR, "tokeniser.c", 48);
 		exit(EXIT_FAILURE);
 	}
 	lexer = create_lexer(input);
 	tokens = malloc(sizeof(t_token));
+	if (!tokens)
+	{
+		print_error(ERR_MALLOC, "tokeniser.c", 55);
+		ft_free(1, &input);
+		exit(EXIT_FAILURE);
+	}
 	tokens->type = NAO;
 	tokens->next = NULL;
 	tokens->value = NULL;

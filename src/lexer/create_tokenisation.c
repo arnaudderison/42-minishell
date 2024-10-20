@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:54:38 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 03:44:00 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/20 03:50:23 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,24 @@ static char	*get_char_with_token(t_token_type type)
 
 void	create_tokenisation(t_token **tokens, t_lexer *lexer)
 {
-	t_token_type	ope;
-	int				start_word;
+	int	start_word;
 
-	while ((ope = get_operator(lexer)) != TOKEN_EOF)
+	while (get_operator(lexer) != TOKEN_EOF)
 	{
-		if (ope != NAO)
+		if (get_operator(lexer) != NAO)
 		{
-			add_token(tokens, ope, get_char_with_token(ope), lexer);
+			add_token(tokens, get_operator(lexer),
+				get_char_with_token(get_operator(lexer)), lexer);
 			next_char(lexer);
 		}
 		if (ft_isspace(get_currentchar(lexer)))
 			while (ft_isspace(get_currentchar(lexer)))
 				next_char(lexer);
-		if ((ope = get_operator(lexer)) == NAO)
+		if (get_operator(lexer) == NAO)
 		{
 			start_word = lexer->position;
 			while (!ft_isspace(get_currentchar(lexer))
-				&& (ope = get_operator(lexer)) == NAO)
+				&& get_operator(lexer) == NAO)
 				next_char(lexer);
 			create_word_token(lexer, tokens, start_word);
 		}

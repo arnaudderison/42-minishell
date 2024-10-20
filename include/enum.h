@@ -6,12 +6,18 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/19 21:45:04 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/20 01:22:49 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENUM_H
 # define ENUM_H
+
+typedef enum s_error
+{
+	ERR_MALLOC,
+	ERR_NULL_PTR,
+}	t_error;
 
 /*
  * === TOKENISATION ===
@@ -24,6 +30,7 @@
  * REDIR_OUT        '>'
  * REDIR_APP        '>>'
  * REDIR_HEREDOC    '<<'
+ * NAO              NOT A OPERATOE
  */
 typedef enum s_token_type
 {
@@ -36,6 +43,7 @@ typedef enum s_token_type
 	TOKEN_REDIR_APP,
 	TOKEN_REDIR_HEREDOC,
 	TOKEN_EOF,
+	NAO,
 }	t_token_type;
 
 #endif

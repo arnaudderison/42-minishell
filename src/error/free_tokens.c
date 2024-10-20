@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structure.h                                        :+:      :+:    :+:   */
+/*   free_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 01:22:44 by aderison         ###   ########.fr       */
+/*   Created: 2024/10/19 22:50:00 by aderison          #+#    #+#             */
+/*   Updated: 2024/10/20 02:24:58 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTURE_H
-# define STRUCTURE_H
+#include "minishell.h"
 
-/*
- * === Tokenisation ===
- * this struct represents a token with t_token_type (look enum)
- */
-typedef struct s_token
+void	free_tokens(t_token *tokens)
 {
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}					t_token;
+	t_token	*token;
+	t_token	*next;
 
-typedef struct s_lexer
-{
-	const char		*input;
-	int				position;
-	t_token			*last_token;
-}					t_lexer;
-
-#endif
+	token = NULL;
+	if (!tokens)
+		return ;
+	token = tokens;
+	while (token)
+	{
+		next = token->next;
+		ft_free(2, &token->value, &token);
+		token = next;
+	}
+}

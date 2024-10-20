@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 01:22:49 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/20 09:31:45 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum s_error
  * REDIR_OUT        '>'
  * REDIR_APP        '>>'
  * REDIR_HEREDOC    '<<'
- * NAO              NOT A OPERATOE
+ * NAO              NOT A OPERATOR
  */
 typedef enum s_token_type
 {

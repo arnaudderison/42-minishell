@@ -20,6 +20,8 @@ message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"
 
 # Memo pour les commandes git
 [Commandes GIT](./GIT.md)
+
+[doc trop cool minishell](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 # Développement de minishell pour Linux et macOS
 
 ## 1. Gestion des bibliothèques système

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 00:40:41 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 07:24:38 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:36:35 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	add_token(t_token **tokens, t_token_type type, char *value,
 {
 	t_token	*new_token;
 
+	if(type == TOKEN_REDIR_APP || type == TOKEN_REDIR_HEREDOC)
+		lexer->position++;
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 	{

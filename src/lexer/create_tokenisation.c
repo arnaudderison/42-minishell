@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokenisation.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:54:38 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 03:50:23 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/21 12:36:38 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static t_token_type	get_operator(t_lexer *lexer)
 	if (c == '\"')
 		return (TOKEN_DQUOTE);
 	if (c == '<' && lexer->input[lexer->position + 1] == '<')
-		return (lexer->position++, TOKEN_REDIR_HEREDOC);
-	else if (c == '<')
+		return (TOKEN_REDIR_HEREDOC);
+	if (c == '<')
 		return (TOKEN_REDIR_IN);
 	if (c == '>' && lexer->input[lexer->position + 1] == '>')
-		return (lexer->position++, TOKEN_REDIR_APP);
-	else if (c == '>')
+		return (TOKEN_REDIR_APP);
+	if (c == '>')
 		return (TOKEN_REDIR_OUT);
 	if (c == '\0')
 		return (TOKEN_EOF);

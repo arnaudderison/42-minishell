@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/21 20:15:04 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:09:02 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,6 @@ void	add_token(t_token **tokens, t_token_type type, char *value,
 void	create_tokenisation(t_token **tokens, t_lexer *lexer);
 t_bool	tokeniser(const char *input);
 void	create_word_token(t_lexer *lexer, t_token **tokens, int start_word);
-void	manage_quote(t_token **tokens, const char *input);
+void	manage_quote(t_token **tokens);
 
 #endif

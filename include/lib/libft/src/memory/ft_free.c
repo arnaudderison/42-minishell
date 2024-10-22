@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 15:45:58 by aderison          #+#    #+#             */
-/*   Updated: 2024/05/09 15:46:21 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:07:15 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_free(unsigned int count, ...)
 		if (*tmp)
 		{
 			free(*tmp);
-			*tmp = NULL;
+			(*tmp) = NULL;
 		}
 	}
 	va_end(args);

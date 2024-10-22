@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/21 20:16:17 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:05:06 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool	tokeniser(const char *input)
 	tokens->next = NULL;
 	tokens->value = NULL;
 	create_tokenisation(&tokens, lexer);
-	manage_quote(&tokens, input);
+	manage_quote(&tokens);
 	// START DEBUG
 	tmp = tokens;
 	while (tmp)
@@ -69,6 +69,7 @@ t_bool	tokeniser(const char *input)
 		tmp = tmp->next;
 	}
 	// END DEBUG
+	free_tokens(tokens, input);
 	ft_free(1, &lexer);
 	return (true);
 }

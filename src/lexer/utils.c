@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 00:40:41 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/21 12:36:35 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/26 18:56:10 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_token(t_token **tokens, t_token_type type, char *value,
 {
 	t_token	*new_token;
 
-	if(type == TOKEN_REDIR_APP || type == TOKEN_REDIR_HEREDOC)
+	if (type == TOKEN_REDIR_APP || type == TOKEN_REDIR_HEREDOC)
 		lexer->position++;
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
@@ -46,6 +46,7 @@ void	add_token(t_token **tokens, t_token_type type, char *value,
 	new_token->next = NULL;
 	if ((*tokens)->type == NAO && (*tokens)->value == NULL)
 	{
+		ft_free(1, tokens);
 		(*tokens) = new_token;
 		lexer->last_token = new_token;
 	}

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:08:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/22 12:36:07 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/26 19:29:00 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	free_unless_token(t_token **tokens, t_token *token)
 	while (token != tmp_token && token->type != TOKEN_EOF)
 	{
 		next_token = token->next;
-		ft_free(1, &token);
+		ft_free(2, &token->value, &token);
 		token = next_token;
 	}
 	(*tokens)->next = tmp_token;
@@ -55,10 +55,9 @@ static void	dispatch_value(t_token **tokens, t_token_type quote_type)
 		new_value = tmp_value;
 		token = token->next;
 	}
-	ft_free(1, &(*tokens)->value);
-	(*tokens)->value = new_value;
-	(*tokens)->type = TOKEN_WORD;
-	free_unless_token(tokens, token);
+	ft_free(1, &((*tokens)->value));
+	return ((*tokens)->value = new_value, (*tokens)->type = TOKEN_WORD,
+		free_unless_token(tokens, token));
 }
 
 void	manage_quote(t_token **tokens)

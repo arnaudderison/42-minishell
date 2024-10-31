@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:08:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/26 19:29:00 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:53:19 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ static void	dispatch_value(t_token **tokens, t_token_type quote_type)
 	char	*tmp_value;
 
 	if ((*tokens)->next->type == TOKEN_EOF)
-		return ((*tokens)->type = TOKEN_EOF, (*tokens)->value = NULL, ft_free(1,
+	{
+		ft_printf("EOF next [%s]\n", (*tokens)->value);
+		return ((*tokens)->type = TOKEN_EOF, ft_free(2, &(*tokens)->value,
 				&(*tokens)->next));
+	}
 	if (!(*tokens)->next)
 		return ;
 	token = (*tokens)->next;

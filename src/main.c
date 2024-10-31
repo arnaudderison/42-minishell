@@ -6,13 +6,13 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 16:06:27 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:06:54 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// in wait handle signals
+// in waiting handle signals
 void    handle_eof(char *line)
 {
     if (line == NULL)

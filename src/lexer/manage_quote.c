@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:08:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 13:53:19 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:54:17 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,8 @@ static void	dispatch_value(t_token **tokens, t_token_type quote_type)
 	char	*tmp_value;
 
 	if ((*tokens)->next->type == TOKEN_EOF)
-	{
-		ft_printf("EOF next [%s]\n", (*tokens)->value);
 		return ((*tokens)->type = TOKEN_EOF, ft_free(2, &(*tokens)->value,
 				&(*tokens)->next));
-	}
 	if (!(*tokens)->next)
 		return ;
 	token = (*tokens)->next;

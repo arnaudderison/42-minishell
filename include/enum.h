@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 16:31:27 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:38:50 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ typedef enum s_token_type
 	NAO,
 }	t_token_type;
 
+/*
+ * MALLOC use as return value when an failed malloc is detected
+ * PTR_NULL use as return value when an pointer NULL is detected
+ * UNKNOWN use as return value when an UNKNOWN error is detected
+ * SUCCESS use as return value when the fonction has gone well
+*/
 typedef enum s_status
 {
 	MALLOC,

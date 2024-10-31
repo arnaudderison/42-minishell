@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enum.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/20 09:31:45 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:31:27 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ typedef enum s_token_type
 	NAO,
 }	t_token_type;
 
+typedef enum s_status
+{
+	MALLOC,
+	PTR_NULL,
+	UNKNOWN,
+	SUCCESS,
+}	t_status;
 #endif

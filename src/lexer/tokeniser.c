@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 17:07:29 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 19:09:13 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_bool	tokeniser(const char *input)
 	if (!tokens)
 	{
 		print_error(ERR_MALLOC, "tokeniser.c", 55);
-		ft_free(1, &input);
+		ft_free(2, &input, &lexer);
 		exit(EXIT_FAILURE);
 	}
 	tokens->type = NAO;

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 16:12:21 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 17:20:40 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:51:20 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_status	is_redir_syntax(t_token *tokens)
 		if (is_redir_op(token) == SUCCESS
 			&& is_operator(token->next) == SUCCESS)
 		{
-			ft_printf_fd(2,
+			ft_printf_fd(STDERR_FILENO,
 				RED "minish: " \
 				YELLOW "syntax error " RESET "near unexpected token \'%s\'\n",
 				token->next->value);

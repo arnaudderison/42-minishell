@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 16:58:06 by aderison         ###   ########.fr       */
+/*   Created: 2024/11/01 16:28:37 by aderison          #+#    #+#             */
+/*   Updated: 2024/11/01 17:05:20 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// in waiting handle signals
-void	handle_eof(char *line)
+t_status	parsing(t_token *tokens)
 {
-	if (line == NULL)
-	{
-		ft_printf("exit\n");
-		exit(0);
-	}
-}
-
-int	main(void)
-{
-	char	*input;
-
-	input = NULL;
-	while (true)
-	{
-		ft_putstr_fd(GREEN "minish ~ " RESET, 1);
-		input = get_next_line(0);
-		handle_eof(input);
-		input[ft_strlen(input) - 1] = '\0';
-		if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-			tokeniser((const char *)input);
-	}
-	return (0);
+	if (!tokens)
+		return (PTR_NULL);
+	is_redir_syntax(tokens);
+	return (SUCCESS);
 }

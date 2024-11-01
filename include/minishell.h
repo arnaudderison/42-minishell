@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 17:00:13 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:53:21 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,23 @@ typedef enum s_bool
 {
 	false,
 	true
-}		t_bool;
+}			t_bool;
 
 // error and free fct
-void	print_error(t_error err, const char *file, int line);
+void		print_error(t_error err, const char *file, int line);
 
 // Tokeninsation
-void	free_tokens(t_token *tokens, const char *input);
-void	add_token(t_token **tokens, t_token_type type, char *value,
-			t_lexer *lexer);
-void	create_tokenisation(t_token **tokens, t_lexer *lexer);
-t_bool	tokeniser(const char *input);
-void	create_word_token(t_lexer *lexer, t_token **tokens, int start_word);
-void	manage_quote(t_token **tokens);
+void		free_tokens(t_token *tokens, const char *input);
+void		add_token(t_token **tokens, t_token_type type, char *value,
+				t_lexer *lexer);
+void		create_tokenisation(t_token **tokens, t_lexer *lexer);
+t_bool		tokeniser(const char *input);
+void		create_word_token(t_lexer *lexer, t_token **tokens, int start_word);
+void		manage_quote(t_token **tokens);
 
-//parsing
+// parsing
 t_status	is_operator(t_token *token);
+t_status	is_redir_syntax(t_token *tokens);
+t_status	parsing(t_token *tokens);
 
 #endif

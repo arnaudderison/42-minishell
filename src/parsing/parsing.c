@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 16:28:37 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 17:05:20 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:19:38 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_status	parsing(t_token *tokens)
 {
 	if (!tokens)
 		return (PTR_NULL);
-	is_redir_syntax(tokens);
+	if (is_redir_syntax(tokens) != SUCCESS)
+		return (FAILED);
 	return (SUCCESS);
 }

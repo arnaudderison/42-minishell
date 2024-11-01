@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 16:53:21 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 18:47:04 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "structure.h"
 # include <stdio.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define MAX_INPUT_LENGHT 1024
 

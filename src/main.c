@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 16:58:06 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 19:09:46 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ int	main(void)
 	input = NULL;
 	while (true)
 	{
-		ft_putstr_fd(GREEN "minish ~ " RESET, 1);
-		input = get_next_line(0);
+		input = readline(GREEN "minish ~ " RESET);
 		handle_eof(input);
-		input[ft_strlen(input) - 1] = '\0';
 		if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 			tokeniser((const char *)input);
 	}

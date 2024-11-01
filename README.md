@@ -12,6 +12,8 @@ par des minishtres pour des minishtres
 ```
 ```
 message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"
+HACK VALGRIND LOOL
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose
 ```
 😳 [Plachard](https://github.com/Lopine)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:41:28 by arnaud            #+#    #+#             */
-/*   Updated: 2024/10/20 00:56:00 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:48:09 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,10 @@ void				ft_free_matrice(unsigned int count, ...);
 void				ft_free(unsigned int count, ...);
 int					ft_puthex_fd(int nb, int isMaj, int fd);
 int					ft_u_putnbr_fd(unsigned int nb, int fd);
-int					ft_pointer(size_t addr);
+int					ft_pointer(size_t addr, int fd);
 void				ft_close_pipes(int *fds, int count);
 int					ft_create_pipes(int fds[], int count);
 char				*get_next_line(int fd);
+int					ft_printf_fd(int fd, const char *strs, ...);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pointer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:50:12 by aderison          #+#    #+#             */
-/*   Updated: 2024/05/10 11:32:07 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:46:31 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/libft.h"
 
-static int	print_pointer(size_t adrr, char *base)
+static int	print_pointer(size_t adrr, char *base, int fd)
 {
 	char	string[17];
 	int		len;
@@ -27,30 +27,30 @@ static int	print_pointer(size_t adrr, char *base)
 	}
 	while (i--)
 	{
-		if (ft_putchar_fd(string[i], 1) < 0)
+		if (ft_putchar_fd(string[i], fd) < 0)
 			return (-1);
 		len += 1;
 	}
 	return (len);
 }
 
-int	ft_pointer(size_t addr)
+int	ft_pointer(size_t addr, int fd)
 {
 	int	len;
 	int	result;
 
-	if (write(1, "0x", 2) < 0)
+	if (write(fd, "0x", 2) < 0)
 		return (-1);
 	len = 2;
 	if (addr == 0)
 	{
-		if (write(1, "0", 1) < 0)
+		if (write(fd, "0", 1) < 0)
 			return (-1);
 		len++;
 	}
 	else
 	{
-		result = print_pointer(addr, "0123456789abcdef");
+		result = print_pointer(addr, "0123456789abcdef", fd);
 		if (result < 0)
 			return (-1);
 		len += result;

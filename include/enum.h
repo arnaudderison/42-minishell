@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 16:38:50 by aderison         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:55:23 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,15 @@ typedef enum s_token_type
  * PTR_NULL use as return value when an pointer NULL is detected
  * UNKNOWN use as return value when an UNKNOWN error is detected
  * SUCCESS use as return value when the fonction has gone well
-*/
+ * FAILED use as return value when the focntion has gone well
+   without error but the return value must be negative
+ */
 typedef enum s_status
 {
+	FAILED = 0,
+	SUCCESS = 1,
 	MALLOC,
 	PTR_NULL,
 	UNKNOWN,
-	SUCCESS,
 }	t_status;
 #endif

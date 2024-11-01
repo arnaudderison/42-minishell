@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:08:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 13:54:17 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/01 16:57:42 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,5 @@ void	manage_quote(t_token **tokens)
 			dispatch_value(&token, token->type);
 		token = token->next;
 	}
+	parsing(*tokens);
 }

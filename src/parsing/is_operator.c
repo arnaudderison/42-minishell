@@ -1,40 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   is_operator.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 16:58:06 by aderison         ###   ########.fr       */
+/*   Created: 2024/10/31 16:57:58 by aderison          #+#    #+#             */
+/*   Updated: 2024/11/01 17:17:57 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// in waiting handle signals
-void	handle_eof(char *line)
+t_status	is_operator(t_token *token)
 {
-	if (line == NULL)
-	{
-		ft_printf("exit\n");
-		exit(0);
-	}
-}
-
-int	main(void)
-{
-	char	*input;
-
-	input = NULL;
-	while (true)
-	{
-		ft_putstr_fd(GREEN "minish ~ " RESET, 1);
-		input = get_next_line(0);
-		handle_eof(input);
-		input[ft_strlen(input) - 1] = '\0';
-		if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-			tokeniser((const char *)input);
-	}
-	return (0);
+	return (token->type == TOKEN_REDIR_APP || token->type == TOKEN_REDIR_IN
+		|| token->type == TOKEN_REDIR_OUT || token->type == TOKEN_REDIR_HEREDOC
+		|| token->type == TOKEN_PIPE);
 }

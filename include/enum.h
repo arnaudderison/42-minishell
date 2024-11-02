@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
-/*   Updated: 2024/10/31 16:55:23 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:13:27 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ typedef enum s_token_type
  */
 typedef enum s_status
 {
-	FAILED = 0,
 	SUCCESS = 1,
-	MALLOC,
-	PTR_NULL,
-	UNKNOWN,
+	FAILED = 0,
+	MALLOC = -1,
+	PTR_NULL = -2,
+	UNKNOWN = -3,
 }	t_status;
 #endif

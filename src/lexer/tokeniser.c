@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 19:09:13 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:44:41 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_bool	tokeniser(const char *input)
 	tokens->value = NULL;
 	create_tokenisation(&tokens, lexer);
 	manage_quote(&tokens);
-	free_tokens(tokens, input);
-	ft_free(1, &lexer);
-	return (true);
+	parsing(tokens);
+	return (free_tokens(tokens, input), ft_free(1, &lexer), true);
 }

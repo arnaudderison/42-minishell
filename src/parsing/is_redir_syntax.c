@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 16:12:21 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 18:51:20 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:17:16 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,11 @@ t_status	is_redir_syntax(t_token *tokens)
 	token = tokens;
 	while (token && token->type != TOKEN_EOF)
 	{
+		if(token->next && token->next->type == TOKEN_EOF && is_redir_op(token) == SUCCESS)
+			return (print_parse_error("newline"), FAILED);
 		if (is_redir_op(token) == SUCCESS
 			&& is_operator(token->next) == SUCCESS)
-		{
-			ft_printf_fd(STDERR_FILENO,
-				RED "minish: " \
-				YELLOW "syntax error " RESET "near unexpected token \'%s\'\n",
-				token->next->value);
-			return (FAILED);
-		}
+			return (print_parse_error(token->next->value), FAILED);
 		token = token->next;
 	}
 	return (SUCCESS);

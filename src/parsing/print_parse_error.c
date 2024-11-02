@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/01 16:28:37 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 16:08:25 by aderison         ###   ########.fr       */
+/*   Created: 2024/11/02 15:08:12 by aderison          #+#    #+#             */
+/*   Updated: 2024/11/02 15:10:10 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_status	parsing(t_token *tokens)
+void print_parse_error(char *value)
 {
-	if (!tokens)
-		return (PTR_NULL);
-	if(tokens->type == TOKEN_EOF)
-		return (UNKNOWN);
-	if (!is_redir_syntax(tokens) || !is_pipe_syntax(tokens))
-		return (FAILED);
-	return (SUCCESS);
+    ft_printf_fd(
+			STDERR_FILENO,
+			RED "minish: " YELLOW "syntax error " \
+			RESET "near unexpected token \'%s\'\n",
+			value);
 }

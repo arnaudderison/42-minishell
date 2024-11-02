@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/01 18:47:04 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/02 15:10:27 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "enum.h"
 # include "libft.h"
 # include "structure.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 
 # define MAX_INPUT_LENGHT 1024
 
@@ -50,6 +50,8 @@ void		manage_quote(t_token **tokens);
 // parsing
 t_status	is_operator(t_token *token);
 t_status	is_redir_syntax(t_token *tokens);
+t_status	is_pipe_syntax(t_token *tokens);
 t_status	parsing(t_token *tokens);
+void		print_parse_error(char *value);
 
 #endif

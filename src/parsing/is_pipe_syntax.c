@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 14:53:19 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 15:49:33 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:28:04 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_status	is_pipe_syntax(t_token *tokens)
 	if (is_start_pipe(tokens) == SUCCESS)
 		return (print_parse_error(tokens->value), FAILED);
 	if (is_end_pipe(tokens) == SUCCESS)
-		return (print_parse_error("|"), FAILED);
+		return (print_parse_error("newline"), FAILED);
 	if (is_double_pipe(tokens) == SUCCESS)
 	{
 		ft_printf(BLUE "[+] Operator OR is not available\n" RESET);

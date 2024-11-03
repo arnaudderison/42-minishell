@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 15:10:27 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:24:21 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ typedef enum s_bool
 
 // error and free fct
 void		print_error(t_error err, const char *file, int line);
+void		free_tokens(t_token *tokens, const char *input);
+t_status	free_env(t_env *env);
 
 // Tokeninsation
-void		free_tokens(t_token *tokens, const char *input);
 void		add_token(t_token **tokens, t_token_type type, char *value,
 				t_lexer *lexer);
 void		create_tokenisation(t_token **tokens, t_lexer *lexer);
-t_bool		tokeniser(const char *input);
+t_bool		tokeniser(const char *input, t_shell *sh);
 void		create_word_token(t_lexer *lexer, t_token **tokens, int start_word);
 void		manage_quote(t_token **tokens);
 
@@ -54,4 +55,7 @@ t_status	is_pipe_syntax(t_token *tokens);
 t_status	parsing(t_token *tokens);
 void		print_parse_error(char *value);
 
+// environment
+t_status	add_var_env(char *name, char *value, t_env **envp);
+t_env		*init_envp(char **envp);
 #endif

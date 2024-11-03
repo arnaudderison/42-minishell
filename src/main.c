@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 16:22:49 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:39:48 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool	handle_eof(char *line)
 {
-	char c;
+	char	c;
 
 	if (line == NULL)
 	{
@@ -31,20 +31,26 @@ t_bool	handle_eof(char *line)
 	return (false);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
+	t_shell	shell;
 
+	(void)argv;
 	input = NULL;
+	shell.envp = NULL;
+	if (argc != 1)
+		exit(EXIT_FAILURE);
+	shell.envp = init_envp(envp);
 	while (true)
 	{
 		input = readline(GREEN "minish ~ " RESET);
-		if(handle_eof(input) == 1)
+		if (handle_eof(input) == 1)
 		{
 			add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-				tokeniser((const char *)input);
-		}	
+				tokeniser((const char *)input, &shell);
+		}
 	}
 	return (0);
 }

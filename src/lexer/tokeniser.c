@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 15:44:41 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:38:32 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_lexer	*create_lexer(const char *input)
 	return (lexer);
 }
 
-t_bool	tokeniser(const char *input)
+t_bool	tokeniser(const char *input, t_shell *sh)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
@@ -48,15 +48,16 @@ t_bool	tokeniser(const char *input)
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 	{
-		print_error(ERR_MALLOC, "tokeniser.c", 55);
+		free_env(sh->envp);
 		ft_free(2, &input, &lexer);
 		exit(EXIT_FAILURE);
 	}
 	tokens->type = NAO;
 	tokens->next = NULL;
 	tokens->value = NULL;
-	create_tokenisation(&tokens, lexer);
-	manage_quote(&tokens);
-	parsing(tokens);
-	return (free_tokens(tokens, input), ft_free(1, &lexer), true);
+	sh->tokens = tokens;
+	create_tokenisation(&(sh->tokens), lexer);
+	manage_quote(&(sh->tokens));
+	parsing(sh->tokens);
+	return (free_tokens(sh->tokens, input), ft_free(1, &lexer), true);
 }

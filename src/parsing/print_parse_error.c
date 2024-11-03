@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_error.c                                      :+:      :+:    :+:   */
+/*   print_parse_error.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:08:12 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 15:10:10 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:41:36 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void print_parse_error(char *value)
+void	print_parse_error(char *value)
 {
-    ft_printf_fd(
-			STDERR_FILENO,
-			RED "minish: " YELLOW "syntax error " \
-			RESET "near unexpected token \'%s\'\n",
-			value);
+	ft_printf_fd(STDERR_FILENO,
+		RED "minish: " YELLOW "syntax error " \
+		RESET "near unexpected token \'%s\'\n",
+		value);
 }

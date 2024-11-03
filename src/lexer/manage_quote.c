@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_quote.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 16:08:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 16:09:20 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:41:06 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	dispatch_value(t_token **tokens, t_token_type quote_type)
 	t_token	*token;
 	char	*new_value;
 	char	*tmp_value;
+
 	if (!(*tokens)->next)
 		return ;
 	if ((*tokens)->next->type == TOKEN_EOF)

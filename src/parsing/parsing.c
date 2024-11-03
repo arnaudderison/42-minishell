@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 16:28:37 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 16:08:25 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:42:02 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_status	parsing(t_token *tokens)
 {
 	if (!tokens)
 		return (PTR_NULL);
-	if(tokens->type == TOKEN_EOF)
+	if (tokens->type == TOKEN_EOF)
 		return (UNKNOWN);
 	if (!is_redir_syntax(tokens) || !is_pipe_syntax(tokens))
 		return (FAILED);

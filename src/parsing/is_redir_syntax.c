@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_redir_syntax.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 16:12:21 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/02 16:17:16 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:41:19 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_status	is_redir_syntax(t_token *tokens)
 	token = tokens;
 	while (token && token->type != TOKEN_EOF)
 	{
-		if(token->next && token->next->type == TOKEN_EOF && is_redir_op(token) == SUCCESS)
+		if (token->next && token->next->type == TOKEN_EOF
+			&& is_redir_op(token) == SUCCESS)
 			return (print_parse_error("newline"), FAILED);
 		if (is_redir_op(token) == SUCCESS
 			&& is_operator(token->next) == SUCCESS)

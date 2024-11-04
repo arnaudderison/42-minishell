@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/03 19:21:30 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/04 14:51:42 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ typedef struct s_env
  */
 typedef struct s_expand
 {
-	char			*str;
+	char			*input;
 	int				current_pos;
-	int				second_pos;
+	int				offset;
 	char			*expanded;
 	char			*var_name;
 	char			*var_value;

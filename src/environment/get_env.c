@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 22:50:00 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:37:17 by aderison         ###   ########.fr       */
+/*   Created: 2024/11/04 15:33:40 by aderison          #+#    #+#             */
+/*   Updated: 2024/11/04 16:27:48 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tokens(t_token *tokens, const char *input)
+char	*get_env(char *name, t_env *envp)
 {
-	t_token	*token;
-	t_token	*next;
+	t_env	*tmp;
+	int		size;
 
-	token = NULL;
-	if (!tokens)
-		return ;
-	token = tokens;
-	while (token)
+	if (!name || !envp)
+		return (NULL);
+	size = ft_strlen(name);
+	tmp = envp;
+	while (tmp)
 	{
-		next = token->next;
-		ft_free(2, &token->value, &token);
-		token = next;
+		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
 	}
-	if (input)
-		ft_free(1, &input);
+	return (NULL);
 }

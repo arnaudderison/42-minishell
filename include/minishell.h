@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/03 19:24:21 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:36:50 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,8 @@ void		print_parse_error(char *value);
 // environment
 t_status	add_var_env(char *name, char *value, t_env **envp);
 t_env		*init_envp(char **envp);
+char		*get_env(char *name, t_env *envp);
+
+// expansion
+char		*expand_input(char *input, t_env *envp);
 #endif

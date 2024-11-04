@@ -6,26 +6,114 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/03 19:33:37 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:38:29 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_status	init_expand(char *input, t_expand **exp)
+{
+	if (!input)
+		return (PTR_NULL);
+	*exp = malloc(sizeof(t_expand));
+	if (!exp)
+		return (MALLOC);
+	(*exp)->input = input;
+	(*exp)->current_pos = 0;
+	(*exp)->offset = 0;
+	(*exp)->expanded = ft_strdup("");
+	(*exp)->var_name = NULL;
+	(*exp)->var_value = NULL;
+	return (SUCCESS);
+}
 
-/*
- * 1 creer une liste des variables d'env 
- * 2 parcourir l'input et changer les valeurs en fonction des quote et dquotes
- * 
- * 
- * parcourir input
- * si !$
- *  join depuis une nouvelle chaine (le but est de reconstruire l'input)
- * si $
- *  recuperer le nom de la var (on ne prends pas en compte ? pour le moment)
- *      pour la recuperation du nom ce qui suit $ doit etre alphanum (ft_isalnum elle n'est pas encore faites)
- *      parcourir la list des env si on trouve le nom join sur le nouveau input avec la valeur de la $VAR
- * si  une quote est ouverte il faut ne faut pas prendre en compte les $Var (voir substr)
- * si une dquote est ouverte alors il faut gerer les $VAR
+static t_status	expand_txt(t_expand *exp)
+{
+	char	*tmp_value;
+	char	*tmp_exp;
 
-*/
+	tmp_value = NULL;
+	tmp_exp = NULL;
+	if (!exp)
+		return (PTR_NULL);
+	tmp_exp = exp->expanded;
+	exp->offset = exp->current_pos;
+	while (exp->input[exp->offset] && exp->input[exp->offset] != '$'
+		&& exp->input[exp->offset] != '\'')
+		exp->offset++;
+	tmp_value = ft_substr(exp->input, exp->current_pos, exp->offset
+			- exp->current_pos);
+	exp->current_pos = exp->offset;
+	exp->expanded = ft_strjoin(tmp_exp, tmp_value);
+	ft_free(2, &tmp_exp, &tmp_value);
+	return (SUCCESS);
+}
+
+static t_status	expand_quote(t_expand *exp)
+{
+	char	*tmp_value;
+	char	*tmp_exp;
+
+	tmp_value = NULL;
+	tmp_exp = NULL;
+	if (!exp)
+		return (PTR_NULL);
+	tmp_exp = exp->expanded;
+	exp->offset = exp->current_pos;
+	exp->offset++;
+	while (exp->input[exp->offset] && exp->input[exp->offset] != '\'')
+		exp->offset++;
+	tmp_value = ft_substr(exp->input, exp->current_pos, exp->offset
+			- exp->current_pos);
+	exp->current_pos = exp->offset;
+	exp->expanded = ft_strjoin(tmp_exp, tmp_value);
+	ft_free(2, &tmp_exp, &tmp_value);
+	return (SUCCESS);
+}
+
+static t_status	insert_name_env(t_expand *exp, int start)
+{
+	int		i;
+	char	*name;
+
+	if (!exp)
+		return (PTR_NULL);
+	i = 0;
+	while (exp->input[start + i] && (ft_isalnum(exp->input[start + i])
+			|| exp->input[start + i] == '_'))
+		i++;
+	name = ft_substr(exp->input, start, i);
+	exp->current_pos += i;
+	exp->var_name = name;
+	return (SUCCESS);
+}
+
+char	*expand_input(char *input, t_env *envp)
+{
+	t_expand	*exp;
+	char		*tmp;
+
+	if (!input)
+		return (NULL);
+	init_expand(input, &exp);
+	while (exp->input[exp->current_pos])
+	{
+		if (exp->input[exp->current_pos] == '\'')
+			expand_quote(exp);
+		if (exp->input[exp->current_pos] != '$')
+			expand_txt(exp);
+		if (exp->input[exp->current_pos] == '$')
+		{
+			exp->current_pos++;
+			insert_name_env(exp, exp->current_pos);
+			exp->var_value = get_env(exp->var_name, envp);
+			if (!exp->var_value)
+				exp->var_value = "";
+			tmp = exp->expanded;
+			exp->expanded = ft_strjoin(tmp, exp->var_value);
+			ft_free(2, &(exp->var_name), &tmp);
+		}
+	}
+	return (tmp = exp->expanded, ft_free(1, &exp), tmp);
+}

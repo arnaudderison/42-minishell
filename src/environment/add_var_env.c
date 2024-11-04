@@ -1,32 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tokens.c                                      :+:      :+:    :+:   */
+/*   add_var_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 22:50:00 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:37:17 by aderison         ###   ########.fr       */
+/*   Created: 2024/11/04 15:32:53 by aderison          #+#    #+#             */
+/*   Updated: 2024/11/04 15:32:57 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tokens(t_token *tokens, const char *input)
+t_status	add_var_env(char *name, char *value, t_env **envp)
 {
-	t_token	*token;
-	t_token	*next;
+	t_env	*new;
+	t_env	*tmp;
 
-	token = NULL;
-	if (!tokens)
-		return ;
-	token = tokens;
-	while (token)
+	if (!name || !value || !envp)
+		return (PTR_NULL);
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (MALLOC);
+	new->name = name;
+	new->value = value;
+	new->next = NULL;
+	if (!*envp)
+		*envp = new;
+	else
 	{
-		next = token->next;
-		ft_free(2, &token->value, &token);
-		token = next;
+		tmp = *envp;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
-	if (input)
-		ft_free(1, &input);
+	return (SUCCESS);
 }

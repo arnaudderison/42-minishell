@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/03 19:38:32 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:36:19 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static t_lexer	*create_lexer(const char *input)
 		exit(EXIT_FAILURE);
 	}
 	lexer->input = input;
+	ft_printf("NEW INPUT: [%s]\n", input);
 	lexer->position = 0;
 	lexer->last_token = NULL;
 	return (lexer);
@@ -44,7 +45,8 @@ t_bool	tokeniser(const char *input, t_shell *sh)
 	tokens = NULL;
 	if (!input)
 		exit(EXIT_FAILURE);
-	lexer = create_lexer(input);
+	lexer = create_lexer((const char *)expand_input((char *)input, sh->envp));
+	ft_free(1, &input);
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 	{
@@ -59,5 +61,6 @@ t_bool	tokeniser(const char *input, t_shell *sh)
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
 	parsing(sh->tokens);
-	return (free_tokens(sh->tokens, input), ft_free(1, &lexer), true);
+	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input), &lexer),
+		true);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokeniser.c                                        :+:      :+:    :+:   */
+/*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:36:19 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:25:52 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,15 @@ static t_lexer	*create_lexer(const char *input)
 	return (lexer);
 }
 
-t_bool	tokeniser(const char *input, t_shell *sh)
+static void init_tokens(t_token *tokens, t_shell *sh)
+{
+	tokens->type = NAO;
+	tokens->next = NULL;
+	tokens->value = NULL;
+	sh->tokens = tokens;
+}
+
+t_bool	handle_parsing(const char *input, t_shell *sh)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
@@ -49,15 +57,9 @@ t_bool	tokeniser(const char *input, t_shell *sh)
 	ft_free(1, &input);
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
-	{
-		free_env(sh->envp);
-		ft_free(2, &input, &lexer);
-		exit(EXIT_FAILURE);
-	}
-	tokens->type = NAO;
-	tokens->next = NULL;
-	tokens->value = NULL;
-	sh->tokens = tokens;
+		return (free_env(sh->envp), ft_free(2, &lexer), exit(EXIT_FAILURE),
+			false);
+	init_tokens(tokens, sh);
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
 	parsing(sh->tokens);

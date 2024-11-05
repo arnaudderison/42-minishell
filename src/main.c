@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:39:05 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/05 18:58:04 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-				tokeniser((const char *)input, &shell);
+				handle_parsing((const char *)input, &shell);
 		}
 	}
 	return (0);

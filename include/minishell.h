@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:36:50 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:42:13 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ t_status	free_env(t_env *env);
 void		add_token(t_token **tokens, t_token_type type, char *value,
 				t_lexer *lexer);
 void		create_tokenisation(t_token **tokens, t_lexer *lexer);
-t_bool		tokeniser(const char *input, t_shell *sh);
 void		create_word_token(t_lexer *lexer, t_token **tokens, int start_word);
 void		manage_quote(t_token **tokens);
 
 // parsing
+t_bool		handle_parsing(const char *input, t_shell *sh);
 t_status	is_operator(t_token *token);
 t_status	is_redir_syntax(t_token *tokens);
 t_status	is_pipe_syntax(t_token *tokens);
@@ -62,4 +62,8 @@ char		*get_env(char *name, t_env *envp);
 
 // expansion
 char		*expand_input(char *input, t_env *envp);
+
+// builtins
+t_status	unset(t_shell *sh, char **args);
+
 #endif

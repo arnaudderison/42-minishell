@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:21:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/05 18:54:33 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:44:36 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static t_status	is_valid_args(char **args)
 		return (ft_printf_fd(2, RED "UNKNOWN Error" RESET), UNKNOWN);
 	while (args[++i])
 	{
-		while (args[i][++j])
+		while (ft_strlen(args[i]) < ++j)
 		{
-			if (ft_isspace(args[i][++j]) == SUCCESS)
+			if (ft_isspace(args[i][j]) == SUCCESS)
 			{
 				ft_printf_fd(2,
 					RED "unset: " RESET "%s: " YELLOW "invalid parameter name" RESET,
@@ -40,7 +40,7 @@ static t_status	is_valid_args(char **args)
 	return (SUCCESS);
 }
 
-static t_status	delete_env(t_env *prev, t_env **current)
+static t_status	delete_env(t_env *prev, t_env **current, t_env **envp)
 {
 	t_env	*tmp;
 
@@ -51,15 +51,16 @@ static t_status	delete_env(t_env *prev, t_env **current)
 	{
 		tmp = *current;
 		*current = (*current)->next;
+		if (envp && *envp == tmp)
+			*envp = *current;
 		ft_free(2, &tmp->name, &tmp);
 		return (SUCCESS);
 	}
 	else
 	{
 		prev->next = (*current)->next;
-        free((*current)->name);
-        (*current)->name = NULL;
-        free(*current);
+		ft_free(2, &(*current)->name, current);
+		*current = prev;
 		return (SUCCESS);
 	}
 }
@@ -75,15 +76,15 @@ t_status	unset(t_shell *sh, char **args)
 	if (is_valid_args(args) != SUCCESS)
 		return (FAILED);
 	i = -1;
-	tmp = sh->envp;
-	prev = NULL;
 	while (args[++i])
 	{
+		prev = NULL;
+		tmp = sh->envp;
 		while (tmp)
 		{
 			if (ft_strcmp(tmp->name, args[i]) == 0
 				&& ft_strlen(tmp->name) == ft_strlen(args[i]))
-				delete_env(prev, &tmp);
+				delete_env(prev, &tmp, &sh->envp);
 			prev = tmp;
 			tmp = tmp->next;
 		}

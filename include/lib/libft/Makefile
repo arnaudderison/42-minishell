@@ -2,7 +2,7 @@ LIBFT = libft.a
 LIBFT_I = ./include/
 CC = gcc
 OBJ_DIR = obj
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g
 INCLUDES = -I$(LIBFT_I)
 
 # Colors
@@ -13,7 +13,7 @@ CYAN=\033[0;36m
 NC=\033[0m
 
 # Libft sources
-LIBFT_SRCS = $(wildcard src/*/*.c)
+LIBFT_SRCS = $(wildcard src/**/*.c)
 LIBFT_OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(LIBFT_SRCS))
 
 # Compilation rules

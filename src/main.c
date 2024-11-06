@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/05 18:58:04 by aderison         ###   ########.fr       */
+/*   Updated: 2024/11/07 20:41:08 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_bool	handle_eof(char *line, t_env *envp)
 	}
 	if (line == NULL)
 	{
-		ft_printf("exit %s\n", envp->name);
+		ft_printf("exit\n");
 		free(envp->name);
 		exit(0);
 	}

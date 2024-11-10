@@ -24,6 +24,7 @@ osascript -e "set volume output volume 100"
 
 # Jouer l'alerte audio en arrière-plan
 afplay /Users/aderison/Downloads/alerte-au-gogole.mp3 &
+https://www.myinstants.com/media/sounds/sad-meow-song.mp3
 ```
 
 😳 [Plachard](https://github.com/Lopine)

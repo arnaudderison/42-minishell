@@ -16,6 +16,16 @@ HACK VALGRIND LOOL
 valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose
 https://elearning.intra.42.fr/notions/minishell/subnotions/minishell/videos/introduction-0b4c7dd3-678b-4c3b-8400-cc0da0f52bb7
 ```
+```
+#!/bin/bash
+
+# Ajuster le volume à 100%
+osascript -e "set volume output volume 100"
+
+# Jouer l'alerte audio en arrière-plan
+afplay /Users/aderison/Downloads/alerte-au-gogole.mp3 &
+```
+
 😳 [Plachard](https://github.com/Lopine)
 
 🔦 [Aderison](https://github.com/arnaudderison)

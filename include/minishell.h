@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/11/10 03:06:38 by plachard         ###   ########.fr       */
+=======
 /*   Updated: 2024/11/05 16:42:13 by aderison         ###   ########.fr       */
+>>>>>>> 7551c5383546870b865a58aa1c7c02ad98d8d579
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +20,15 @@
 # include "enum.h"
 # include "libft.h"
 # include "structure.h"
+<<<<<<< HEAD
+# include "exec.h"
+=======
 # include <readline/history.h>
 # include <readline/readline.h>
+>>>>>>> 7551c5383546870b865a58aa1c7c02ad98d8d579
 # include <stdio.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define MAX_INPUT_LENGHT 1024
 

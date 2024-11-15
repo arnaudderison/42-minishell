@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structure.h                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/13 18:16:24 by plachard         ###   ########.fr       */
+/*   Created: 2024/10/31 22:12:53 by plachard          #+#    #+#             */
+/*   Updated: 2024/11/07 20:26:40 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCTURE_H
-# define STRUCTURE_H
+#include "minishell.h"
+#include <signal.h>
 
+g_flag = 0;
 
-/*
- * === Tokenisation ===
- * this struct represents a token with t_token_type (look enum)
- */
-
-typedef struct s_lexer
+void    sighandler(int signum, void (*handler)(int))
 {
-	const char		*input;
-	int				position;
-	t_token			*last_token;
-}					t_lexer;
-
-#endif
+    struct sigaction    sa;
+}
+/*  gestion du signal   */
+//interrompre cmd 
+// reafficher le prompt

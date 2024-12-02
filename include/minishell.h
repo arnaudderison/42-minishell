@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/02 20:25:29 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:46:15 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include "enum.h"
 # include "libft.h"
 # include "structure.h"
-# include "exec.h"
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <stdio.h>
 # include <unistd.h>
-# include <signal.h>
 
 # define MAX_INPUT_LENGHT 1024
 

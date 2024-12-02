@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/04 18:38:29 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/02 20:45:09 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,8 @@ char	*expand_input(char *input, t_env *envp)
 			expand_quote(exp);
 		if (exp->input[exp->current_pos] != '$')
 			expand_txt(exp);
-		if (exp->input[exp->current_pos] == '$')
+		if (exp->input[exp->current_pos++] == '$')
 		{
-			exp->current_pos++;
 			insert_name_env(exp, exp->current_pos);
 			exp->var_value = get_env(exp->var_name, envp);
 			if (!exp->var_value)

@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   handle_sigint_prompt.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 22:12:53 by plachard          #+#    #+#             */
-/*   Updated: 2024/12/03 22:56:46 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/03 21:59:04 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/03 22:08:39 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "minishell.h"
+#include "minishell.h"
 
-void setup_prompt_signals()
+void	handle_sigint_prompt(int sigint)
 {
-    struct sigaction sa;
-
-    sa.sa_handler = handle_sigint_prompt;
-    sa.sa_flags = SA_RESTART;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGINT, &sa, NULL);
-    sa.sa_handler = SIG_IGN;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    sigaction(SIGQUIT, &sa, NULL);
-
+	(void)sigint;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
-    

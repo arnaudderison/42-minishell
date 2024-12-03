@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 03:00:18 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:02:27 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define MAX_INPUT_LENGHT 1024
 
@@ -66,5 +67,9 @@ char		*expand_input(char *input, t_env *envp);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);
+
+// Signals
+void setup_prompt_signals(void);
+void handle_sigint_prompt(int sigint);
 
 #endif

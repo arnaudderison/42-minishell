@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/02 20:44:07 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/03 22:03:05 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.envp = init_envp(envp);
 	while (true)
 	{
+		setup_prompt_signals();
 		input = readline(GREEN "minish ~ " RESET);
 		if (handle_eof(input, shell.envp) == 1)
 		{

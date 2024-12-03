@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/02 21:46:06 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:11:08 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_lexer	*create_lexer(const char *input)
 	return (lexer);
 }
 
-static void init_tokens(t_token *tokens, t_shell *sh)
+static void	init_tokens(t_token *tokens, t_shell *sh)
 {
 	tokens->type = NAO;
 	tokens->next = NULL;

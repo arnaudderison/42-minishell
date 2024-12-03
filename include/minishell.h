@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/02 20:46:15 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/03 03:00:18 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_env		*init_envp(char **envp);
 char		*get_env(char *name, t_env *envp);
 
 // expansion
+t_status	get_var_name(t_state_expansion *state, int start);
 char		*expand_input(char *input, t_env *envp);
 
 // builtins

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/02 20:30:08 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/03 02:53:55 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,16 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-/*
- * === Expansion ===
- * c'est hypothetique
- */
-typedef struct s_expand
+typedef struct s_state_expansion
 {
-	char			*input;
-	int				current_pos;
-	int				offset;
-	char			*expanded;
-	char			*var_name;
-	char			*var_value;
-}					t_expand;
+	char	*input;
+	char	*expanded;
+	int		i;
+	char	*var_name;
+	char	*var_value;
+	int		in_quote;
+	int		in_dquote;
+}	t_state_expansion;	
 
 typedef struct s_shell
 {

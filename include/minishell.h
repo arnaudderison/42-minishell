@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 00:48:33 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:22:59 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <string.h>
 # include <string.h>
 # include <unistd.h>
 

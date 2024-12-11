@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 22:03:05 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/10 21:35:11 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	input = NULL;
 	shell.envp = NULL;
+	shell.user_env = NULL;
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	shell.envp = init_envp(envp);

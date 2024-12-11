@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 00:32:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 05:01:44 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/07 04:40:10 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/07 04:40:33 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_status	cd(char *path)
+t_status	env(t_env *envp)
 {
-	if (chdir(path) == -1)
+	t_env	*tmp;
+
+	tmp = envp;
+	while (tmp)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
-		return (FAILED);
+		ft_printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 22:03:05 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:53:23 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_shell	shell;
+	char	**cmd;
 
 	(void)argv;
 	input = NULL;
 	shell.envp = NULL;
+	shell.user_env = NULL;
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	shell.envp = init_envp(envp);
@@ -53,6 +55,8 @@ int	main(int argc, char **argv, char **envp)
 		if (handle_eof(input, shell.envp) == 1)
 		{
 			add_history(input);
+			cmd = ft_split(input, ' ');
+			execb(cmd, &shell);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 		}

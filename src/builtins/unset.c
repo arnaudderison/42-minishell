@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:21:17 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 20:11:26 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:12:16 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_status	is_valid_args(char **args)
 		return (ft_printf_fd(2, RED "unset:" RESET " not enough arguments\n"),
 			PTR_NULL);
 	if (!*args)
-		return (ft_printf_fd(2, RED "UNKNOWN Error" RESET), UNKNOWN);
+		return (FAILED);
 	while (args[++i])
 	{
 		while (ft_strlen(args[i]) < ++j)
@@ -31,7 +31,7 @@ static t_status	is_valid_args(char **args)
 			if (ft_isspace(args[i][j]) == SUCCESS)
 			{
 				ft_printf_fd(2,
-					RED "unset: " RESET "%s: " YELLOW "invalid parameter name" RESET,
+					RED "unset: " RESET "%s: " YELLOW "not a valid identifier" RESET,
 					args[i]);
 				return (FAILED);
 			}

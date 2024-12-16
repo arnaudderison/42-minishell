@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 00:32:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 05:01:44 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:35:13 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_status	cd(char *path)
 {
 	if (chdir(path) == -1)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
+		ft_printf_fd("cd: %s: %s\n", path, strerror(errno), STDERR_FILENO);
 		return (FAILED);
 	}
 	return (SUCCESS);

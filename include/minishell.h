@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/11 16:22:59 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/11 16:52:44 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
-# include <string.h>
 # include <string.h>
 # include <unistd.h>
 
@@ -72,7 +71,12 @@ char		*expand_input(char *input, t_env *envp);
 // builtins
 t_status	unset(t_shell *sh, char **args);
 t_status	export(char *var, t_shell shell);
+t_status	unset(t_shell *sh, char **args);
 t_status	echo(char **args, t_bool endl);
+t_bool		is_endl_echo(char *arg);
+t_status	env(t_env *envp);
+t_status	cd(char *path);
+t_status	execb(char **cmd, t_shell *shell);
 
 // Signals
 void		setup_prompt_signals(void);

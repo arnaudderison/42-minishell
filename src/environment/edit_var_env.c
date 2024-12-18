@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   edit_var_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 00:32:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/16 19:33:09 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/18 16:03:42 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/18 16:05:53 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_status	cd(char *path, t_shell *sh)
+t_status	edit_var_env(char *name, char *value, t_env **envp)
 {
-	if (!path)
-		path = get_env("HOME", sh->envp);
-	if (chdir(path) == -1)
+	t_env	*tmp;
+
+	if (!name || !value || !envp)
+		return (PTR_NULL);
+	tmp = *envp;
+	while (tmp)
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
-		return (FAILED);
+		if (ft_strcmp(tmp->name, name) == 0
+			&& ft_strlen(tmp->name) == ft_strlen(name))
+		{
+			ft_free(1, &tmp->value);
+			tmp->value = value;
+			return (SUCCESS);
+		}
+		tmp = tmp->next;
 	}
-	return (SUCCESS);
+	return (FAILED);
 }

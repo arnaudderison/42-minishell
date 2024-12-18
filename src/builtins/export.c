@@ -6,11 +6,27 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 20:29:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/10 19:15:29 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:10:07 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_valid_identifier(const char *str)
+{
+	int	i;
+
+	if (!str || (!isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 0;
+	while (str[i])
+	{
+		if (!isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static t_status	print_env(t_env *envp)
 {
@@ -25,7 +41,6 @@ static t_status	print_env(t_env *envp)
 	return (SUCCESS);
 }
 
-// This fonction sorted the env name by alphabetical order.
 static t_status	print_sorted_env(t_env *envp)
 {
 	t_env	*tmp;
@@ -54,25 +69,53 @@ static t_status	print_sorted_env(t_env *envp)
 	return (SUCCESS);
 }
 
-// I must display the env variable if there is no argument.
-t_status	export(char *var, t_shell shell)
+// if an value of variable is null, it won't work
+static t_status	export_variable(t_shell *sh, const char *arg)
 {
+	char	*equal_sign;
+	char	*plus_equal_sign;
+	char	*new_value;
 	char	*value;
 
-	value = ft_strchr(var, '=');
-	if (value == NULL)
+	plus_equal_sign = ft_strnstr(arg, "+=", ft_strlen(arg));
+	equal_sign = ft_strnstr(arg, "=", ft_strlen(arg));
+	if (plus_equal_sign)
 	{
-		print_sorted_env(shell.envp);
-		print_sorted_env(shell.user_env);
+		if (is_new_var(sh, plus_equal_sign - arg))
+			set_var_env(plus_equal_sign - arg, plus_equal_sign + 2, sh);
+		else
+		{
+			value = get_env(plus_equal_sign - arg, sh->envp);
+			if (!value)
+				value = get_env(plus_equal_sign - arg, sh->user_env);
+			ft_strlcpy(new_value, value, ft_strlen(value) + 1);
+			ft_strlcat(new_value, value, ft_strlen(value) + 1);
+			set_var_env(plus_equal_sign - arg, new_value, sh);
+		}
+	}
+	else if (equal_sign)
+		set_var_env(equal_sign - arg, equal_sign + 1, sh);
+	else
+		set_var_env(arg, NULL, sh);
+}
+
+t_status	export(t_shell *shell, char **args)
+{
+	int	i;
+
+	if (!args || !shell)
+		return (PTR_NULL);
+	if (!args[1])
+	{
+		print_sorted_env(shell->envp);
+		print_sorted_env(shell->user_env);
 		return (SUCCESS);
 	}
-	*value = '\0';
-	value++;
-	if (add_var_env(var, value, &(shell.user_env)) != SUCCESS)
+	i = 0;
+	while (args[i])
 	{
-		ft_printf_fd(STDERR_FILENO, "Failed to set environment variable: %s\n",
-			var);
-		return (FAILED);
+		export_variable(env, args[i]);
+		i++;
 	}
 	return (SUCCESS);
 }

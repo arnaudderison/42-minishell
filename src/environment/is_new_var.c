@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   is_new_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 00:32:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/16 19:33:09 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/18 17:05:02 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/18 17:05:12 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_status	cd(char *path, t_shell *sh)
+static t_bool	is_new_var(t_shell *shell, char *name)
 {
-	if (!path)
-		path = get_env("HOME", sh->envp);
-	if (chdir(path) == -1)
-	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
-		return (FAILED);
-	}
-	return (SUCCESS);
+	return (!get_env(name, shell->envp) && !get_env(name, shell->user_env));
 }

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 20:29:50 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/20 15:47:43 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/25 14:44:38 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static t_status	export_variable(t_shell *sh, const char *arg, size_t argl)
 			if (!new_value)
 				return (MALLOC);
 			set_var_env(name, new_value, sh);
+			ft_free(1, &new_value);
 		}
 		ft_free(1, &name);
 	}

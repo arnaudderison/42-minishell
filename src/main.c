@@ -35,6 +35,27 @@ t_bool	handle_eof(char *line, t_env *envp)
 	return (false);
 }
 
+void print_tokens(t_token *tokens)
+{
+	t_token	*token_lst = NULL;
+
+	token_lst = tokens;
+    printf("Liste des tokens :\n");
+	if (!token_lst)
+	{
+		printf("NULLité\n");
+		return ;
+	}
+    while (token_lst)
+    {
+        if (token_lst) // Vérifiez si le pointeur n'est pas NULL
+            printf("Token type: %d, value: %s\n", token_lst->type, token_lst->value);
+        else
+            printf("Token corrompu ou pointeur NULL\n");
+        token_lst = token_lst->next;
+    }
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
@@ -56,6 +77,17 @@ int	main(int argc, char **argv, char **envp)
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 		}
+        //free(input);
+		char **env = all_path();
+		cmds_path(shell.cmds, env);
+		printf("Checking access to commands...\n");
+		if (access_cmd(shell.cmds))
+		{
+    		printf("execute\n");
+    		execute_simple_cmd(shell.cmds[0]);
+		}
+		else
+    		printf("Access to commands failed.\n");
 	}
 	return (0);
 }

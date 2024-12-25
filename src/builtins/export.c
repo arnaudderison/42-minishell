@@ -23,8 +23,7 @@ t_status	export(char *var, t_shell shell)
 	value++;
 	if (add_var_env(var, value, &(shell.envp)) != SUCCESS)
 	{
-		ft_printf_fd("Failed to set environment variable: %s\n", var,
-			STDERR_FILENO);
+		ft_printf_fd(STDERR_FILENO, "Failed to set environment variable: %s\n", var);
 		return (FAILED);
 	}
 	return (SUCCESS);

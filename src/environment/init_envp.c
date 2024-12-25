@@ -23,6 +23,7 @@ t_env	*init_envp(char **envp)
 		return (NULL);
 	while (*envp)
 	{
+		printf("%s\n", *envp);
 		equals = ft_strrchr(*envp, '=');
 		name = ft_substr(*envp, 0, equals - *envp);
 		add_var_env(name, equals + 1, &env);

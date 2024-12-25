@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_status	is_redir_op(t_token *token)
+t_status	is_redir_op(t_token *token)
 {
 	return (token->type == TOKEN_REDIR_APP || token->type == TOKEN_REDIR_IN
 		|| token->type == TOKEN_REDIR_OUT

@@ -63,6 +63,12 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
 	parsing(sh->tokens);
-	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input), &lexer),
-		true);
+	//print_tokens(sh->tokens);
+    tokens_to_cmd(sh);
+	printf("kdcxqjskhxl<bchbqch\n");
+	if(!(sh->cmds))
+	 	return (false);
+	//return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input), &lexer), true);
+	printf("kdcxqjskhxl<bchbqch\n");
+	return (true);
 }

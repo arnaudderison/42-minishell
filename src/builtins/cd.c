@@ -16,7 +16,7 @@ t_status	cd(char *path)
 {
 	if (chdir(path) == -1)
 	{
-		ft_printf_fd("cd: %s: %s\n", path, strerror(errno), STDERR_FILENO);
+		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
 		return (FAILED);
 	}
 	return (SUCCESS);

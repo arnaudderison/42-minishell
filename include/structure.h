@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 02:53:55 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/07 00:51:08 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,44 @@ typedef struct s_env
 
 typedef struct s_state_expansion
 {
-	char	*input;
-	char	*expanded;
-	int		i;
-	char	*var_name;
-	char	*var_value;
-	int		in_quote;
-	int		in_dquote;
-}	t_state_expansion;	
+	char			*input;
+	char			*expanded;
+	int				i;
+	char			*var_name;
+	char			*var_value;
+	int				in_quote;
+	int				in_dquote;
+}					t_state_expansion;
+
+typedef struct s_redir
+{
+	int 	type;   // Type de redirection (<, >, >>, <<)
+	char	*file; // Nom du fichier
+	int		fd;
+}					t_redir;
+
+typedef struct s_cmd
+{
+	int				type;
+	char			**cmd;
+	char			*path;
+	t_redir			*in;
+	t_redir			*out;
+	t_redir			*heredoc;
+	t_redir			*append;
+}					t_cmd;
 
 typedef struct s_shell
 {
 	t_token			*tokens;
 	t_env			*envp;
+	t_cmd			**cmds;
 	// char *home;
 }					t_shell;
+
+/*
+	PLAAAAAAAAACHAAAAAAAAAARD
+*/
+
 
 #endif

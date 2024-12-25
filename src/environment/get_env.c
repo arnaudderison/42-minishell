@@ -6,21 +6,22 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:33:40 by aderison          #+#    #+#             */
-/*   Updated: 2024/11/06 15:26:10 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/20 15:04:01 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *name, t_env *envp)
+char	*get_env(char *name, t_env **envp)
 {
 	t_env	*tmp;
 	int		size;
 
-	if (!name || !envp)
+	if (!name || !envp || !*envp)
 		return (NULL);
+	ft_printf("name env: %s\n", (*envp)->name);
 	size = ft_strlen(name);
-	tmp = envp;
+	tmp = *envp;
 	while (tmp)
 	{
 		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)

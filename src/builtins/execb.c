@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:31:12 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/16 19:33:51 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:06:34 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@ t_status	execb(char **cmd, t_shell *shell)
 		return (cd(cmd[1], shell));
 	if (ft_strcmp(cmd[0], "unset") == 0 && ft_strlen(cmd[0]) == 5)
 		return (unset(shell, cmd + 1));
+	if (ft_strcmp(cmd[0], "export") == 0 && ft_strlen(cmd[0]) == 6)
+		return (export(shell, cmd + 1));
+	if (ft_strcmp(cmd[0], "pwd") == 0 && ft_strlen(cmd[0]) == 3)
+		return (pwd(), SUCCESS);
 	return (FAILED);
 }

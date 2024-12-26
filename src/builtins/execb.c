@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:31:12 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/20 18:06:34 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:05:03 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 // this function will execute the builtins
 t_status	execb(char **cmd, t_shell *shell)
 {
-	(void)shell;
 	if (ft_strcmp(cmd[0], "echo") == 0 && ft_strlen(cmd[0]) == 4)
 		return (echo(cmd + 1, is_endl_echo(cmd + 1, 0)));
 	if (ft_strcmp(cmd[0], "cd") == 0 && ft_strlen(cmd[0]) == 2)

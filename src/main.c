@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/26 16:37:14 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:06:41 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	shell.envp = init_envp(envp);
+	shell.user_env = NULL;
 	while (true)
 	{
 		setup_prompt_signals();

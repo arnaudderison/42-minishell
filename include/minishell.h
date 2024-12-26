@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/26 14:34:06 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 20:59:55 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_status	is_redir_syntax(t_token *tokens);
 t_status	is_pipe_syntax(t_token *tokens);
 t_status	parsing(t_token *tokens);
 void		print_parse_error(char *value);
+char	*clean_quote(const char *str);
 
 // environment
 t_status	add_var_env(char *name, char *value, t_env **envp);

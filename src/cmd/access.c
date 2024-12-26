@@ -78,7 +78,7 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 			return (SUCCESS);
 		ft_free(1, &cmd->path);
 	}
-	ft_printf(" command not found: %s\n", cmd->cmd);
+	ft_printf(" command not found: %s\n", cmd->cmd[0]);
 	return (FAILED);
 }
 
@@ -87,7 +87,7 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 	int i = -1;
 	
 	printf("cmd path------------\n");
-	while (cmd_tab[++i]->cmd)
+	while (cmd_tab[++i] && cmd_tab[i]->cmd)
 	{
 		printf("---------boucle cmd path [%d]\n", i);
 		//printf("access cmd %s\n", cmd_tab[i]->cmd[0]);

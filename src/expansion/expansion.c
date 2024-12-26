@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 00:32:08 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:33:11 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*expand_input(char *input, t_env *envp)
 			if (handle_alias(&state))
 				continue ;
 			get_var_name(&state, ++state.i);
-			state.var_value = get_env(state.var_name, envp);
+			state.var_value = get_env(state.var_name, &envp);
 			if (!state.var_value)
 				state.var_value = "";
 			tmp = state.expanded;

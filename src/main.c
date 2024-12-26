@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 22:03:05 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 16:37:14 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,16 @@ int	main(int argc, char **argv, char **envp)
 		char **env = all_path();
 		cmds_path(shell.cmds, env);
 		printf("Checking access to commands...\n");
-		if (access_cmd(shell.cmds))
+		if(!execb(shell.cmds[0]->cmd, &shell))
 		{
-    		printf("execute\n");
-    		execute_simple_cmd(shell.cmds[0]);
+			if (access_cmd(shell.cmds))
+			{
+				printf("execute\n");
+				execute_simple_cmd(shell.cmds[0]);
+			}
+			else
+				printf("Access to commands failed.\n");
 		}
-		else
-    		printf("Access to commands failed.\n");
 	}
 	return (0);
 }

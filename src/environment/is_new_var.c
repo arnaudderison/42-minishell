@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   is_new_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:33:40 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/25 14:39:19 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/18 17:05:02 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/20 15:43:43 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *name, t_env **envp)
+t_bool	is_new_var(t_shell *sh, char *name)
 {
 	t_env	*tmp;
 	int		size;
 
-	if (!name || !envp || !*envp)
-		return (NULL);
+	if (!name || !sh)
+		return (false);
 	size = ft_strlen(name);
-	tmp = *envp;
+	tmp = sh->envp;
 	while (tmp)
 	{
 		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)
-			return (tmp->value);
+			return (false);
 		tmp = tmp->next;
 	}
-	return (NULL);
+	tmp = sh->user_env;
+	while (tmp)
+	{
+		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)
+			return (false);
+		tmp = tmp->next;
+	}
+	return (true);
 }

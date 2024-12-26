@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:33:40 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/25 14:39:19 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/20 18:03:47 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/20 18:04:48 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *name, t_env **envp)
+void	pwd(void)
 {
-	t_env	*tmp;
-	int		size;
+	char	*cwd;
 
-	if (!name || !envp || !*envp)
-		return (NULL);
-	size = ft_strlen(name);
-	tmp = *envp;
-	while (tmp)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
-		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)
-			return (tmp->value);
-		tmp = tmp->next;
+		perror("pwd");
+		return ;
 	}
-	return (NULL);
+	printf("%s\n", cwd);
+	free(cwd);
 }

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 00:51:08 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 14:34:49 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_shell
 {
 	t_token			*tokens;
 	t_env			*envp;
+	t_env			*user_env;
 	t_cmd			**cmds;
 	// char *home;
 }					t_shell;

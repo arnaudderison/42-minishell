@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:33:40 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/25 14:39:19 by aderison         ###   ########.fr       */
+/*   Created: 2024/12/07 04:40:10 by aderison          #+#    #+#             */
+/*   Updated: 2024/12/18 17:15:54 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env(char *name, t_env **envp)
+t_status	env(t_env *envp)
 {
 	t_env	*tmp;
-	int		size;
 
-	if (!name || !envp || !*envp)
-		return (NULL);
-	size = ft_strlen(name);
-	tmp = *envp;
+	tmp = envp;
 	while (tmp)
 	{
-		if (ft_strlen(tmp->name) == size && ft_strcmp(name, tmp->name) == 0)
-			return (tmp->value);
+		if (tmp->value)
+			ft_printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
-	return (NULL);
+	return (SUCCESS);
 }

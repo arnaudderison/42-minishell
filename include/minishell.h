@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 00:48:33 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/26 14:34:06 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,11 @@ void		print_parse_error(char *value);
 
 // environment
 t_status	add_var_env(char *name, char *value, t_env **envp);
+t_status	edit_var_env(char *name, char *value, t_env **envp);
 t_env		*init_envp(char **envp);
-char		*get_env(char *name, t_env *envp);
+char		*get_env(char *name, t_env **envp);
+t_bool		is_new_var(t_shell *sh, char *name);
+void		set_var_env(char *name, char *value, t_shell *shell);
 
 // expansion
 t_status	get_var_name(t_state_expansion *state, int start);
@@ -72,8 +75,14 @@ char		*expand_input(char *input, t_env *envp);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);
-t_status	export(char *var, t_shell shell);
-t_status	echo(char **args, t_bool endl);
+t_status	export(t_shell *shell, char **args);
+t_status	unset(t_shell *sh, char **args);
+t_status	echo(char **args, int endl);
+int			is_endl_echo(char **arg, int nb);
+t_status	env(t_env *envp);
+t_status	cd(char *path, t_shell *sh);
+t_status	execb(char **cmd, t_shell *shell);
+void		pwd(void);
 
 // signals
 void		setup_prompt_signals(void);

@@ -6,28 +6,39 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 00:12:35 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/07 00:30:15 by aderison         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:01:21 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	is_endl_echo(char **arg, int nb)
+{
+	if (!arg || !*arg)
+		return (nb);
+	if (ft_strncmp(*arg, "-n", 2) == 0)
+		return (is_endl_echo(arg + 1, nb + 1));
+	return (nb);
+}
+
 /*
  * The echo command writes its arguments separated by a space and terminates
  * -n: Do not print the trailing newline character.
  */
-t_status	echo(char **args, t_bool endl)
+t_status	echo(char **args, int endl)
 {
 	int	i;
 
-	i = -1;
+	if (!args || !*args)
+		return (FAILED);
+	i = endl - 1;
 	while (args[++i])
 	{
 		ft_printf("%s", args[i]);
 		if (args[i + 1])
 			ft_printf(" ");
 	}
-	if (endl)
+	if (endl == 0)
 		ft_printf("\n");
 	return (SUCCESS);
 }

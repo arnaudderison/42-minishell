@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -MDD -MP
 I_LIBFT = ./include/lib/libft/include/
 I_MINISH = ./include/
 INCLUDES = -I$(I_LIBFT) -I$(I_MINISH)
@@ -40,6 +40,8 @@ endif
 
 MINISH_SRCS = src/main.c $(wildcard src/*/*.c)
 MINISH_OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(MINISH_SRCS))
+DEPS = $(MINISH_OBJS:.o=.d)
+
 
 all: check_readline $(NAME)
 
@@ -73,6 +75,8 @@ $(OBJ_DIR)/%.o: src/%.c
 	@mkdir -p $(@D)
 	@echo "${CYAN}Compiling $<...${NC}"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+-include $(DEPS)
 
 clean:
 	@make clean -C $(LIBFT_DIR)

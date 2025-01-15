@@ -6,11 +6,9 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:24:19 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/25 14:29:53 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:59:20 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 #include "minishell.h"
 
@@ -32,15 +30,15 @@ static void	add_variable(char *env_var, t_env **env)
 
 	equals = ft_strrchr(env_var, '=');
 	if (!equals)
-		return;
+		return ;
 	name = get_name(env_var, equals);
 	if (!name)
-		return;
+		return ;
 	value = get_value(equals);
 	if (!value)
 	{
 		free(name);
-		return;
+		return ;
 	}
 	add_var_env(name, value, env);
 }
@@ -57,6 +55,3 @@ t_env	*init_envp(char **envp)
 	}
 	return (env);
 }
-
-
-

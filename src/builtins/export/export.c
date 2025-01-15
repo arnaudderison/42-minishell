@@ -6,37 +6,11 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 20:29:50 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/09 17:09:04 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:11:15 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-	{
-		ft_printf_fd(2,
-			RED "export: " RESET "%s: " YELLOW "not a valid identifier" RESET,
-			str);
-		return (0);
-	}
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-		{
-			ft_printf_fd(2,
-				RED "export: " RESET "%s: " YELLOW "not a valid identifier" RESET,
-				str);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
 
 static t_status	print_env(t_env *envp)
 {
@@ -80,8 +54,7 @@ static t_status	print_sorted_env(t_env **envp)
 		}
 		tmp = tmp->next;
 	}
-	print_env(start);
-	return (SUCCESS);
+	return (print_env(start));
 }
 
 // if an value of variable is null, it won't work

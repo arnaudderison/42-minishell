@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/09 17:50:23 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/15 17:05:13 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char		*expand_input(char *input, t_env *envp);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);
+int			is_valid_identifier(const char *str);
 t_status	export(t_shell *shell, char **args);
 t_status	unset(t_shell *sh, char **args);
 t_status	echo(char **args, int endl);

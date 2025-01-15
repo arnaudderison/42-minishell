@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   is_valid_identifier.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/07 00:32:50 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/15 17:00:40 by aderison         ###   ########.fr       */
+/*   Created: 2025/01/15 17:04:36 by aderison          #+#    #+#             */
+/*   Updated: 2025/01/15 17:05:01 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_status	cd(char *path, t_shell *sh)
+int	is_valid_identifier(const char *str)
 {
-	char	*cwd;
+	int	i;
 
-	if (!path)
-		path = get_env("HOME", &sh->envp);
-	if (chdir(path) == -1)
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 	{
-		ft_printf_fd(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
-		return (FAILED);
+		ft_printf_fd(2,
+			RED "export: " RESET "%s: " YELLOW "not a valid identifier" RESET,
+			str);
+		return (0);
 	}
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		return (ft_printf_fd(2, "Error cwd"), UNKNOWN);
-	set_var_env("PWD", cwd, sh);
-	ft_free(1, &cwd);
-	return (SUCCESS);
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+		{
+			ft_printf_fd(2,
+				RED "export: " RESET "%s: " YELLOW "not a valid identifier" RESET,
+				str);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

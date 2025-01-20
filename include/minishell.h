@@ -85,6 +85,7 @@ t_status	env(t_env *envp);
 t_status	cd(char *path, t_shell *sh);
 t_status	execb(char **cmd, t_shell *shell);
 void		pwd(void);
+t_status	print_env(t_env *envp);
 
 // signals
 void		setup_prompt_signals(void);

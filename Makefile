@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP
+CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP -fsanitize=address
 I_LIBFT = ./include/lib/libft/include/
 I_MINISH = ./include/
 INCLUDES = -I$(I_LIBFT) -I$(I_MINISH)
@@ -38,7 +38,7 @@ ifeq ($(UNAME_S),Darwin)
     READLINE_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline -I$(shell brew --prefix readline)/include
 endif
 
-MINISH_SRCS = src/main.c $(wildcard src/*/*.c) src/builtins/export/export.c src/builtins/export/is_valid_identifier.c
+MINISH_SRCS = src/main.c $(wildcard src/*/*.c) src/builtins/export/export.c src/builtins/export/is_valid_identifier.c src/builtins/export/print_env.c
 MINISH_OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(MINISH_SRCS))
 DEPS = $(MINISH_OBJS:.o=.d)
 

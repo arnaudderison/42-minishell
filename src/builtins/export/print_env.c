@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 01:41:06 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/17 01:41:17 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:53:47 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ t_status	print_env(t_env *envp)
 	}
 	return (SUCCESS);
 }
-

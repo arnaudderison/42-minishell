@@ -1,45 +1,104 @@
 #include "minishell.h"
 
-/*	EXECUTE_SIMPLE_CMD DEBUG
-void execute_simple_cmd(t_cmd *cmd) {
-    pid_t pid = fork();
+void free_pipes(int **pipes, int n_pipes)
+{
+    int i;
 
-	if (cmd->in)
-	{
-    	printf("Redirection input: %s\n", cmd->in->file);
-    	if (cmd->in->fd < 0)
-        	printf("Invalid file descriptor for input redirection\n");
-	}	
-	if (cmd->out) 
-	{
-    	printf("Redirection output: %s\n", cmd->out->file);
-    	if (cmd->out->fd < 0)
-        	printf("Invalid file descriptor for output redirection\n");
-	}
-    if (pid == 0) {
-        if (cmd->in) {
-            if (dup2(cmd->in->fd, STDIN_FILENO) < 0) { perror("dup2 input failed"); exit(1); }
-            close(cmd->in->fd);  // Ferme après redirection
+    if (!pipes)
+        return;
+    for (i = 0; i < n_pipes; i++)
+    {
+        if (pipes[i])
+        {
+            // Fermer les descripteurs de fichier associés au pipe
+            close(pipes[i][0]);
+            close(pipes[i][1]);
+            // Libérer la mémoire du tableau pour ce pipe
+            free(pipes[i]);
         }
-        if (cmd->out) {
-            if (dup2(cmd->out->fd, STDOUT_FILENO) < 0) { perror("dup2 output failed"); exit(1); }
-            close(cmd->out->fd);  // Ferme après redirection
-        }
-        execvp(cmd->cmd[0], cmd->cmd);
-        perror("execvp failed");
-        exit(1);
-    } else if (pid > 0) {
-        wait(NULL);
-    } else {
-        perror("fork failed");
     }
+    // Libérer la mémoire principale du tableau de pipes
+    free(pipes);
 }
-*/
 
-void execute_simple_cmd(t_cmd *cmd) 
+static int	cmds_count(t_cmd **cmds)
+{
+	int count;
+
+	count = 0;
+	while (cmds[count])
+		++count;
+	return (count);
+} 
+
+static void	set_pipes(t_cmd **cmds, int **pipes, int i)
+{
+	
+	if (!cmds[i]->in)
+	{
+		cmds[i]->in = (t_redir *)malloc(sizeof(t_redir));
+		if (!cmds[i]->in)
+			exit(1);
+		cmds[i]->in->fd = pipes[i][0];
+		cmds[i]->in->file = NULL;
+	}
+	if (!cmds[i]->out)
+	{
+		cmds[i]->out = (t_redir *)malloc(sizeof(t_redir));
+		if (!cmds[i]->out)
+			exit(1);
+		if (i == (cmds_count(cmds) - 1))
+			cmds[i]->out->fd = 1;
+		else
+			cmds[i]->out->fd = pipes[i + 1][1];
+		cmds[i]->out->file = NULL;
+	}
+	return ;
+}
+
+static int	**pipe_cmds(t_cmd **cmds)
+{
+	int **pipes;
+	int i;
+	int n;
+
+	printf("	pipe commands\n");
+	// create pipes
+	n = cmds_count(cmds);
+	printf("process nbr = %d\n", n);
+	pipes = malloc(sizeof(int *) * (n + 1));
+	i = -1;
+	printf("		create pipes\n");
+	while (++i < n + 1)	// ??? n ou n + 1
+	{
+		pipes[i] = malloc(sizeof(int) * 2);
+		if (!pipes[i])
+			exit(1);
+		if (pipe(pipes[i]) < 0)
+			exit(1);
+	}
+	printf("			pipe 1 = %d %d\n", pipes[0][0], pipes[0][1]);
+	printf("			pipe 2 = %d %d\n", pipes[1][0], pipes[1][1]);
+	//printf("			pipe 3 = %d %d\n", pipes[2][0], pipes[2][1]);
+
+	// set pipes
+	printf("		set pipes\n");
+	i = -1;
+	while (++i < n)
+	{
+		printf("			cmd[%d]\n", i);
+		set_pipes(cmds, pipes, i);
+	}
+	return (pipes);
+}
+
+static int execute_simple_cmd(t_cmd *cmd) 
 {
     pid_t pid ;
+	int status;
 	
+	status = 0;
+	printf("	execute simple commands\n");
 	pid = fork();
 	if (pid < 0)
 		exit(1);
@@ -47,12 +106,15 @@ void execute_simple_cmd(t_cmd *cmd)
 	{
         if (cmd->in) 
 		{
+			printf("		fd cmd in = %d\n", cmd->in->fd);
             if (dup2(cmd->in->fd, STDIN_FILENO) < 0) 
 				exit(1); 
+			
             close(cmd->in->fd);
         }
         if (cmd->out) 
 		{
+			printf("		cmd out\n");
             if (dup2(cmd->out->fd, STDOUT_FILENO) < 0)
 				exit(1);
             close(cmd->out->fd);
@@ -60,132 +122,132 @@ void execute_simple_cmd(t_cmd *cmd)
         execvp(cmd->cmd[0], cmd->cmd);
         exit(1);
     }
-	else if (pid > 0) 
-        wait(NULL);
+	else if (pid > 0)
+	{
+        if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(status))
+			cmd->exit_code = status;
+		else 
+			cmd->exit_code = 1;
+	}
 	write(1, "\n", 1);
+	return (cmd->exit_code);
 }
 
-void execute_multiple_cmds(t_cmd **cmds, int cmd_count)
+static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count) 
+{
+    int j;
+
+
+    // Rediriger l'entrée
+    if (cmds[i]->in && cmds[i]->in->fd >= 0) {
+        if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
+            exit(1);
+    }
+
+    // Rediriger la sortie
+    if (cmds[i]->out && cmds[i]->out->fd >= 0) {
+        if (dup2(cmds[i]->out->fd, STDOUT_FILENO) < 0)
+            exit(1);
+    }
+
+    // Fermer tous les pipes inutilisés
+    for (j = 0; j < cmd_count; j++) {
+        close(pipes[j][0]);
+        close(pipes[j][1]);
+    }
+
+    // Exécuter la commande
+    execvp(cmds[i]->cmd[0], cmds[i]->cmd);
+    perror("execvp failed");
+    exit(1);
+}
+
+static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 {
     int i;
+	int *pids;
+	int **pipes;
+	int status;
+	
+	// Allocation pipes and PIDs
+	pipes = pipe_cmds(cmds);
+	if (!pipes)
+		return (write(1, "Error creating pipes\n", 22), 1);
+	pids = malloc(sizeof(pid_t) * cmd_count);
+    if (!pids)
+		return (write(1, "Error allocating PIDs\n", 23), 1);
+	//display_cmds(cmds);
 
-    // Traiter chaque commande
-    for (i = 0; i < cmd_count; i++) 
-    {
-        // Exécution de la commande courante avec les redirections déjà définies
-        execute_simple_cmd(cmds[i]);
-    }
+	// creation des processus enfants
+	for (i = 0; i < cmd_count; i++)
+	{
+		if (cmds[i]->exit_code == 1)
+		{
+        	printf("Skipping cmd[%d] = %s due to previous exit code\n", i, cmds[i]->cmd[0]);
+        	continue;
+    	}
+		printf("exec cmd[%d] = %s\n", i, cmds[i]->cmd[0]);
+		pids[i] = fork();
+		if (pids[i] == -1)
+			return (write(1, "Error with creating process\n", 28), 1);
+		
+		// executer le processus enfant
+		else if (pids[i] == 0)
+			execute_child(cmds, pipes, i, cmd_count);
+	}
+	
+	// fermer fd dans le processus parent
+	for (i = 0; i < cmd_count; i++)
+	{
+		close(pipes[i][0]);
+        close(pipes[i][1]);
+	}
+
+	// attendre enfants
+	for (i = 0; i < cmd_count; i++)
+	{
+		if (cmds[i]->exit_code == 1)
+        	continue;
+		status = 0;
+        if (waitpid(pids[i], &status, 0) == -1)
+		{
+			perror("waitpid");
+			exit(EXIT_FAILURE);
+		}
+		if (WIFEXITED(status))
+			cmds[i]->exit_code = status;
+		else 
+			cmds[i]->exit_code = 1;
+	}
+
+	// free ressources
+	free(pids);
+	free_pipes(pipes, cmd_count);
+	return (cmds[--i]->exit_code);
 }
 
-/*
-static void	execute_command(t_cmd *cmd, int fds[], int i)
+t_status execute_cmds(t_cmd **cmds)
 {
-	int	j;
+	int n_cmds;
+	int exit_code;
 
-	if (i == 0)
-		dup2(pipex.fd_input, 0);
+	printf("execute commands\n");
+	exit_code = 0;
+	n_cmds = cmds_count(cmds);
+	if (n_cmds == 0 || cmds[0]->exit_code > 0)
+	{
+		printf("(n_cmds == 0 || cmds[0]->exit_code > 0)\n");
+		return (FAILED);
+	}
+	else if (n_cmds == 1)
+		exit_code = execute_simple_cmd(cmds[0]);
 	else
-		dup2(fds[(i - 1) * 2], 0);
-	if (i == pipex.cmdc - 1)
-		dup2(pipex.fd_output, 1);
-	else
-		dup2(fds[i * 2 + 1], 1);
-	j = -1;
-	while (++j < 2 * (pipex.cmdc - 1))
-		close(fds[j]);
-	if (execve(pipex.cmds[i][0], pipex.cmds[i], pipex.path) == -1)
-		exit_pipex(&pipex, NULL, EXIT_FAILURE);
+		exit_code = execute_multiple_cmds(cmds, n_cmds);
+	printf("exit code = %d\n", exit_code);
+	return (SUCCESS);
 }
-
-t_status	process(t_cmd *cmd, char **env)
-{
-	int		*fds;
-	pid_t	pid;
-	int		i;
-	t_cmd	*head;
-
-	head = cmd;
-	fds = malloc(sizeof(int) * 2 * (cmd_count(cmd) - 1));
-	if (!fds)
-		exit(1);
-	pipe_cmd(fds, cmd);
-	i = -1;
-	while (++i < cmd_count(cmd))
-	{
-		pid = fork();
-		if (pid < 0)
-			return (FAILED);
-		if (pid == 0)
-			execute_command(cmd, fds, i);
-	}
-	ft_close_pipes(fds, cmd);
-	ft_free(1, &fds);
-	i = -1;
-	while (++i < cmd_count(cmd))
-		wait(NULL);
-}
-*/
-/*
-t_status	parsing(t_token *tokens)
-{
-	t_token	*current;
-	t_cmd	*cmd;
-
-	current = tokens;
-	while (current)
-	{
-		cmd = parse_cmd(&current);
-		if (cmd)
-		{
-			if (current && current->type == TOKEN_PIPE)
-			{
-				pipe(pipefd);
-				execute_cmd(cmd, prev_pipefd, pipefd);
-				close(pipefd[1]);
-			}
-			execute_cmd(cmd);
-			free_cmd(cmd);
-		}
-		if (current && current->type == TOKEN_PIPE)
-	}
-	if (tokens->type = TOKEN_PIPE)
-	{
-		while (tokens)
-		{
-			if (is_redir(tokens))
-				new = add_redir(tokens);
-			tokens = tokens->next;
-		}
-	}
-}
-
-
-t_redir	*add_redir(t_token *tokens)
-{
-	t_redir	*current;
-	t_redir	*redir_lst;
-	t_redir	*new;
-	t_redir	*prev;
-
-	current = tokens;
-	redir_lst = prev = NULL;
-	while (current)
-	{
-		if (is_redir(current))
-		{
-			new = init_redir(current);
-			if (!new)
-				return (lst_free(redir_lst), NULL);
-			if (!redir_lst)
-				redir_lst = new;
-			else
-				prev->next = new;
-			prev = new;
-			current = del_redir_tokens(&tokens);
-		}
-		else
-			current = current->next;
-	}
-	return (redir_lst);
-}
-*/

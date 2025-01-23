@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/09 17:48:39 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:55:28 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cmd
 	t_redir			*out;
 	t_redir			*heredoc;
 	t_redir			*append;
+	int				exit_code;
 }					t_cmd;
 
 typedef struct s_shell
@@ -73,6 +74,7 @@ typedef struct s_shell
 	t_env			*envp;
 	t_env			*user_env;
 	t_cmd			**cmds;
+	int				exit_code;				
 	// char *home;
 }					t_shell;
 

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/15 17:05:13 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:50:20 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_status	access_cmd(t_cmd **cmd_tab);
 
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
-void		execute_simple_cmd(t_cmd *cmd);
+t_status 	execute_cmds(t_cmd **cmds);
 
 // utils
 char		*cmd_path(t_cmd *cmd, char **env);

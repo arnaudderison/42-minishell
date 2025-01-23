@@ -16,13 +16,11 @@ set_redir             Gère les redirections et les pipes dans la liste de token
 
 void	clear_redir_token(t_token *redir)
 {
-	printf("clear_redir_token-------------\n");
 	if (!redir)
 		return ;
 	redir->type = NAO;
 	if (redir->next)
 		redir->next->type = NAO;
-	printf("END clear_redir_token---------\n");
 }
 
 // else if (redir->type == TOKEN_REDIR_HEREDOC)
@@ -30,7 +28,6 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 {
 	t_redir **redir;
 
-	printf("free cmd redir --------------\n");
 	if (type == TOKEN_REDIR_IN)
 		redir = &cmd->in;
 	else if (type == TOKEN_REDIR_OUT)
@@ -45,14 +42,12 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 		ft_free(1, *redir);
 		*redir = NULL;
 	}
-	printf("END free cmd redir --------------\n");
 }
 
 t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 {
+	printf("            UPDATE REDIR\n");
 	t_redir **redir_ptr;
-
-	printf("update redir --------------\n");
 
 	if (redir->type == TOKEN_REDIR_IN)
 		redir_ptr = &cmd->in;
@@ -62,10 +57,7 @@ t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 		redir_ptr = &cmd->append;
 	// else if (redir->type == TOKEN_REDIR_HEREDOC) // heredoc ?
 	else
-	{
-		printf("Error: Unknown redirection type %d\n", redir->type);
 		return (false);
-	}
 	free_redir_cmd(cmd, redir->type);
 	*redir_ptr = redir;
 	return (true);
@@ -87,7 +79,7 @@ int	open_redir_fd(t_redir new_redir)
 	else
 		return (-1);
 	if (fd < 0)
-		printf("error open %s\n", new_redir.file);
+		printf("%s: no file or directory with this name\n", new_redir.file);
 	return(fd);
 }
 

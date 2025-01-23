@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/26 21:06:41 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:58:39 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,46 @@ void print_tokens(t_token *tokens)
     }
 }
 
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	*input;
+// 	t_shell	shell;
+
+// 	(void)argv;
+// 	input = NULL;
+// 	shell.envp = NULL;
+// 	if (argc != 1)
+// 		exit(EXIT_FAILURE);
+// 	shell.envp = init_envp(envp);
+// 	shell.user_env = NULL;
+// 	while (true)
+// 	{
+// 		setup_prompt_signals();
+// 		input = readline(GREEN "minish ~ " RESET);
+// 		if (handle_eof(input, shell.envp) == 1)
+// 		{
+// 			add_history(input);
+// 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
+// 				handle_parsing((const char *)input, &shell);
+// 		}
+//         //free(input);
+// 		char **env = all_path();
+// 		cmds_path(shell.cmds, env);
+// 		printf("Checking access to commands...\n");
+// 		if(!execb(shell.cmds[0]->cmd, &shell))
+// 		{
+// 			if (access_cmd(shell.cmds))
+// 			{
+// 				printf("execute\n");
+// 				execute_simple_cmd(shell.cmds[0]);
+// 			}
+// 			else
+// 				printf("Access to commands failed.\n");
+// 		}
+// 	}
+// 	return (0);
+// }
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
@@ -78,19 +118,20 @@ int	main(int argc, char **argv, char **envp)
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 		}
-        //free(input);
+        free(input);
 		char **env = all_path();
+		printf("all_path set\n");
 		cmds_path(shell.cmds, env);
 		printf("Checking access to commands...\n");
 		if(!execb(shell.cmds[0]->cmd, &shell))
 		{
-			if (access_cmd(shell.cmds))
-			{
-				printf("execute\n");
-				execute_simple_cmd(shell.cmds[0]);
-			}
-			else
-				printf("Access to commands failed.\n");
+			// if (access_cmd(shell.cmds))
+			// {
+			// 	printf("execute\n\n");
+				execute_cmds(shell.cmds);
+			// }
+			// else
+			// 	printf("Access to commands failed.\n");
 		}
 	}
 	return (0);

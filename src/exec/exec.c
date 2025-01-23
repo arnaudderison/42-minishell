@@ -33,8 +33,9 @@ static int	cmds_count(t_cmd **cmds)
 
 static void	set_pipes(t_cmd **cmds, int **pipes, int i)
 {
-	
-	if (!cmds[i]->in)
+
+	// attention ajout pas gerer in premiere commande
+	if (!cmds[i]->in && i != 0)
 	{
 		cmds[i]->in = (t_redir *)malloc(sizeof(t_redir));
 		if (!cmds[i]->in)
@@ -77,10 +78,6 @@ static int	**pipe_cmds(t_cmd **cmds)
 		if (pipe(pipes[i]) < 0)
 			exit(1);
 	}
-	printf("			pipe 1 = %d %d\n", pipes[0][0], pipes[0][1]);
-	printf("			pipe 2 = %d %d\n", pipes[1][0], pipes[1][1]);
-	//printf("			pipe 3 = %d %d\n", pipes[2][0], pipes[2][1]);
-
 	// set pipes
 	printf("		set pipes\n");
 	i = -1;
@@ -89,6 +86,8 @@ static int	**pipe_cmds(t_cmd **cmds)
 		printf("			cmd[%d]\n", i);
 		set_pipes(cmds, pipes, i);
 	}
+	// pipes[0][0] = STDIN_FILENO;
+	// pipes[n+1][1] = STDOUT_FILENO;
 	return (pipes);
 }
 
@@ -142,8 +141,7 @@ static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 {
     int j;
 
-
-    // Rediriger l'entrée
+    // Rediriger l'entrée	
     if (cmds[i]->in && cmds[i]->in->fd >= 0) {
         if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
             exit(1);
@@ -157,8 +155,10 @@ static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 
     // Fermer tous les pipes inutilisés
     for (j = 0; j < cmd_count; j++) {
-        close(pipes[j][0]);
-        close(pipes[j][1]);
+		if (j != i)
+        	close(pipes[j][0]);
+        if (j != i + 1)
+			close(pipes[j][1]);
     }
 
     // Exécuter la commande
@@ -197,7 +197,7 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 			return (write(1, "Error with creating process\n", 28), 1);
 		
 		// executer le processus enfant
-		else if (pids[i] == 0)
+		if (pids[i] == 0)
 			execute_child(cmds, pipes, i, cmd_count);
 	}
 	
@@ -211,8 +211,8 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	// attendre enfants
 	for (i = 0; i < cmd_count; i++)
 	{
-		if (cmds[i]->exit_code == 1)
-        	continue;
+		// if (cmds[i]->exit_code == 1)
+        // 	continue;
 		status = 0;
         if (waitpid(pids[i], &status, 0) == -1)
 		{

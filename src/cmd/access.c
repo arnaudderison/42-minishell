@@ -187,11 +187,7 @@ t_status access_cmd(t_cmd **cmd_tab)
             printf("Error: access denied for cmd_tab[%d]: %s\n", i, cmd_tab[i]->path);
             return (FAILED);
         }
-
-        // Message pour indiquer que l'accès a réussi
-        // printf("Access granted for cmd %s\n", cmd_tab[i]->cmd[0]);
     }
 
-    // printf("Access check for all commands done.\n");
     return (SUCCESS);
 }

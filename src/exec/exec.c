@@ -63,13 +63,10 @@ static int	**pipe_cmds(t_cmd **cmds)
 	int i;
 	int n;
 
-	// printf("	pipe commands\n");
 	// create pipes
 	n = cmds_count(cmds);
-	// printf("process nbr = %d\n", n);
 	pipes = malloc(sizeof(int *) * (n + 1));
 	i = -1;
-	// printf("		create pipes\n");
 	while (++i < n + 1)	// ??? n ou n + 1
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
@@ -79,13 +76,9 @@ static int	**pipe_cmds(t_cmd **cmds)
 			exit(1);
 	}
 	// set pipes
-	// printf("		set pipes\n");
 	i = -1;
 	while (++i < n)
-	{
-		// printf("			cmd[%d]\n", i);
 		set_pipes(cmds, pipes, i);
-	}
 	// pipes[0][0] = STDIN_FILENO;
 	// pipes[n+1][1] = STDOUT_FILENO;
 	return (pipes);
@@ -97,7 +90,6 @@ static int execute_simple_cmd(t_cmd *cmd)
 	int status;
 	
 	status = 0;
-	// printf("	execute simple commands\n");
 	pid = fork();
 	if (pid < 0)
 		exit(1);
@@ -106,7 +98,6 @@ static int execute_simple_cmd(t_cmd *cmd)
 		restore_default_signals();
         if (cmd->in) 
 		{
-			// printf("		fd cmd in = %d\n", cmd->in->fd);
             if (dup2(cmd->in->fd, STDIN_FILENO) < 0) 
 				exit(1); 
 			
@@ -164,7 +155,6 @@ static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 			close(pipes[j][1]);
     }
 
-    // Exécuter la commande
     execvp(cmds[i]->cmd[0], cmds[i]->cmd);
     perror("execvp failed");
     exit(1);
@@ -184,17 +174,12 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	pids = malloc(sizeof(pid_t) * cmd_count);
     if (!pids)
 		return (write(1, "Error allocating PIDs\n", 23), 1);
-	//display_cmds(cmds);
 
 	// creation des processus enfants
 	for (i = 0; i < cmd_count; i++)
 	{
 		if (cmds[i]->exit_code == 1)
-		{
-        	// printf("Skipping cmd[%d] = %s due to previous exit code\n", i, cmds[i]->cmd[0]);
         	continue;
-    	}
-		// printf("exec cmd[%d] = %s\n", i, cmds[i]->cmd[0]);
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (write(1, "Error with creating process\n", 28), 1);
@@ -214,8 +199,6 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	// attendre enfants
 	for (i = 0; i < cmd_count; i++)
 	{
-		// if (cmds[i]->exit_code == 1)
-        // 	continue;
 		status = 0;
         if (waitpid(pids[i], &status, 0) == -1)
 		{
@@ -227,8 +210,6 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 		else 
 			cmds[i]->exit_code = 1;
 	}
-
-	// free ressources
 	free(pids);
 	free_pipes(pipes, cmd_count);
 	return (cmds[--i]->exit_code);
@@ -239,19 +220,14 @@ t_status execute_cmds(t_cmd **cmds)
 	int n_cmds;
 	int exit_code;
 
-	// printf("execute commands\n");
 	exit_code = 0;
 	n_cmds = cmds_count(cmds);
 	if (n_cmds == 0 || cmds[0]->exit_code > 0)
-	{
-		// printf("(n_cmds == 0 || cmds[0]->exit_code > 0)\n");
 		return (FAILED);
-	}
 	else if (n_cmds == 1)
 		exit_code = execute_simple_cmd(cmds[0]);
 	else
 		exit_code = execute_multiple_cmds(cmds, n_cmds);
 	(void) exit_code
-	//ft_printf("exit code = %d\n", exit_code);
 	return (SUCCESS);
 }

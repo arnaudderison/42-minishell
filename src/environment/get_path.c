@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 19:46:12 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 19:50:06 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:58:19 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char *get_path(t_shell *sh)
 
     path = get_env("PATH", sh->envp);
     if(!path)
-        return ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:\
-    /usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin");
+        return (ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:\
+    /usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin"));
     return (path);
 }

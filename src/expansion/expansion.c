@@ -71,30 +71,35 @@ static t_status	expand_txt(t_state_expansion *state)
 	return (SUCCESS);
 }
 
-static t_status	handle_alias(t_state_expansion *state)
+static t_status	handle_alias(t_state_expansion *state, t_shell *sh)
 {
 	char	*tmp;
+	char *exit_code;
 
 	if (!state->input[state->i + 1] || state->input[state->i + 1] == '\''
 		|| state->input[state->i + 1] == '\"')
 	{
 		tmp = state->expanded;
 		state->expanded = ft_strjoin(tmp, "$");
-		state->i++;
-		return (ft_free(1, &tmp), SUCCESS);
+		return (state->i++, ft_free(1, &tmp), SUCCESS);
 	}
 	if (state->input[state->i + 1] == '$')
 	{
 		tmp = state->expanded;
 		state->expanded = ft_strjoin(tmp, "$$");
-		ft_free(1, &tmp);
-		state->i += 2;
-		return (SUCCESS);
+		return (ft_free(1, &tmp), state->i += 2, SUCCESS);
+	}
+	if(state->input[state->i + 1] == '?')
+	{
+		exit_code = ft_itoa(sh->exit_code);
+		tmp = state->expanded;
+		state->expanded = ft_strjoin(tmp, exit_code);
+		return (ft_free(2, &tmp, &exit_code), state->i += 2, SUCCESS);
 	}
 	return (FAILED);
 }
 
-char	*expand_input(char *input, t_env *envp)
+char	*expand_input(char *input, t_env *envp, t_shell *sh)
 {
 	t_state_expansion	state;
 	char				*tmp;
@@ -109,7 +114,7 @@ char	*expand_input(char *input, t_env *envp)
 			expand_txt(&state);
 		if (state.input[state.i] == '$')
 		{
-			if (handle_alias(&state))
+			if (handle_alias(&state, sh))
 				continue ;
 			get_var_name(&state, ++state.i);
 			state.var_value = get_env(state.var_name, &envp);

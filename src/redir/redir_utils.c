@@ -40,13 +40,13 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 	{
 		ft_free(1, (*redir)->file);
 		ft_free(1, *redir);
+		// = ft_free(2, (*redir)->file, *redir )
 		*redir = NULL;
 	}
 }
 
 t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 {
-	printf("            UPDATE REDIR\n");
 	t_redir **redir_ptr;
 
 	if (redir->type == TOKEN_REDIR_IN)
@@ -79,7 +79,7 @@ int	open_redir_fd(t_redir new_redir)
 	else
 		return (-1);
 	if (fd < 0)
-		printf("%s: no file or directory with this name\n", new_redir.file);
+		ft_printf("%s: no file or directory with this name\n", new_redir.file);
 	return(fd);
 }
 
@@ -90,8 +90,6 @@ void	print_redir(t_cmd *cmd)
 		printf("Commande vide.\n");
 		return ;
 	}
-
-	printf("Redirections pour la commande :\n");
 
 	if (cmd->in)
 	{

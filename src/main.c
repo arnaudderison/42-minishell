@@ -120,19 +120,9 @@ int	main(int argc, char **argv, char **envp)
 		}
         free(input);
 		char **env = all_path();
-		printf("all_path set\n");
 		cmds_path(shell.cmds, env);
-		printf("Checking access to commands...\n");
 		if(!execb(shell.cmds[0]->cmd, &shell))
-		{
-			// if (access_cmd(shell.cmds))
-			// {
-			// 	printf("execute\n\n");
 				execute_cmds(shell.cmds);
-			// }
-			// else
-			// 	printf("Access to commands failed.\n");
-		}
 	}
 	return (0);
 }

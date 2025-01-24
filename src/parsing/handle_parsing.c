@@ -30,7 +30,7 @@ static t_lexer	*create_lexer(const char *input)
 		exit(EXIT_FAILURE);
 	}
 	lexer->input = input;
-	ft_printf("NEW INPUT: [%s]\n", input);
+	// ft_printf("NEW INPUT: [%s]\n", input);
 	lexer->position = 0;
 	lexer->last_token = NULL;
 	return (lexer);
@@ -54,7 +54,7 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if (!input)
 		exit(EXIT_FAILURE);
 	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
-					sh->envp)));
+					sh->envp, sh)));
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 		return (free_env(sh->envp), ft_free(2, &lexer), exit(EXIT_FAILURE),
@@ -65,10 +65,10 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	parsing(sh->tokens);
 	// print_tokens(sh->tokens);
 	tokens_to_cmd(sh);
-	printf("kdcxqjskhxl<bchbqch\n");
+	// printf("kdcxqjskhxl<bchbqch\n");
 	if (!(sh->cmds))
 		return (false);
 	// return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), true);
-	printf("kdcxqjskhxl<bchbqch\n");
+	// printf("kdcxqjskhxl<bchbqch\n");
 	return (true);
 }

@@ -16,7 +16,6 @@ set_redir             Gère les redirections et les pipes dans la liste de token
 
 t_redir	*create_redir(int redir_type, char *file)
 {
-    printf("            CREATE REDIR\n");
 	t_redir	*new_redir;
 
 	if (!file)
@@ -37,7 +36,6 @@ t_redir	*create_redir(int redir_type, char *file)
 	new_redir->fd = open_redir_fd(*new_redir);
 	if (new_redir->fd < 0)
 	{
-        printf("                fd < 0\n");
 		ft_free(1, &new_redir->file);
 		ft_free(1, &new_redir);
 		return(NULL);
@@ -47,7 +45,6 @@ t_redir	*create_redir(int redir_type, char *file)
 
 t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
 {
-    printf("        ADD REDIR\n");
 	t_redir	*new_redir;
 
 	if (!cmd || !file)
@@ -55,7 +52,6 @@ t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
 	new_redir = create_redir(redir_type, file);
 	if (!new_redir)
     {
-        printf("        create redir failed\n");
         cmd->exit_code = 1;  
 		return (FAILED);
     }
@@ -69,19 +65,16 @@ t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
 
 t_token *process_redir(t_cmd *cmd, t_token *current)
 {
-    printf("    PROCESS REDIR\n");
     t_token *new_current;
 
     if (is_redir_op(current))
     {
         if (!add_redir(cmd, current->type, current->next->value))
         {
-            printf("        add redir failed\n");
             cmd->exit_code = 1;
             clear_redir_token(current);
             return (current->next->next);
         }
-        //printf("Redirection ajoutée: type=%d, file=%s\n", current->type, current->next->value);
 		clear_redir_token(current);
         new_current = current->next->next;
         if (!new_current) 
@@ -100,7 +93,6 @@ t_token *set_redir(t_cmd **cmds, t_token *current)
     t_token *head;
     int i;
 
-    printf("SET REDIR\n");
     if (!cmds || !current)
         return (NULL);
     head = current;

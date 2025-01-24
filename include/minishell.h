@@ -72,7 +72,7 @@ void		set_var_env(char *name, char *value, t_shell *shell);
 
 // expansion
 t_status	get_var_name(t_state_expansion *state, int start);
-char		*expand_input(char *input, t_env *envp);
+char		*expand_input(char *input, t_env *envp, t_shell *sh);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);
@@ -90,6 +90,10 @@ t_status	print_env(t_env *envp);
 // signals
 void		setup_prompt_signals(void);
 void		handle_sigint_prompt(int sigint);
+void	restore_default_signals(void);
+void	setup_exec_signals(void);
+void handle_sigint_child(int sigint);
+void handle_sigint_parent(int sigint);
 
 // exec
 // commandes

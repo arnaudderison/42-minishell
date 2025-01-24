@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/23 17:50:20 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/24 19:50:36 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_env		*init_envp(char **envp);
 char		*get_env(char *name, t_env **envp);
 t_bool		is_new_var(t_shell *sh, char *name);
 void		set_var_env(char *name, char *value, t_shell *shell);
+char 		*get_path(t_shell *sh);
 
 // expansion
 t_status	get_var_name(t_state_expansion *state, int start);

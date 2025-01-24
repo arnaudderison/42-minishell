@@ -63,13 +63,13 @@ static int	**pipe_cmds(t_cmd **cmds)
 	int i;
 	int n;
 
-	printf("	pipe commands\n");
+	// printf("	pipe commands\n");
 	// create pipes
 	n = cmds_count(cmds);
-	printf("process nbr = %d\n", n);
+	// printf("process nbr = %d\n", n);
 	pipes = malloc(sizeof(int *) * (n + 1));
 	i = -1;
-	printf("		create pipes\n");
+	// printf("		create pipes\n");
 	while (++i < n + 1)	// ??? n ou n + 1
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
@@ -79,11 +79,11 @@ static int	**pipe_cmds(t_cmd **cmds)
 			exit(1);
 	}
 	// set pipes
-	printf("		set pipes\n");
+	// printf("		set pipes\n");
 	i = -1;
 	while (++i < n)
 	{
-		printf("			cmd[%d]\n", i);
+		// printf("			cmd[%d]\n", i);
 		set_pipes(cmds, pipes, i);
 	}
 	// pipes[0][0] = STDIN_FILENO;
@@ -97,15 +97,16 @@ static int execute_simple_cmd(t_cmd *cmd)
 	int status;
 	
 	status = 0;
-	printf("	execute simple commands\n");
+	// printf("	execute simple commands\n");
 	pid = fork();
 	if (pid < 0)
 		exit(1);
     if (pid == 0) 
 	{
+		restore_default_signals();
         if (cmd->in) 
 		{
-			printf("		fd cmd in = %d\n", cmd->in->fd);
+			// printf("		fd cmd in = %d\n", cmd->in->fd);
             if (dup2(cmd->in->fd, STDIN_FILENO) < 0) 
 				exit(1); 
 			
@@ -123,6 +124,7 @@ static int execute_simple_cmd(t_cmd *cmd)
     }
 	else if (pid > 0)
 	{
+		 setup_exec_signals();
         if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("waitpid");
@@ -134,6 +136,7 @@ static int execute_simple_cmd(t_cmd *cmd)
 			cmd->exit_code = 1;
 	}
 	write(1, "\n", 1);
+	setup_prompt_signals();
 	return (cmd->exit_code);
 }
 
@@ -188,10 +191,10 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	{
 		if (cmds[i]->exit_code == 1)
 		{
-        	printf("Skipping cmd[%d] = %s due to previous exit code\n", i, cmds[i]->cmd[0]);
+        	// printf("Skipping cmd[%d] = %s due to previous exit code\n", i, cmds[i]->cmd[0]);
         	continue;
     	}
-		printf("exec cmd[%d] = %s\n", i, cmds[i]->cmd[0]);
+		// printf("exec cmd[%d] = %s\n", i, cmds[i]->cmd[0]);
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (write(1, "Error with creating process\n", 28), 1);
@@ -236,18 +239,19 @@ t_status execute_cmds(t_cmd **cmds)
 	int n_cmds;
 	int exit_code;
 
-	printf("execute commands\n");
+	// printf("execute commands\n");
 	exit_code = 0;
 	n_cmds = cmds_count(cmds);
 	if (n_cmds == 0 || cmds[0]->exit_code > 0)
 	{
-		printf("(n_cmds == 0 || cmds[0]->exit_code > 0)\n");
+		// printf("(n_cmds == 0 || cmds[0]->exit_code > 0)\n");
 		return (FAILED);
 	}
 	else if (n_cmds == 1)
 		exit_code = execute_simple_cmd(cmds[0]);
 	else
 		exit_code = execute_multiple_cmds(cmds, n_cmds);
-	printf("exit code = %d\n", exit_code);
+	(void) exit_code
+	//ft_printf("exit code = %d\n", exit_code);
 	return (SUCCESS);
 }

@@ -90,6 +90,8 @@ t_status	print_env(t_env *envp);
 // signals
 void		setup_prompt_signals(void);
 void		handle_sigint_prompt(int sigint);
+void	restore_default_signals(void);
+void	setup_exec_signals(void);
 
 // exec
 // commandes

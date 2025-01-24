@@ -86,23 +86,23 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 {
 	int i = -1;
 	
-	printf("cmd path------------\n");
+	// printf("cmd path------------\n");
 	while (cmd_tab[++i] && cmd_tab[i]->cmd)
 	{
-		printf("---------boucle cmd path [%d]\n", i);
+		// printf("---------boucle cmd path [%d]\n", i);
 		//printf("access cmd %s\n", cmd_tab[i]->cmd[0]);
 		if (access(cmd_tab[i]->cmd[0], X_OK) == 0)
 		{
 			cmd_tab[i]->path = cmd_tab[i]->cmd[0];
-			printf("END cmd path------------\n");
+			// printf("END cmd path------------\n");
 			return (SUCCESS);
 		}
 		else
 		{
-			printf("set path\n");
+			// printf("set path\n");
 			if (set_path(cmd_tab[i], env))
 			{
-				printf("END cmd path------------\n");
+				// printf("END cmd path------------\n");
 				return (SUCCESS);
 			}
 		}	
@@ -172,7 +172,7 @@ t_status access_cmd(t_cmd **cmd_tab)
         }
 
         // Affichage du chemin pour débogage
-        printf("cmd[%d] path = %s\n", i, cmd_tab[i]->path);
+        // printf("cmd[%d] path = %s\n", i, cmd_tab[i]->path);
 
         // Vérification de la validité de cmd et cmd[0]
         if (!cmd_tab[i]->cmd || !cmd_tab[i]->cmd[0])
@@ -189,9 +189,9 @@ t_status access_cmd(t_cmd **cmd_tab)
         }
 
         // Message pour indiquer que l'accès a réussi
-        printf("Access granted for cmd %s\n", cmd_tab[i]->cmd[0]);
+        // printf("Access granted for cmd %s\n", cmd_tab[i]->cmd[0]);
     }
 
-    printf("Access check for all commands done.\n");
+    // printf("Access check for all commands done.\n");
     return (SUCCESS);
 }

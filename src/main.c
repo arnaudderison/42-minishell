@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/23 17:58:39 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/24 22:36:56 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 		char **env = all_path();
 		cmds_path(shell.cmds, env);
 		if(!execb(shell.cmds[0]->cmd, &shell))
-				execute_cmds(shell.cmds);
+			shell.exit_code = execute_cmds(shell.cmds);
 	}
 	return (0);
 }

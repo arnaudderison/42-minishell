@@ -20,7 +20,7 @@ t_redir	*create_redir(int redir_type, char *file)
 
 	if (!file)
     {
-        printf("                file = null\n");
+        ft_printf("                file = null\n");
 		return (NULL);
     }
 	new_redir = malloc(sizeof(t_redir));
@@ -29,17 +29,10 @@ t_redir	*create_redir(int redir_type, char *file)
 	new_redir->type = redir_type;
 	new_redir->file = strdup(file);
 	if (!new_redir->file)
-	{
-		ft_free(1, new_redir);
-		return(NULL);
-	}
+		return(ft_free(1, &new_redir), NULL);
 	new_redir->fd = open_redir_fd(*new_redir);
 	if (new_redir->fd < 0)
-	{
-		ft_free(1, &new_redir->file);
-		ft_free(1, &new_redir);
-		return(NULL);
-	}
+		return(ft_free(2, &new_redir->file, &new_redir), NULL);
 	return (new_redir);
 }
 
@@ -48,7 +41,7 @@ t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
 	t_redir	*new_redir;
 
 	if (!cmd || !file)
-		return (FAILED);
+		return (PTR_NULL);
 	new_redir = create_redir(redir_type, file);
 	if (!new_redir)
     {
@@ -82,9 +75,7 @@ t_token *process_redir(t_cmd *cmd, t_token *current)
         current = new_current;
     }
     else
-    {
         current = current->next;
-    }
     return current;
 }
 
@@ -97,32 +88,18 @@ t_token *set_redir(t_cmd **cmds, t_token *current)
         return (NULL);
     head = current;
     i = 0;
-
-    // Parcours de la liste des tokens
     while (current && current->type != TOKEN_EOF)
     {
         while (current && current->type != TOKEN_PIPE && current->type != TOKEN_EOF)
         {
-            // Gestion des redirections
             current = process_redir(cmds[i], current);
             if (!current)
-            {
-                printf("failed process_redir\n");
-            }
+                ft_printf("failed process_redir\n");
         }
 
-        // Si un pipe est trouvé, on vérifie et on applique la logique des pipes
         if (current && current->type == TOKEN_PIPE)
         {
-            // On saute le pipe
             current = current->next;
-            
-            // Si cmd[i] a un "out", il ne doit pas y avoir de pipe
-            // Si cmd[i+1] a un "in", il ne doit pas y avoir de pipe
-            // if (!cmds[i]->out && !cmds[i + 1]->in)
-            // {
-            //     process_pipe(cmds[i], cmds[i + 1]); // Gérer le pipe entre cmd[i] et cmd[i+1]
-            // }
             ++i;
         }
     }

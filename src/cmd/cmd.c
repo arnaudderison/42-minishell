@@ -15,8 +15,6 @@ void 	init_redir(t_cmd *cmd)
 {
     cmd->in = NULL;
     cmd->out = NULL;
-    cmd->heredoc = NULL;
-    cmd->append = NULL;
 }
 
 t_cmd *init_cmd()

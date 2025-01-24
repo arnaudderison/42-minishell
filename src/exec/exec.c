@@ -155,7 +155,7 @@ static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 			close(pipes[j][1]);
     }
 
-    execvp(cmds[i]->cmd[0], cmds[i]->cmd);
+	execvp(cmds[i]->cmd[0], cmds[i]->cmd);
     perror("execvp failed");
     exit(1);
 }
@@ -219,7 +219,7 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	return (cmds[--i]->exit_code);
 }
 
-t_status execute_cmds(t_cmd **cmds)
+int execute_cmds(t_cmd **cmds)
 {
 	int n_cmds;
 	int exit_code;
@@ -227,11 +227,10 @@ t_status execute_cmds(t_cmd **cmds)
 	exit_code = 0;
 	n_cmds = cmds_count(cmds);
 	if (n_cmds == 0 || cmds[0]->exit_code > 0)
-		return (FAILED);
+		return (-1);
 	else if (n_cmds == 1)
 		exit_code = execute_simple_cmd(cmds[0]);
 	else
 		exit_code = execute_multiple_cmds(cmds, n_cmds);
-	(void) exit_code;
-	return (SUCCESS);
+	return (exit_code);
 }

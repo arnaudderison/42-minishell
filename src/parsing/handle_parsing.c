@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/15 17:02:09 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/24 22:05:14 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	// printf("kdcxqjskhxl<bchbqch\n");
 	if (!(sh->cmds))
 		return (false);
-	// return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), true);
+	// return (free_tokens(sh->tokens, NULL), ft_free(2,
+	// &(lexer->input),&lexer), true);
 	// printf("kdcxqjskhxl<bchbqch\n");
 	return (true);
 }

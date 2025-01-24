@@ -37,12 +37,7 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 	else
 		return;
 	if (*redir)
-	{
-		ft_free(1, (*redir)->file);
-		ft_free(1, *redir);
-		// = ft_free(2, (*redir)->file, *redir )
-		*redir = NULL;
-	}
+		ft_free(2, &(*redir)->file, redir);
 }
 
 t_bool	update_redir(t_cmd *cmd, t_redir *redir)
@@ -55,7 +50,6 @@ t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 		redir_ptr = &cmd->out;
 	else if (redir->type == TOKEN_REDIR_APP)
 		redir_ptr = &cmd->append;
-	// else if (redir->type == TOKEN_REDIR_HEREDOC) // heredoc ?
 	else
 		return (false);
 	free_redir_cmd(cmd, redir->type);
@@ -75,7 +69,6 @@ int	open_redir_fd(t_redir new_redir)
 		fd = open(new_redir.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (new_redir.type == TOKEN_REDIR_APP)
 		fd = open(new_redir.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	//else if (new_redir.type == TOKEN_REDIR_HEREDOC) // heredoc ?
 	else
 		return (-1);
 	if (fd < 0)
@@ -87,47 +80,26 @@ void	print_redir(t_cmd *cmd)
 {
 	if (!cmd)
 	{
-		printf("Commande vide.\n");
+		ft_printf("Commande vide.\n");
 		return ;
 	}
-
 	if (cmd->in)
-	{
-		printf("  Redirection entrée (<): %s\n", cmd->in->file);
-	}
+		ft_printf("  Redirection entrée (<): %s\n", cmd->in->file);
 	else
-	{
-		printf("  Pas de redirection entrée (<)\n");
-	}
-
+		ft_printf("  Pas de redirection entrée (<)\n");
 	if (cmd->out)
-	{
-		printf("  Redirection sortie (>): %s\n", cmd->out->file);
-	}
+		ft_printf("  Redirection sortie (>): %s\n", cmd->out->file);
 	else
-	{
-		printf("  Pas de redirection sortie (>)\n");
-	}
-
+		ft_printf("  Pas de redirection sortie (>)\n");
 	if (cmd->append)
-	{
-		printf("  Redirection ajout (>>): %s\n", cmd->append->file);
-	}
+		ft_printf("  Redirection ajout (>>): %s\n", cmd->append->file);
 	else
-	{
-		printf("  Pas de redirection ajout (>>)\n");
-	}
-
+		ft_printf("  Pas de redirection ajout (>>)\n");
 	if (cmd->heredoc)
-	{
-		printf("  Heredoc (<<): %s\n", cmd->heredoc->file);
-	}
+		ft_printf("  Heredoc (<<): %s\n", cmd->heredoc->file);
 	else
-	{
 		printf("  Pas de Heredoc (<<)\n");
-	}
-
-	printf("\n");
+	ft_printf("\n");
 }
 
 void	close_fd(t_cmd *cmd)
@@ -138,6 +110,6 @@ void	close_fd(t_cmd *cmd)
 		close(cmd->out->fd);
 	else if (cmd->type == TOKEN_REDIR_APP)
 		close(cmd->append->fd);
-	else if (cmd->type == TOKEN_REDIR_HEREDOC) // heredoc ?
+	else if (cmd->type == TOKEN_REDIR_HEREDOC)
 		close(cmd->heredoc->fd);
 }

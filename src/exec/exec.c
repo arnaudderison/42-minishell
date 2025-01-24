@@ -228,6 +228,6 @@ t_status execute_cmds(t_cmd **cmds)
 		exit_code = execute_simple_cmd(cmds[0]);
 	else
 		exit_code = execute_multiple_cmds(cmds, n_cmds);
-	(void) exit_code
+	(void) exit_code;
 	return (SUCCESS);
 }

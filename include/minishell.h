@@ -72,7 +72,7 @@ void		set_var_env(char *name, char *value, t_shell *shell);
 
 // expansion
 t_status	get_var_name(t_state_expansion *state, int start);
-char		*expand_input(char *input, t_env *envp);
+char		*expand_input(char *input, t_env *envp, t_shell *sh);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);

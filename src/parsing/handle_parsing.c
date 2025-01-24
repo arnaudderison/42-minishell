@@ -54,7 +54,7 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if (!input)
 		exit(EXIT_FAILURE);
 	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
-					sh->envp)));
+					sh->envp, sh)));
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 		return (free_env(sh->envp), ft_free(2, &lexer), exit(EXIT_FAILURE),

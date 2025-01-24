@@ -134,7 +134,7 @@ static int execute_simple_cmd(t_cmd *cmd)
 static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count) 
 {
     int j;
-
+	
     // Rediriger l'entrée	
     if (cmds[i]->in && cmds[i]->in->fd >= 0) {
         if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
@@ -167,6 +167,7 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	int **pipes;
 	int status;
 	
+	
 	// Allocation pipes and PIDs
 	pipes = pipe_cmds(cmds);
 	if (!pipes)
@@ -183,10 +184,13 @@ static int execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 		pids[i] = fork();
 		if (pids[i] == -1)
 			return (write(1, "Error with creating process\n", 28), 1);
-		
+		signal(SIGINT, handle_sigint_parent);
 		// executer le processus enfant
 		if (pids[i] == 0)
+		{
+			signal(SIGINT, handle_sigint_child);
 			execute_child(cmds, pipes, i, cmd_count);
+		}
 	}
 	
 	// fermer fd dans le processus parent

@@ -21,8 +21,25 @@ void	handle_sigint_prompt(int sigint)
 	rl_redisplay();
 }
 
-void	restore_default_signals(void)
+void restore_default_signals(void) {
+    struct sigaction sa;
+
+    sa.sa_handler = SIG_DFL;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+}
+
+void handle_sigint_child(int sigint)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+    (void)sigint;
+    // Le processus enfant termine proprement
+    write(1, "\n", 1);
+    exit(0);
+}
+
+void handle_sigint_parent(int sigint)
+{
+	write(1, "\n", 1);
+    (void)sigint;  // Ignorer le signal sans faire d'action
 }

@@ -92,6 +92,8 @@ void		setup_prompt_signals(void);
 void		handle_sigint_prompt(int sigint);
 void	restore_default_signals(void);
 void	setup_exec_signals(void);
+void handle_sigint_child(int sigint);
+void handle_sigint_parent(int sigint);
 
 // exec
 // commandes

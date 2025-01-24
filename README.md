@@ -8,7 +8,11 @@
 |___|\__/|___|(__\_|_)\___|\____\)(__\_|_)(_______/  \__|  |__/
 
 par des minishtres pour des minishtres
-
+sudo apt update
+sudo apt install python3-setuptools
+sudo apt install pipx
+pipx install norminette
+pipx ensurepath
 ```
 ```
 message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"

@@ -13,6 +13,8 @@ sudo apt install python3-setuptools
 sudo apt install pipx
 pipx install norminette
 pipx ensurepath
+
+pip install --break-system-packages c_formatter_42
 ```
 ```
 message a plach: ssh-keygen -t ed25519 -C "your_email@example.com"

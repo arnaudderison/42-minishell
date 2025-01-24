@@ -25,3 +25,15 @@ void	setup_prompt_signals(void)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGQUIT, &sa, NULL);
 }
+
+void	setup_exec_signals(void)
+{
+	struct sigaction	sa;
+
+	// Ignorer Ctrl + C et Ctrl +
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}

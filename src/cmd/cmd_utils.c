@@ -13,7 +13,7 @@ init_redir                Initialise les redirections (in, out, heredoc, append)
 
 void	free_cmd(t_cmd *cmd)
 {
-	printf("free cmd ---------------\n");
+	// printf("free cmd ---------------\n");
 	if (cmd->in)
 	{
 		ft_free(1, cmd->in->file);
@@ -41,17 +41,17 @@ void	free_cmd_array(t_cmd **cmd_tab, int status)
 {
     int i;
 
-	printf("free cmd array------------\n");
+	// printf("free cmd array------------\n");
     if (!cmd_tab)
 		return ;
 	i = -1;
     while (cmd_tab[++i])
 	{
-		printf("---------boucle free cmd array [%d]\n", i);
+		// printf("---------boucle free cmd array [%d]\n", i);
         free_cmd(cmd_tab[i]);
 	}
     ft_free(1, cmd_tab);
-	printf("END free cmd array------------\n");
+	// printf("END free cmd array------------\n");
 	exit (status);
 }
 

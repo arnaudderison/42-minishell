@@ -20,3 +20,9 @@ void	handle_sigint_prompt(int sigint)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+void	restore_default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}

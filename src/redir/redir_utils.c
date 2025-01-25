@@ -5,7 +5,8 @@
 FONCTION              RESPONSABILITE
 
 clear_redir_token     Marque un token de redirection et son fichier associé comme inutilisables (type = NAO).
-free_redir_cmd        Libère les ressources associées à une redirection dans une commande, en fonction de son type.
+free_redir_cmd        Libère les ressources associées à une redirection dans une commande,
+	en fonction de son type.
 update_redir          Associe les descripteurs de fichiers ouverts à la commande selon le type de redirection.
 open_redir_fd         Ouvre un fichier pour une redirection et retourne le descripteur de fichier (fd).
 create_redir          Alloue et initialise une nouvelle structure de redirection avec le type et le fichier spécifié.
@@ -26,7 +27,7 @@ void	clear_redir_token(t_token *redir)
 // else if (redir->type == TOKEN_REDIR_HEREDOC)
 void	free_redir_cmd(t_cmd *cmd, int type)
 {
-	t_redir **redir;
+	t_redir	**redir;
 
 	if (type == TOKEN_REDIR_IN)
 		redir = &cmd->in;
@@ -35,14 +36,14 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 	else if (type == TOKEN_REDIR_APP)
 		redir = &cmd->append;
 	else
-		return;
+		return ;
 	if (*redir)
 		ft_free(2, &(*redir)->file, redir);
 }
 
 t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 {
-	t_redir **redir_ptr;
+	t_redir	**redir_ptr;
 
 	if (redir->type == TOKEN_REDIR_IN)
 		redir_ptr = &cmd->in;
@@ -50,6 +51,8 @@ t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 		redir_ptr = &cmd->out;
 	else if (redir->type == TOKEN_REDIR_APP)
 		redir_ptr = &cmd->append;
+	else if (redir->type == TOKEN_REDIR_HEREDOC)
+		redir_ptr = &cmd->heredoc;
 	else
 		return (false);
 	free_redir_cmd(cmd, redir->type);
@@ -62,18 +65,20 @@ int	open_redir_fd(t_redir new_redir)
 	int	fd;
 
 	if (!new_redir.type || !new_redir.file)
-		return(-1);
+		return (-1);
 	if (new_redir.type == TOKEN_REDIR_IN)
 		fd = open(new_redir.file, O_RDONLY);
 	else if (new_redir.type == TOKEN_REDIR_OUT)
 		fd = open(new_redir.file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (new_redir.type == TOKEN_REDIR_APP)
 		fd = open(new_redir.file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (new_redir.type == TOKEN_REDIR_HEREDOC)
+		fd = -1;
 	else
 		return (-1);
 	if (fd < 0)
 		ft_printf("%s: no file or directory with this name\n", new_redir.file);
-	return(fd);
+	return (fd);
 }
 
 void	print_redir(t_cmd *cmd)

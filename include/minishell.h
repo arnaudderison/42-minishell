@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 22:22:58 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:20:44 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_status	access_cmd(t_cmd **cmd_tab);
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
 int			execute_cmds(t_cmd **cmds);
+int handle_heredoc(char *delimiter);
 
 // utils
 char		*cmd_path(t_cmd *cmd, char **env);

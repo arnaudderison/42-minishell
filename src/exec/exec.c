@@ -132,8 +132,6 @@ static int execute_simple_cmd(t_cmd *cmd)
 		}
 		if (WIFEXITED(status))
 			cmd->exit_code = status;
-		else 
-			cmd->exit_code = 1;
 	}
 	write(1, "\n", 1);
 	setup_prompt_signals();
@@ -251,7 +249,7 @@ t_status execute_cmds(t_cmd **cmds)
 		exit_code = execute_simple_cmd(cmds[0]);
 	else
 		exit_code = execute_multiple_cmds(cmds, n_cmds);
-	(void) exit_code
+	(void) exit_code;
 	//ft_printf("exit code = %d\n", exit_code);
 	return (SUCCESS);
 }

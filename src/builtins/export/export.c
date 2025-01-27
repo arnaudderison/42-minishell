@@ -6,18 +6,18 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 20:29:50 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/21 15:49:41 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/24 22:00:34 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env swap(t_env tmp_swap, t_env *tmp, t_env *tmp2)
+static t_env	swap(t_env tmp_swap, t_env *tmp, t_env *tmp2)
 {
-  tmp_swap = *tmp;
-  *tmp = *tmp2;
-  *tmp2 = tmp_swap;
-  return (tmp_swap);
+	tmp_swap = *tmp;
+	*tmp = *tmp2;
+	*tmp2 = tmp_swap;
+	return (tmp_swap);
 }
 
 static t_status	print_sorted_env(t_env **envp)
@@ -36,7 +36,7 @@ static t_status	print_sorted_env(t_env **envp)
 		{
 			if (ft_strcmp(tmp->name, tmp2->name) > 0)
 			{
-        tmp_swap = swap(*tmp, tmp, tmp2);
+				tmp_swap = swap(*tmp, tmp, tmp2);
 				tmp_swap.next = tmp2->next;
 				tmp2->next = tmp->next;
 				tmp->next = tmp_swap.next;
@@ -48,27 +48,27 @@ static t_status	print_sorted_env(t_env **envp)
 	return (print_env(start));
 }
 
-static t_status process_equal_sign(t_shell *sh, char *name, char *value)
+static t_status	process_equal_sign(t_shell *sh, char *name, char *value)
 {
-  char *getenv;
-  char *new_value;
+	char	*getenv;
+	char	*new_value;
 
-  getenv = NULL;
-  if(is_new_var(sh, name))
-    set_var_env(name, value, sh);
-  else 
-  {
-    getenv = get_env(name, &(sh->envp));
-    if(!getenv)
-      getenv = get_env(name, &(sh->user_env));
-    new_value = ft_strjoin(getenv, value);
-    if(!new_value)
-      return (MALLOC);
-    set_var_env(name, new_value, sh);
-    ft_free(1, &new_value);
-  }
-  //ft_free(1, &getenv);
-  return (SUCCESS);
+	getenv = NULL;
+	if (is_new_var(sh, name))
+		set_var_env(name, value, sh);
+	else
+	{
+		getenv = get_env(name, &(sh->envp));
+		if (!getenv)
+			getenv = get_env(name, &(sh->user_env));
+		new_value = ft_strjoin(getenv, value);
+		if (!new_value)
+			return (MALLOC);
+		set_var_env(name, new_value, sh);
+		ft_free(1, &new_value);
+	}
+	// ft_free(1, &getenv);
+	return (SUCCESS);
 }
 // if an value of variable is null, it won't work
 static t_status	export_variable(t_shell *sh, const char *arg, size_t argl)
@@ -82,7 +82,7 @@ static t_status	export_variable(t_shell *sh, const char *arg, size_t argl)
 	if (plus_equal_sign)
 	{
 		name = ft_substr(arg, 0, argl - ft_strlen(plus_equal_sign));
-    process_equal_sign(sh, name, equal_sign + 1);
+		process_equal_sign(sh, name, equal_sign + 1);
 	}
 	else if (equal_sign)
 	{
@@ -116,4 +116,3 @@ t_status	export(t_shell *shell, char **args)
 	}
 	return (SUCCESS);
 }
-

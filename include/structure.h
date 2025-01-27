@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/23 17:55:28 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:56:09 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_redir
 	int type;   // Type de redirection (<, >, >>, <<)
 	char *file; // Nom du fichier
 	int				fd;
+	int is_heredoc;
 }					t_redir;
 
 typedef struct s_cmd

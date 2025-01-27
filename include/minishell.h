@@ -6,9 +6,10 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 19:50:36 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:34:29 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -91,10 +92,10 @@ t_status	print_env(t_env *envp);
 // signals
 void		setup_prompt_signals(void);
 void		handle_sigint_prompt(int sigint);
-void	restore_default_signals(void);
-void	setup_exec_signals(void);
-void handle_sigint_child(int sigint);
-void handle_sigint_parent(int sigint);
+void		restore_default_signals(void);
+void		setup_exec_signals(void);
+void		handle_sigint_child(int sigint);
+void		handle_sigint_parent(int sigint);
 
 // exec
 // commandes
@@ -127,7 +128,8 @@ t_status	access_cmd(t_cmd **cmd_tab);
 
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
-t_status 	execute_cmds(t_cmd **cmds);
+int			execute_cmds(t_cmd **cmds);
+int handle_heredoc(char *delimiter);
 
 // utils
 char		*cmd_path(t_cmd *cmd, char **env);

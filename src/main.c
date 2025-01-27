@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 14:51:36 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:34:50 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,14 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
+			free(input);
+			//execb(shell.cmds[0]->cmd, &shell);
+			char **env = all_path();
+			cmds_path(shell.cmds, env);
+			if(!execb(shell.cmds[0]->cmd, &shell))
+				shell.exit_code = execute_cmds(shell.cmds);
 		}
-        free(input);
-		//execb(shell.cmds[0]->cmd, &shell);
-		char **env = all_path();
-		cmds_path(shell.cmds, env);
-		if(!execb(shell.cmds[0]->cmd, &shell))
-			shell.exit_code = execute_cmds(shell.cmds);
+        
 	}
 	return (0);
 }

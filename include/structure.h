@@ -74,7 +74,8 @@ typedef struct s_shell
 	t_env			*envp;
 	t_env			*user_env;
 	t_cmd			**cmds;
-	int				exit_code;				
+	int				exit_code;
+	char			*path;		
 	// char *home;
 }					t_shell;
 

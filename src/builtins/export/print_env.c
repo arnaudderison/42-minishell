@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 01:41:06 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/21 15:53:47 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:04:07 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ t_status	print_env(t_env *envp)
 	tmp = envp;
 	while (tmp)
 	{
-		ft_printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
+		if(tmp->value)
+			ft_printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
+		else
+			ft_printf("declare -x %s\n", tmp->name);
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

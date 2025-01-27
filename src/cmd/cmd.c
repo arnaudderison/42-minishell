@@ -15,6 +15,8 @@ void 	init_redir(t_cmd *cmd)
 {
     cmd->in = NULL;
     cmd->out = NULL;
+	// cmd->append = NULL;
+	cmd->heredoc = NULL;
 }
 
 t_cmd *init_cmd()
@@ -34,7 +36,7 @@ t_cmd	**init_cmd_array(int cmd_count)
 	t_cmd	**cmd_tab;
 	int		i;
 
-	cmd_tab = malloc(sizeof(t_cmd) * (cmd_count + 1)); // alloc *t_cmd ?
+	cmd_tab = malloc(sizeof(t_cmd) * (cmd_count + 1));
 	if (!cmd_tab)
 		return (NULL);
 	i = -1;
@@ -93,7 +95,7 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	return (SUCCESS);
 }
 
-t_cmd **tokens_to_cmd(t_shell *shell)
+t_status tokens_to_cmd(t_shell *shell)
 {
 	t_token	*token_lst;
 
@@ -102,12 +104,12 @@ t_cmd **tokens_to_cmd(t_shell *shell)
 		return (FAILED);
 	shell->cmds = init_cmd_array(pipe_count(token_lst) + 1);
 	if (!shell->cmds)
-		return (NULL);
+		return (FAILED);
 	token_lst = set_redir(shell->cmds, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
 	{
-		exit(1);
-		printf("EOF\n");
+		free_cmd_array(shell->cmds, -1);
+		return (FAILED);
 	}
-	return (shell->cmds);
+	return (SUCCESS);
 }

@@ -30,18 +30,15 @@ char	*cmd_path(t_cmd *cmd, char **env)
 	return (NULL);
 }
 
-char	**all_path()
+char	**all_path(char *str_env)
 {
-	char	*str_env;
 	char	**env;
 	char	*tmp;
 	int		i;
 
-	str_env = ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin");
 	if (!str_env)
 		return (NULL);
 	env = ft_split(str_env, ':');
-	ft_free(1, &str_env);
 	if (!env)
 		return (NULL);
 	i = -1;
@@ -50,7 +47,6 @@ char	**all_path()
 		tmp = ft_strjoin(env[i], "/");
 		if (!tmp)
 		{
-			// Free les précédentes allocations en cas d'erreur
 			while (i-- > 0)
 				ft_free(1, &env[i]);
 			ft_free(1, env);
@@ -78,7 +74,8 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 			return (SUCCESS);
 		ft_free(1, &cmd->path);
 	}
-	ft_printf(" command not found: %s\n", cmd->cmd[0]);
+	ft_printf(" set command not found: %s\n", cmd->cmd[0]);
+	free_cmd(cmd);
 	return (FAILED);
 }
 
@@ -86,23 +83,19 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 {
 	int i = -1;
 	
-	// printf("cmd path------------\n");
+
 	while (cmd_tab[++i] && cmd_tab[i]->cmd)
 	{
-		// printf("---------boucle cmd path [%d]\n", i);
-		//printf("access cmd %s\n", cmd_tab[i]->cmd[0]);
 		if (access(cmd_tab[i]->cmd[0], X_OK) == 0)
 		{
 			cmd_tab[i]->path = cmd_tab[i]->cmd[0];
-			// printf("END cmd path------------\n");
 			return (SUCCESS);
 		}
 		else
 		{
-			// printf("set path\n");
+			display_cmds(cmd_tab);
 			if (set_path(cmd_tab[i], env))
 			{
-				// printf("END cmd path------------\n");
 				return (SUCCESS);
 			}
 		}	

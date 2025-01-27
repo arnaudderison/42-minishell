@@ -119,10 +119,16 @@ int	main(int argc, char **argv, char **envp)
 				handle_parsing((const char *)input, &shell);
 		}
         free(input);
-		char **env = all_path();
+		char *str_env = get_path(&shell);
+		char **env = all_path(str_env);
+		ft_free(1, &str_env);
 		cmds_path(shell.cmds, env);
+		if (!shell.cmds[0])
+			continue;
 		if(!execb(shell.cmds[0]->cmd, &shell))
 			shell.exit_code = execute_cmds(shell.cmds);
+		ft_free(1, &shell.envp);
 	}
+	free_cmd_array(shell.cmds, 0);
 	return (0);
 }

@@ -107,7 +107,7 @@ t_cmd		**init_cmds(int cmd_count);
 t_token		*find_cmd(t_cmd *cmd, t_token *token_lst);
 t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst);
 t_token		*set_redir(t_cmd **cmd, t_token *current);
-t_cmd		**tokens_to_cmd(t_shell *shell);
+t_status 	tokens_to_cmd(t_shell *shell);
 void		free_cmd_array(t_cmd **cmd_tab, int status);
 
 // redirections
@@ -121,7 +121,7 @@ void		free_redir(t_cmd *cmd, int type);
 t_bool		assign_redir(t_cmd *cmd, t_redir *redir);
 
 // access
-char		**all_path(void);
+char		**all_path(char *str_env);
 t_status	cmds_path(t_cmd **cmd_tab, char **env);
 t_status	set_path(t_cmd *cmd, char **env);
 t_status	access_cmd(t_cmd **cmd_tab);

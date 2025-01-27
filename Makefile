@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP
+CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP -fsanitize=address
 I_LIBFT = ./include/lib/libft/include/
 I_MINISH = ./include/
 INCLUDES = -I$(I_LIBFT) -I$(I_MINISH)

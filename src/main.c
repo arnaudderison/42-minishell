@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 18:34:50 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 22:20:18 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	main(int argc, char **argv, char **envp)
 		input = readline(GREEN "minish ~ " RESET);
 		if (handle_eof(input, shell.envp) == 1)
 		{
-			add_history(input);
+			// add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 			free(input);

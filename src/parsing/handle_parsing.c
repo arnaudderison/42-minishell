@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 22:05:14 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 22:22:04 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
+	char *saved_input;
 
 	lexer = NULL;
 	tokens = NULL;
+	saved_input = ft_strdup(input);
 	if (!input)
 		exit(EXIT_FAILURE);
 	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
@@ -66,6 +68,11 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	// print_tokens(sh->tokens);
 	tokens_to_cmd(sh);
 	// printf("kdcxqjskhxl<bchbqch\n");
+	if(!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in && sh->cmds[0]->in->is_heredoc))
+	{
+		add_history(saved_input);
+		ft_free(1, &saved_input);
+	}
 	if (!(sh->cmds))
 		return (false);
 	// return (free_tokens(sh->tokens, NULL), ft_free(2,

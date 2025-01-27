@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:21:17 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/13 19:52:19 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:59:58 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,38 @@ static t_status	delete_env(t_env *prev, t_env **current, t_env **envp)
 	}
 }
 
-t_status	unset(t_shell *sh, char **args)
+static void check_envp(t_env **env, char **args)
 {
-	int		i;
-	t_env	*tmp;
-	t_env	*prev;
+	int i;
+	t_env *tmp;
+	t_env *prev;
 
-	if (!sh)
-		return (PTR_NULL);
-	if (is_valid_args(args) != SUCCESS)
-		return (FAILED);
 	i = -1;
-	while (args[++i])
+	while(args[++i])
 	{
 		prev = NULL;
-		tmp = sh->envp;
-		while (tmp)
+		tmp = *env;
+		while(tmp)
 		{
 			if (ft_strcmp(tmp->name, args[i]) == 0
 				&& ft_strlen(tmp->name) == ft_strlen(args[i]))
-				delete_env(prev, &tmp, &sh->envp);
+				{
+					delete_env(prev, &tmp, env);
+					break;
+				}
 			prev = tmp;
 			tmp = tmp->next;
 		}
 	}
+}
+
+t_status	unset(t_shell *sh, char **args)
+{
+	if (!sh)
+		return (PTR_NULL);
+	if (is_valid_args(args) != SUCCESS)
+		return (FAILED);
+	check_envp(&sh->envp, args);
+	check_envp(&sh->user_env, args);
 	return (SUCCESS);
 }

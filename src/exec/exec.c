@@ -162,13 +162,10 @@ static void	execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 	int	j;
 
 	if (cmds[i]->in)
-	{
-		if (cmds[i]->in->is_heredoc)
+	{	
+		if (cmds[i]->in->fd >= 0)
 			if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
 				exit(1);
-			else if (cmds[i]->in->fd >= 0)
-				if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
-					exit(1);
 	}
 	if (cmds[i]->out && cmds[i]->out->fd >= 0)
 	{

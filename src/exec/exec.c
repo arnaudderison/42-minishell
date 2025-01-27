@@ -174,10 +174,10 @@ static void	execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 	}
 	for (j = 0; j < cmd_count; j++)
 	{
-		if (j != i)
-			close(pipes[j][0]);
-		if (j != i + 1)
-			close(pipes[j][1]);
+		// if (j != i)
+		close(pipes[j][0]);
+		// if (j != i + 1)
+		close(pipes[j][1]);
 	}
 	execvp(cmds[i]->cmd[0], cmds[i]->cmd);
 	perror("execvp failed");
@@ -260,6 +260,7 @@ int	handle_heredoc(char *delimiter)
 	char	*line;
 	int		fd;
 
+	restore_default_signals();
 	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	while (1)
 	{

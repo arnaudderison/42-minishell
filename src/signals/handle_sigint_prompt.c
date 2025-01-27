@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 21:59:04 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/03 22:08:39 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:26:22 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void restore_default_signals(void) {
 void handle_sigint_child(int sigint)
 {
     (void)sigint;
-    // Le processus enfant termine proprement
     write(1, "\n", 1);
     exit(0);
 }
@@ -41,5 +40,6 @@ void handle_sigint_child(int sigint)
 void handle_sigint_parent(int sigint)
 {
 	write(1, "\n", 1);
-    (void)sigint;  // Ignorer le signal sans faire d'action
+    (void)sigint;
 }
+

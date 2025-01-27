@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 13:34:29 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:18:27 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ t_status	cd(char *path, t_shell *sh);
 t_status	execb(char **cmd, t_shell *shell);
 void		pwd(void);
 t_status	print_env(t_env *envp);
+void exitb(char **cmd);
 
 // signals
 void		setup_prompt_signals(void);
@@ -96,6 +97,8 @@ void		restore_default_signals(void);
 void		setup_exec_signals(void);
 void		handle_sigint_child(int sigint);
 void		handle_sigint_parent(int sigint);
+void restore_sigquit(int sig);
+void handle_sigquit(int sig);
 
 // exec
 // commandes

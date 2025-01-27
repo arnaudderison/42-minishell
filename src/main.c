@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 22:36:56 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:40:24 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void print_tokens(t_token *tokens)
 // 		exit(EXIT_FAILURE);
 // 	shell.envp = init_envp(envp);
 // 	shell.user_env = NULL;
-// 	while (true)
+// 	while (true)expansion
 // 	{
 // 		setup_prompt_signals();
 // 		input = readline(GREEN "minish ~ " RESET);

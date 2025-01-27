@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 16:31:12 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 18:19:28 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:14:37 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,11 @@ t_status	execb(char **cmd, t_shell *shell)
 		return (pwd(), SUCCESS);
 	if (ft_strcmp(cmd[0], "exit") == 0 && ft_strlen(cmd[0]) == 4)
 		return (exitb(cmd + 1), SUCCESS);
+	if (ft_strcmp(cmd[0], "env") == 0 && ft_strlen(cmd[0]) == 3)
+	{
+		env(shell->envp);
+		env(shell->user_env);
+		return (SUCCESS);
+	}
 	return (FAILED);
 }

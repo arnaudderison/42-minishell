@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 18:18:27 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:37:22 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_status	cd(char *path, t_shell *sh);
 t_status	execb(char **cmd, t_shell *shell);
 void		pwd(void);
 t_status	print_env(t_env *envp);
-void exitb(char **cmd);
+void exitb(char **cmd, t_shell *sh);
 
 // signals
 void		setup_prompt_signals(void);

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 22:22:04 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:53:36 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,13 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 					sh->envp, sh)));
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
-		return (free_env(sh->envp), ft_free(2, &lexer), exit(EXIT_FAILURE),
+		return (free_env(sh->envp), ft_free(1, &lexer), exit(EXIT_FAILURE),
 			false);
 	init_tokens(tokens, sh);
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
-	parsing(sh->tokens);
+	if(!parsing(sh->tokens))
+		return (false);
 	// print_tokens(sh->tokens);
 	tokens_to_cmd(sh);
 	// printf("kdcxqjskhxl<bchbqch\n");
@@ -75,8 +76,8 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	}
 	if (!(sh->cmds))
 		return (false);
-	// return (free_tokens(sh->tokens, NULL), ft_free(2,
-	// &(lexer->input),&lexer), true);
+	return (free_tokens(sh->tokens, NULL), ft_free(2,
+	&(lexer->input),&lexer), true);
 	// printf("kdcxqjskhxl<bchbqch\n");
-	return (true);
+	// return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:35:20 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 18:21:29 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/28 19:48:18 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_bool is_number(char *value)
     return (true);
 }
 
-void exitb(char **cmd)
+void exitb(char **cmd, t_shell *sh)
 {
     int exit_code;
 
@@ -60,6 +60,8 @@ void exitb(char **cmd)
         exit_code = ft_atoi(cmd[0]) % 256;
         if (exit_code < 0)
             exit_code += 256;
+        //free_tokens(sh->tokens, NULL);
+        free_cmd_array(sh->cmds, -1);
         exit(exit_code);
     }
 }

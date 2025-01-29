@@ -31,10 +31,8 @@ void	free_redir_cmd(t_cmd *cmd, int type)
 
 	if (type == TOKEN_REDIR_IN)
 		redir = &cmd->in;
-	else if (type == TOKEN_REDIR_OUT)
+	else if (type == TOKEN_REDIR_OUT || type == TOKEN_REDIR_APP)
 		redir = &cmd->out;
-	else if (type == TOKEN_REDIR_APP)
-		redir = &cmd->append;
 	else
 		return ;
 	if (*redir)
@@ -47,10 +45,8 @@ t_bool	update_redir(t_cmd *cmd, t_redir *redir)
 
 	if (redir->type == TOKEN_REDIR_IN)
 		redir_ptr = &cmd->in;
-	else if (redir->type == TOKEN_REDIR_OUT)
+	else if (redir->type == TOKEN_REDIR_OUT || redir->type == TOKEN_REDIR_APP)
 		redir_ptr = &cmd->out;
-	else if (redir->type == TOKEN_REDIR_APP)
-		redir_ptr = &cmd->append;
 	else if (redir->type == TOKEN_REDIR_HEREDOC)
 		redir_ptr = &cmd->heredoc;
 	else
@@ -96,10 +92,6 @@ void	print_redir(t_cmd *cmd)
 		ft_printf("  Redirection sortie (>): %s\n", cmd->out->file);
 	else
 		ft_printf("  Pas de redirection sortie (>)\n");
-	if (cmd->append)
-		ft_printf("  Redirection ajout (>>): %s\n", cmd->append->file);
-	else
-		ft_printf("  Pas de redirection ajout (>>)\n");
 	if (cmd->heredoc)
 		ft_printf("  Heredoc (<<): %s\n", cmd->heredoc->file);
 	else
@@ -111,10 +103,8 @@ void	close_fd(t_cmd *cmd)
 {
 	if (cmd->type == TOKEN_REDIR_IN)
 		close(cmd->in->fd);
-	else if (cmd->type == TOKEN_REDIR_OUT)
+	else if (cmd->type == TOKEN_REDIR_OUT || cmd->type == TOKEN_REDIR_APP)
 		close(cmd->out->fd);
-	else if (cmd->type == TOKEN_REDIR_APP)
-		close(cmd->append->fd);
 	else if (cmd->type == TOKEN_REDIR_HEREDOC)
 		close(cmd->heredoc->fd);
 }

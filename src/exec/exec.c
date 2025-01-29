@@ -124,7 +124,6 @@ static int	execute_simple_cmd(t_cmd *cmd)
 		else
 			cmd->exit_code = 1;
 	}
-	write(1, "\n", 1);
 	setup_prompt_signals();
 	return (cmd->exit_code);
 }

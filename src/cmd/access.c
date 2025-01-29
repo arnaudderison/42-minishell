@@ -19,12 +19,12 @@ char	*cmd_path(t_cmd *cmd, char **env)
 		path = ft_strjoin(tmp, cmd->cmd[0]);
 		if (!path)
 		{
-			ft_free(1, 1, &tmp);
+			ft_free(1, &tmp);
 			exit(1);
 		}
 		if (access(path, X_OK) == 0)
-			return (ft_free(1, 1, &tmp), path);
-		ft_free(1, 2, &tmp, &path);
+			return (ft_free(1, &tmp), path);
+		ft_free(1, &tmp, &path);
 	}
 	ft_printf(" command not found: %s\n", cmd->cmd[0]);
 	return (NULL);
@@ -88,16 +88,11 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 	while (cmd_tab[++i] && cmd_tab[i]->cmd)
 	{
 		if (access(cmd_tab[i]->cmd[0], X_OK) == 0)
-		{
 			cmd_tab[i]->path = cmd_tab[i]->cmd[0];
-			return (SUCCESS);
-		}
 		else
 		{
-			if (set_path(cmd_tab[i], env))
-			{
-				return (SUCCESS);
-			}
+			if (!set_path(cmd_tab[i], env))
+				return (FAILED);
 		}	
 	}
 	return (SUCCESS);

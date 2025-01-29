@@ -37,7 +37,7 @@ void	free_cmd_array(t_cmd **cmd_tab, int status)
 	i = -1;
     while (cmd_tab[++i])
         free_cmd(cmd_tab[i]);
-    ft_free(1, cmd_tab);
+    free(cmd_tab);
 	if (status == -1)
 		return ;
 	exit (status);
@@ -88,5 +88,6 @@ void	display_cmds(t_cmd **cmd_tab)
         printf("  in: %p\n", (void *)cmd_tab[i]->in);
         printf("  out: %p\n", (void *)cmd_tab[i]->out);
         printf("  heredoc: %p\n", (void *)cmd_tab[i]->heredoc);
+		printf("  exit_code: %d\n", cmd_tab[i]->exit_code);
     }
 }

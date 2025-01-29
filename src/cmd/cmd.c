@@ -56,7 +56,7 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 
 	cmd->cmd = malloc(sizeof(char *) * (cmd_args_count(token_lst) + 1));
 	if (!cmd->cmd)
-		exit(1); // free
+		exit(1);
 	j = 0;
 	while (token_lst->type != TOKEN_EOF && token_lst->type != TOKEN_PIPE)
 	{
@@ -108,7 +108,7 @@ t_status tokens_to_cmd(t_shell *shell)
 	token_lst = set_redir(shell->cmds, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
 	{
-		free_cmd_array(shell->cmds, -1);
+		// free_cmd_array(shell->cmds, -1);
 		return (FAILED);
 	}
 	return (SUCCESS);

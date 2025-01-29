@@ -190,7 +190,7 @@ static int	execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	int	*pids;
 	int	**pipes;
 	int	status;
-
+	
 	// Allocation pipes and PIDs
 	pipes = pipe_cmds(cmds);
 	if (!pipes)

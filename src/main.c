@@ -126,9 +126,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell.cmds[0])
 			continue;
 		if(!execb(shell.cmds[0]->cmd, &shell))
+		{
 			shell.exit_code = execute_cmds(shell.cmds);
+			free_cmd_array(shell.cmds, -1);
+		}
 		ft_free(1, &shell.envp);
 	}
-	free_cmd_array(shell.cmds, 0);
 	return (0);
 }

@@ -63,9 +63,7 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
 	parsing(sh->tokens);
-	// print_tokens(sh->tokens);
 	if (!tokens_to_cmd(sh))
 		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), false);
 	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), true);
-	//return (true);
 }

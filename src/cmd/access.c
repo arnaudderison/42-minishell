@@ -69,14 +69,15 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 	{
 		cmd->path = ft_strjoin(env[i], cmd->cmd[0]);
 		if (!cmd->path)
-			return (FAILED);
+			exit(1); //malloc error
 		if (access(cmd->path, X_OK) == 0)
 			return (SUCCESS);
 		ft_free(1, &cmd->path);
 	}
 	ft_printf(" set command not found: %s\n", cmd->cmd[0]);
-	free_cmd(cmd);
-	return (FAILED);
+	cmd->path = NULL;
+	cmd->exit_code = 1;
+	return (SUCCESS);
 }
 
 t_status    cmds_path(t_cmd **cmd_tab, char **env)
@@ -93,14 +94,13 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 		}
 		else
 		{
-			display_cmds(cmd_tab);
 			if (set_path(cmd_tab[i], env))
 			{
 				return (SUCCESS);
 			}
 		}	
 	}
-	return (FAILED);
+	return (SUCCESS);
 }
  /*
 // Vérifie si les commandes du tableau cmd_tab sont accessibles/exécutables.

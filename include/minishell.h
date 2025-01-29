@@ -128,8 +128,8 @@ t_status	access_cmd(t_cmd **cmd_tab);
 
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
-int			execute_cmds(t_cmd **cmds);
-int handle_heredoc(char *delimiter);
+int			execute_cmds(t_shell *shell);
+int 		handle_heredoc(char *delimiter);
 
 // utils
 char		*cmd_path(t_cmd *cmd, char **env);

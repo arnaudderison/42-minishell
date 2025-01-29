@@ -121,15 +121,14 @@ int	main(int argc, char **argv, char **envp)
         free(input);
 		char *str_env = get_path(&shell);
 		char **env = all_path(str_env);
+		shell.env_execve[0] = str_env;
+		shell.env_execve[0] = NULL;
 		ft_free(1, &str_env);
 		cmds_path(shell.cmds, env);
 		if (!shell.cmds[0])
 			continue;
-		if(!execb(shell.cmds[0]->cmd, &shell))
-		{
-			shell.exit_code = execute_cmds(shell.cmds);
-			free_cmd_array(shell.cmds, -1);
-		}
+		shell.exit_code = execute_cmds(&shell);
+		free_cmd_array(shell.cmds, -1);
 		ft_free(1, &shell.envp);
 	}
 	return (0);

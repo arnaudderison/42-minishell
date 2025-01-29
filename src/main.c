@@ -11,6 +11,7 @@
 =======
 /*   Updated: 2025/01/30 13:27:43 by arnaud           ###   ########.fr       */
 >>>>>>> 0eb4960 (the last leak)
+/*   Updated: 2025/01/30 13:27:55 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +105,11 @@ void	print_tokens(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_shell	shell;
-	char	*str_env;
-	char	**env;
+	char *input;
+	t_shell shell;
+	char **env;
+	char *str_env;
+	char **env;
 
 	(void)argv;
 	input = NULL;
@@ -128,27 +130,27 @@ int	main(int argc, char **argv, char **envp)
 				if (handle_parsing((const char *)input, &shell))
 				{
 					// execb(shell.cmds[0]->cmd, &shell);
+					env = all_path();
+					// execb(shell.cmds[0]->cmd, &shell);
 					str_env = get_path(&shell);
 					env = all_path(str_env);
 					ft_free(1, &str_env);
 					cmds_path(shell.cmds, env);
-					if (!shell.cmds[0])
-						continue ;
+					if (!execb(shell.cmds[0]->cmd, &shell))
+						if (!shell.cmds[0])
+							continue ;
 					if (!execb(shell.cmds[0]->cmd, &shell))
 					{
 						shell.exit_code = execute_cmds(shell.cmds);
 						free_cmd_array(shell.cmds, -1);
 					}
 				}
-				ft_free(1, &input);
 			}
 		}
-		free(input);
-	}
 <<<<<<< HEAD
-	ft_free(1, &shell.envp);
+		ft_free(1, &shell.envp);
 =======
-	free_cmd_array(shell.cmds, 0);
+		free_cmd_array(shell.cmds, 0);
 >>>>>>> 0eb4960 (the last leak)
-	return (0);
-}
+		return (0);
+	}

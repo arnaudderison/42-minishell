@@ -7,28 +7,29 @@ FONCTION                  RESPONSABILITÉ
 init_cmd                 Crée et initialise une nouvelle commande (t_cmd) avec des redirections vides.
 init_cmd_array           Alloue un tableau de commandes (t_cmd) en fonction du nombre de commandes à traiter.
 find_cmd                 Extrait les arguments d'une commande à partir de la liste de tokens et les assigne à la commande.
-set_cmd                  Associe les commandes à un tableau en parcourant les tokens, et gère l'assignation des arguments.
+set_cmd                  Associe les commandes à un tableau en parcourant les tokens,
+	et gère l'assignation des arguments.
 tokens_to_cmd            Orchestrer la conversion des tokens en un tableau de commandes avec redirections et arguments.
 */
 
-void 	init_redir(t_cmd *cmd)
+void	init_redir(t_cmd *cmd)
 {
-    cmd->in = NULL;
-    cmd->out = NULL;
+	cmd->in = NULL;
+	cmd->out = NULL;
 	// cmd->append = NULL;
 	cmd->heredoc = NULL;
 }
 
-t_cmd *init_cmd()
+t_cmd	*init_cmd(void)
 {
-    t_cmd *new_cmd;
-	
+	t_cmd	*new_cmd;
+
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-    new_cmd->cmd = NULL;
-    init_redir(new_cmd);
-    return (new_cmd);
+	new_cmd->cmd = NULL;
+	init_redir(new_cmd);
+	return (new_cmd);
 }
 
 t_cmd	**init_cmd_array(int cmd_count)
@@ -78,7 +79,7 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 
 t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 {
-	int		i;
+	int	i;
 
 	if (!cmd_tab || !token_lst)
 		return (FAILED);
@@ -86,7 +87,6 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	while (token_lst->type != TOKEN_EOF)
 	{
 		token_lst = find_cmd(cmd_tab[i], token_lst);
-		
 		if (!token_lst && i == 0)
 			return (FAILED);
 		++i;
@@ -95,7 +95,7 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	return (SUCCESS);
 }
 
-t_status tokens_to_cmd(t_shell *shell)
+t_status	tokens_to_cmd(t_shell *shell)
 {
 	t_token	*token_lst;
 
@@ -113,6 +113,7 @@ t_status tokens_to_cmd(t_shell *shell)
 =======
 		free_cmd_array(shell->cmds, -1);
 >>>>>>> 0eb4960 (the last leak)
+		// free_cmd_array(shell->cmds, -1);
 		return (FAILED);
 	}
 	return (SUCCESS);

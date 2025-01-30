@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/28 19:33:47 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:16:39 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,27 @@ t_bool	handle_eof(char *line, t_env *envp)
 	return (false);
 }
 
-void print_tokens(t_token *tokens)
+void	print_tokens(t_token *tokens)
 {
-	t_token	*token_lst = NULL;
+	t_token	*token_lst;
 
+	token_lst = NULL;
 	token_lst = tokens;
-    printf("Liste des tokens :\n");
+	printf("Liste des tokens :\n");
 	if (!token_lst)
 	{
 		printf("NULLité\n");
 		return ;
 	}
-    while (token_lst)
-    {
-        if (token_lst) // Vérifiez si le pointeur n'est pas NULL
-            printf("Token type: %d, value: %s\n", token_lst->type, token_lst->value);
-        else
-            printf("Token corrompu ou pointeur NULL\n");
-        token_lst = token_lst->next;
-    }
+	while (token_lst)
+	{
+		if (token_lst) // Vérifiez si le pointeur n'est pas NULL
+			printf("Token type: %d, value: %s\n", token_lst->type,
+				token_lst->value);
+		else
+			printf("Token corrompu ou pointeur NULL\n");
+		token_lst = token_lst->next;
+	}
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -98,8 +100,8 @@ void print_tokens(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_shell	shell;
+	char *input;
+	t_shell shell;
 
 	(void)argv;
 	input = NULL;
@@ -118,12 +120,12 @@ int	main(int argc, char **argv, char **envp)
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 		}
-        free(input);
+		free(input);
 		cmds_path(&shell);
 		if (!shell.cmds[0])
-			continue;
+			continue ;
 		shell.exit_code = execute_cmds(&shell);
-		free_cmd_array(shell.cmds, -1);
+		// free_cmd_array(shell.cmds, -1);
 		ft_free(1, &shell.envp);
 	}
 	return (0);

@@ -83,11 +83,12 @@ static int	**pipe_cmds(t_cmd **cmds)
 	return (pipes);
 }
 
-static int	execute_simple_cmd(t_cmd *cmd)
+static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
 
+	//ft_printf("%s\n", shell->env_execve[0]);
 	status = 0;
 	pid = fork();
 	if (pid < 0)
@@ -103,12 +104,12 @@ static int	execute_simple_cmd(t_cmd *cmd)
 		}
 		if (cmd->out)
 		{
-			printf("		cmd out\n");
 			if (dup2(cmd->out->fd, STDOUT_FILENO) < 0)
 				exit(1);
 			close(cmd->out->fd);
 		}
-		execvp(cmd->cmd[0], cmd->cmd);
+		// ft_printf_fd(2, "PATH = %s  CMD = %s ENV = %s\n", cmd->path, cmd->cmd[0], shell->env_execve[0]);
+		execve(cmd->path, cmd->cmd, shell->env_execve);
 		exit(1);
 	}
 	else if (pid > 0)
@@ -128,47 +129,19 @@ static int	execute_simple_cmd(t_cmd *cmd)
 	return (cmd->exit_code);
 }
 
-// static void execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
-// {
-//     int j;
-
-//     // Rediriger l'entrée
-//     if (cmds[i]->in && cmds[i]->in->fd >= 0) {
-//         if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
-//             exit(1);
-//     }
-
-//     // Rediriger la sortie
-//     if (cmds[i]->out && cmds[i]->out->fd >= 0) {
-//         if (dup2(cmds[i]->out->fd, STDOUT_FILENO) < 0)
-//             exit(1);
-//     }
-
-//     // Fermer tous les pipes inutilisés
-//     for (j = 0; j < cmd_count; j++) {
-// 		if (j != i)
-//         	close(pipes[j][0]);
-//         if (j != i + 1)
-// 			close(pipes[j][1]);
-//     }
-
-// 	execvp(cmds[i]->cmd[0], cmds[i]->cmd);
-//     perror("execvp failed");
-//     exit(1);
-// }
-static void	execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
+static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 {
 	int	j;
 
-	if (cmds[i]->in)
+	if (sh->cmds[i]->in)
 	{	
-		if (cmds[i]->in->fd >= 0)
-			if (dup2(cmds[i]->in->fd, STDIN_FILENO) < 0)
+		if (sh->cmds[i]->in->fd >= 0)
+			if (dup2(sh->cmds[i]->in->fd, STDIN_FILENO) < 0)
 				exit(1);
 	}
-	if (cmds[i]->out && cmds[i]->out->fd >= 0)
+	if (sh->cmds[i]->out && sh->cmds[i]->out->fd >= 0)
 	{
-		if (dup2(cmds[i]->out->fd, STDOUT_FILENO) < 0)
+		if (dup2(sh->cmds[i]->out->fd, STDOUT_FILENO) < 0)
 			exit(1);
 	}
 	for (j = 0; j < cmd_count; j++)
@@ -178,20 +151,20 @@ static void	execute_child(t_cmd **cmds, int **pipes, int i, int cmd_count)
 		// if (j != i + 1)
 		close(pipes[j][1]);
 	}
-	execvp(cmds[i]->cmd[0], cmds[i]->cmd);
+	execve(sh->cmds[i]->path, sh->cmds[i]->cmd, sh->env_execve);
 	perror("execvp failed");
 	exit(1);
 }
 
-static int	execute_multiple_cmds(t_cmd **cmds, int cmd_count)
+static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 {
 	int	i;
 	int	*pids;
 	int	**pipes;
 	int	status;
-	
+
 	// Allocation pipes and PIDs
-	pipes = pipe_cmds(cmds);
+	pipes = pipe_cmds(sh->cmds);
 	if (!pipes)
 		return (write(1, "Error creating pipes\n", 22), 1);
 	pids = malloc(sizeof(pid_t) * cmd_count);
@@ -200,7 +173,7 @@ static int	execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 	// creation des processus enfants
 	for (i = 0; i < cmd_count; i++)
 	{
-		if (cmds[i]->exit_code == 1)
+		if (sh->cmds[i]->exit_code == 1)
 			continue ;
 		pids[i] = fork();
 		if (pids[i] == -1)
@@ -210,7 +183,8 @@ static int	execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 		if (pids[i] == 0)
 		{
 			signal(SIGINT, handle_sigint_child);
-			execute_child(cmds, pipes, i, cmd_count);
+			if(!execb(sh->cmds[i]->cmd, sh))
+				execute_child(sh, pipes, i, cmd_count);
 		}
 	}
 	// fermer fd dans le processus parent
@@ -229,28 +203,33 @@ static int	execute_multiple_cmds(t_cmd **cmds, int cmd_count)
 			exit(EXIT_FAILURE);
 		}
 		if (WIFEXITED(status))
-			cmds[i]->exit_code = status;
+			sh->cmds[i]->exit_code = status;
 		else
-			cmds[i]->exit_code = 1;
+			sh->cmds[i]->exit_code = 1;
 	}
 	free(pids);
 	free_pipes(pipes, cmd_count);
-	return (cmds[--i]->exit_code);
+	return (sh->cmds[--i]->exit_code);
 }
 
-int	execute_cmds(t_cmd **cmds)
+int	execute_cmds(t_shell *shell)
 {
 	int	n_cmds;
 	int	exit_code;
 
 	exit_code = 0;
-	n_cmds = cmds_count(cmds);
-	if (n_cmds == 0 || cmds[0]->exit_code > 0)
+	n_cmds = cmds_count(shell->cmds);
+	if (n_cmds == 0 || n_cmds > 50)
+		return (-1);
+	if (shell->cmds[0]->exit_code > 0)
 		return (-1);
 	else if (n_cmds == 1)
-		exit_code = execute_simple_cmd(cmds[0]);
+	{
+		if(!execb(shell->cmds[0]->cmd, shell))
+			exit_code = execute_simple_cmd(shell->cmds[0], shell);
+	}
 	else
-		exit_code = execute_multiple_cmds(cmds, n_cmds);
+		exit_code = execute_multiple_cmds(shell, n_cmds);
 	return (exit_code);
 }
 

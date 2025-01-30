@@ -19,6 +19,6 @@ char *get_path(t_shell *sh)
     path = get_env("PATH", &sh->envp);
     if(!path)
         return (ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:\
-/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin"));
+    /usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin"));
     return (path);
 }

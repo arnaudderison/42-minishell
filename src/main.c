@@ -3,15 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/29 14:24:53 by aderison         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/30 13:27:43 by arnaud           ###   ########.fr       */
->>>>>>> 0eb4960 (the last leak)
-/*   Updated: 2025/01/30 13:27:55 by arnaud           ###   ########.fr       */
+/*   Updated: 2025/01/28 19:33:47 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +35,25 @@ t_bool	handle_eof(char *line, t_env *envp)
 	return (false);
 }
 
-void	print_tokens(t_token *tokens)
+void print_tokens(t_token *tokens)
 {
-	t_token	*token_lst;
+	t_token	*token_lst = NULL;
 
-	token_lst = NULL;
 	token_lst = tokens;
-	printf("Liste des tokens :\n");
+    printf("Liste des tokens :\n");
 	if (!token_lst)
 	{
 		printf("NULLité\n");
 		return ;
 	}
-	while (token_lst)
-	{
-		if (token_lst) // Vérifiez si le pointeur n'est pas NULL
-			printf("Token type: %d, value: %s\n", token_lst->type,
-				token_lst->value);
-		else
-			printf("Token corrompu ou pointeur NULL\n");
-		token_lst = token_lst->next;
-	}
+    while (token_lst)
+    {
+        if (token_lst) // Vérifiez si le pointeur n'est pas NULL
+            printf("Token type: %d, value: %s\n", token_lst->type, token_lst->value);
+        else
+            printf("Token corrompu ou pointeur NULL\n");
+        token_lst = token_lst->next;
+    }
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -105,11 +98,8 @@ void	print_tokens(t_token *tokens)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *input;
-	t_shell shell;
-	char **env;
-	char *str_env;
-	char **env;
+	char	*input;
+	t_shell	shell;
 
 	(void)argv;
 	input = NULL;
@@ -124,33 +114,17 @@ int	main(int argc, char **argv, char **envp)
 		input = readline(GREEN "minish ~ " RESET);
 		if (handle_eof(input, shell.envp) == 1)
 		{
-			// add_history(input);
+			add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-			{
-				if (handle_parsing((const char *)input, &shell))
-				{
-					// execb(shell.cmds[0]->cmd, &shell);
-					env = all_path();
-					// execb(shell.cmds[0]->cmd, &shell);
-					str_env = get_path(&shell);
-					env = all_path(str_env);
-					ft_free(1, &str_env);
-					cmds_path(shell.cmds, env);
-					if (!execb(shell.cmds[0]->cmd, &shell))
-						if (!shell.cmds[0])
-							continue ;
-					if (!execb(shell.cmds[0]->cmd, &shell))
-					{
-						shell.exit_code = execute_cmds(shell.cmds);
-						free_cmd_array(shell.cmds, -1);
-					}
-				}
-			}
+				handle_parsing((const char *)input, &shell);
 		}
-<<<<<<< HEAD
+        free(input);
+		cmds_path(&shell);
+		if (!shell.cmds[0])
+			continue;
+		shell.exit_code = execute_cmds(&shell);
+		free_cmd_array(shell.cmds, -1);
 		ft_free(1, &shell.envp);
-=======
-		free_cmd_array(shell.cmds, 0);
->>>>>>> 0eb4960 (the last leak)
-		return (0);
 	}
+	return (0);
+}

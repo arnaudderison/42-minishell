@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 21:15:41 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:46:33 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,41 +30,9 @@ t_bool	handle_eof(char *line, t_shell *sh)
 	if (!line)
 	{
 		ft_printf("exit\n");
-		// // free(envp->name);
-		// if(sh->envp)
-		// 	free_env(sh->envp);
-		// if(sh->user_env)
-		// 	free_env(sh->user_env);
-		// if(sh->path)
-		// 	ft_free(1, &sh->path);
-		// if(sh->env_execve)
-		// 	ft_free_matrice(1, &sh->env_execve);
 		exit(0);
 	}
 	return (false);
-}
-
-void	print_tokens(t_token *tokens)
-{
-	t_token	*token_lst;
-
-	token_lst = NULL;
-	token_lst = tokens;
-	printf("Liste des tokens :\n");
-	if (!token_lst)
-	{
-		printf("NULLité\n");
-		return ;
-	}
-	while (token_lst)
-	{
-		if (token_lst) // Vérifiez si le pointeur n'est pas NULL
-			printf("Token type: %d, value: %s\n", token_lst->type,
-				token_lst->value);
-		else
-			printf("Token corrompu ou pointeur NULL\n");
-		token_lst = token_lst->next;
-	}
 }
 
 int	main(int argc, char **argv, char **envp)

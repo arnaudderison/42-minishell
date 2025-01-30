@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 20:29:50 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/24 22:00:34 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:03:13 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ static t_status	process_equal_sign(t_shell *sh, char *name, char *value)
 		set_var_env(name, new_value, sh);
 		ft_free(1, &new_value);
 	}
-	// ft_free(1, &getenv);
 	return (SUCCESS);
 }
-// if an value of variable is null, it won't work
+
 static t_status	export_variable(t_shell *sh, const char *arg, size_t argl)
 {
 	char	*equal_sign;

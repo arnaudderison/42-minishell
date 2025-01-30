@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:12:53 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/15 17:00:24 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:55:50 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	setup_exec_signals(void)
 {
 	struct sigaction	sa;
 
-	// Ignorer Ctrl + C et Ctrl +
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);

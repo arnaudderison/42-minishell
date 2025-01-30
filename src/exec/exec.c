@@ -152,7 +152,7 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 		// if (j != i + 1)
 		close(pipes[j][1]);
 	}
-	printf("EXEC CHILD = %s\n", sh->cmds[i]->cmd[0]);
+	fprintf(stderr, "EXEC CHILD = %s\n", sh->cmds[i]->cmd[0]);
 	if (!execb(sh->cmds[i]->cmd, sh))
 	{
 		execve(sh->cmds[i]->path, sh->cmds[i]->cmd, sh->env_execve);
@@ -189,6 +189,7 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 		{
 			signal(SIGINT, handle_sigint_child);
 				execute_child(sh, pipes, i, cmd_count);
+			fprintf(stderr, "oupsidouille\n");
 		}
 	}
 	// fermer fd dans le processus parent
@@ -201,9 +202,10 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	for (i = 0; i < cmd_count; i++)
 	{
 		status = 0;
+		fprintf(stderr, "cmd[%d] = %s\n", i, sh->cmds[i]->cmd[0]);
 		if (waitpid(pids[i], &status, 0) == -1)
 		{
-			perror("waitpid");
+			perror("waitpidcaca");
 			exit(EXIT_FAILURE);
 		}
 		if (WIFEXITED(status))

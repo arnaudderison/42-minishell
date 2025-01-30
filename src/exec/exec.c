@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 00:04:13 by plachard          #+#    #+#             */
+/*   Updated: 2025/01/31 00:05:35 by plachard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_pipes(int **pipes, int n_pipes)
@@ -249,29 +261,3 @@ int	execute_cmds(t_shell *shell)
 	return (exit_code);
 }
 
-int	handle_heredoc(char *delimiter, t_shell *sh)
-{
-	char	*line;
-	int		fd;
-	char	*expanded;
-
-	expanded = NULL;
-	restore_default_signals();
-	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		expanded = expand_input(line, sh);
-		write(fd, expanded, strlen(expanded));
-		write(fd, "\n", 1);
-		free(line);
-		ft_free(1, &expanded);
-	}
-	close(fd);
-	return (1);
-}

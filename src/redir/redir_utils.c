@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 23:56:33 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/30 23:59:50 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:06:43 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,31 @@ int	open_redir_fd(t_redir new_redir)
 	if (fd < 0)
 		ft_printf("%s: no file or directory with this name\n", new_redir.file);
 	return (fd);
+}
+
+int	handle_heredoc(char *delimiter, t_shell *sh)
+{
+	char	*line;
+	int		fd;
+	char	*expanded;
+
+	expanded = NULL;
+	restore_default_signals();
+	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break ;
+		}
+		expanded = expand_input(line, sh);
+		write(fd, expanded, strlen(expanded));
+		write(fd, "\n", 1);
+		free(line);
+		ft_free(1, &expanded);
+	}
+	close(fd);
+	return (1);
 }

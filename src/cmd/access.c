@@ -105,6 +105,7 @@ t_status    cmds_path(t_shell *shell)
 				shell->cmds[i]->path = NULL;
 		}	
 	}
+	ft_free(1, env);
 	return (FAILED);
 }
  /*

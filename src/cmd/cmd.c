@@ -15,6 +15,7 @@ void 	init_redir(t_cmd *cmd)
 {
     cmd->in = NULL;
     cmd->out = NULL;
+	cmd->heredoc = NULL;
 }
 
 t_cmd *init_cmd()
@@ -34,7 +35,7 @@ t_cmd	**init_cmd_array(int cmd_count)
 	t_cmd	**cmd_tab;
 	int		i;
 
-	cmd_tab = malloc(sizeof(t_cmd) * (cmd_count + 1)); // alloc *t_cmd ?
+	cmd_tab = malloc(sizeof(t_cmd) * (cmd_count + 1));
 	if (!cmd_tab)
 		return (NULL);
 	i = -1;

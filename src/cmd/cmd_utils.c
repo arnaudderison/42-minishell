@@ -88,6 +88,5 @@ void	display_cmds(t_cmd **cmd_tab)
         printf("  in: %p\n", (void *)cmd_tab[i]->in);
         printf("  out: %p\n", (void *)cmd_tab[i]->out);
         printf("  heredoc: %p\n", (void *)cmd_tab[i]->heredoc);
-        printf("  append: %p\n", (void *)cmd_tab[i]->append);
     }
 }

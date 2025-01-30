@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:21:17 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 18:59:58 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:04:36 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ static t_status	is_valid_args(char **args)
 			if (ft_isspace(args[i][j]) == SUCCESS)
 			{
 				ft_printf_fd(2,
-					RED "unset: " RESET "%s: " YELLOW "not a valid \
-					identifier" RESET, args[i]);
+					RED "unset: " RESET "%s: " YELLOW \
+					"not a valid identifier" RESET,
+					args[i]);
 				return (FAILED);
 			}
 		}
@@ -65,25 +66,25 @@ static t_status	delete_env(t_env *prev, t_env **current, t_env **envp)
 	}
 }
 
-static void check_envp(t_env **env, char **args)
+static void	check_envp(t_env **env, char **args)
 {
-	int i;
-	t_env *tmp;
-	t_env *prev;
+	int		i;
+	t_env	*tmp;
+	t_env	*prev;
 
 	i = -1;
-	while(args[++i])
+	while (args[++i])
 	{
 		prev = NULL;
 		tmp = *env;
-		while(tmp)
+		while (tmp)
 		{
 			if (ft_strcmp(tmp->name, args[i]) == 0
 				&& ft_strlen(tmp->name) == ft_strlen(args[i]))
-				{
-					delete_env(prev, &tmp, env);
-					break;
-				}
+			{
+				delete_env(prev, &tmp, env);
+				break ;
+			}
 			prev = tmp;
 			tmp = tmp->next;
 		}

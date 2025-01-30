@@ -6,11 +6,11 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 01:41:06 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/27 19:04:07 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:02:21 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h" 
+#include "minishell.h"
 
 t_status	print_env(t_env *envp)
 {
@@ -21,7 +21,7 @@ t_status	print_env(t_env *envp)
 	tmp = envp;
 	while (tmp)
 	{
-		if(tmp->value)
+		if (tmp->value)
 			ft_printf("declare -x %s=\"%s\"\n", tmp->name, tmp->value);
 		else
 			ft_printf("declare -x %s\n", tmp->name);

@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 20:59:16 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 19:17:40 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:17:49 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char	*clean_quote(const char *str)
 	new_str = ft_strdup("");
 	while (str[i])
 	{
-		if ((str[i] == '"' || str[i] == '\'') && saved == str[i]
-			&& str[i + 1] && (str[i + 1] == '"' || str[i + 1] == '\''))
+		if ((str[i] == '"' || str[i] == '\'') && saved == str[i] && str[i + \
+		1] && (str[i + 1] == '"' || str[i + 1] == '\''))
 			new_str = handle_quotes(&new_str, str, &i, &saved);
 		else if (str[i] == '"' || str[i] == '\'')
 		{
@@ -70,7 +70,7 @@ char	*clean_quote(const char *str)
 			new_str = ft_strjoin_char(new_str, str[i++]);
 	}
 	ft_free(1, &str);
-	if(ft_strlen(new_str) == 0)
+	if (ft_strlen(new_str) == 0)
 		return (ft_free(1, &new_str), NULL);
 	return (new_str);
 }

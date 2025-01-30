@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 21:23:11 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:56:46 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if (!input)
 		exit(EXIT_FAILURE);
 	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
-				sh)));
-	if(!lexer)
+					sh)));
+	if (!lexer)
 		return (false);
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
@@ -65,7 +65,6 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	manage_quote(&(sh->tokens));
 	if (!parsing(sh->tokens))
 		return (false);
-	
 	if (!tokens_to_cmd(sh))
 		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),
 				&lexer), false);
@@ -75,6 +74,6 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 		add_history(saved_input);
 		ft_free(1, &saved_input);
 	}
-	return (free_tokens(sh->tokens, NULL), ft_free(3, &(lexer->input), &lexer, &saved_input),
-		true);
+	return (free_tokens(sh->tokens, NULL), ft_free(3, &(lexer->input), &lexer,
+			&saved_input), true);
 }

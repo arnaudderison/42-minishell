@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 23:03:44 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/30 23:36:57 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:22:57 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,13 @@ void	free_cmd_array(t_cmd **cmd_tab, int status)
 	exit(status);
 }
 
-int	pipe_count(t_token *token_lst)
+int	cmds_count(t_cmd **cmds)
 {
 	int	count;
 
 	count = 0;
-	if (!token_lst)
-		return (0);
-	while (token_lst)
-	{
-		if (token_lst->type == TOKEN_PIPE)
-			++count;
-		token_lst = token_lst->next;
-	}
+	while (cmds[count])
+		++count;
 	return (count);
 }
 

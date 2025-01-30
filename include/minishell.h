@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/31 00:02:40 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:27:28 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,10 @@ void		restore_sigquit(int sig);
 void		handle_sigquit(int sig);
 
 // cmd
-	// access.c
 t_status	cmds_path(t_shell *shell);
-
-	// cmd.c
 t_status	tokens_to_cmd(t_shell *shell);
-
-	// cmd_utils.c
+int			cmds_count(t_cmd **cmds);
 void		free_cmd_array(t_cmd **cmd_tab, int status);
-int			pipe_count(t_token *token_lst);
 int			cmd_args_count(t_token *token_lst);
 void		init_redir(t_cmd *cmd);
 
@@ -124,6 +119,11 @@ t_bool		update_redir(t_cmd *cmd, t_redir *redir);
 int			open_redir_fd(t_redir new_redir);
 
 // exec
+int			pipe_count(t_token *token_lst);
+void		free_pipes(int **pipes, int n_pipes);
+void		set_pipes(t_cmd **cmds, int **pipes, int i);
+int			**pipe_cmds(t_cmd **cmds);
+
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
 int			execute_cmds(t_shell *shell);
 int			handle_heredoc(char *delimiter, t_shell *sh);

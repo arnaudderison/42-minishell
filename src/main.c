@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
 		}
-		free(input);
+		ft_free(1, &input);
 		cmds_path(&shell);
 		if (!shell.cmds[0])
 			continue ;
@@ -128,5 +128,6 @@ int	main(int argc, char **argv, char **envp)
 		// free_cmd_array(shell.cmds, -1);
 		ft_free(1, &shell.envp);
 	}
+	
 	return (0);
 }

@@ -109,7 +109,7 @@ int			cmd_args_count(t_token *token_lst);
 t_cmd		**init_cmds(int cmd_count);
 t_token		*find_cmd(t_cmd *cmd, t_token *token_lst);
 t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst);
-t_token		*set_redir(t_cmd **cmd, t_token *current);
+t_token		*set_redir(t_shell *shell, t_token *current);
 t_status	tokens_to_cmd(t_shell *shell);
 void		free_cmd_array(t_cmd **cmd_tab, int status);
 
@@ -118,7 +118,7 @@ t_token		*next_token(t_token *current);
 t_bool		valid_fd(t_cmd *cmd, int redir_type);
 void		close_fd(t_cmd *cmd);
 t_bool		check_fd(t_cmd *cmd, int redir_type, const char *file);
-t_status	add_redir(t_cmd *cmd, int redir_type, char *file);
+t_status	add_redir(t_shell *sh, int redir_type, char *file, int i);
 void		clear_redir(t_token *redir);
 void		free_redir(t_cmd *cmd, int type);
 t_bool		assign_redir(t_cmd *cmd, t_redir *redir);
@@ -171,15 +171,12 @@ t_redir		*create_redir(int redir_type, char *file);
 /*
  * Ajoute une redirection à une commande.
  */
-t_status	add_redir(t_cmd *cmd, int redir_type, char *file);
+t_status	add_redir(t_shell *shell, int redir_type, char *file, int i);
 
 /*
  * Traite un token de redirection et l'associe à la commande correspondante.
  */
-t_token		*process_redir(t_cmd *cmd, t_token *current);
+t_token		*process_redir(t_shell *shell, t_token *current, int i);
 
-/*
- * Gère les redirections et les pipes dans la liste de tokens.
- */
-t_token		*set_redir(t_cmd **cmd, t_token *current);
+
 #endif

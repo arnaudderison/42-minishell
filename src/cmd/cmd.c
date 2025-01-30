@@ -105,7 +105,7 @@ t_status tokens_to_cmd(t_shell *shell)
 	shell->cmds = init_cmd_array(pipe_count(token_lst) + 1);
 	if (!shell->cmds)
 		return (FAILED);
-	token_lst = set_redir(shell->cmds, token_lst);
+	token_lst = set_redir(shell, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
 	{
 		// free_cmd_array(shell->cmds, -1);

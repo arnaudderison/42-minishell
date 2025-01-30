@@ -67,16 +67,16 @@ t_redir	*create_redir(int redir_type, char *file)
 // 	return (SUCCESS);
 // }
 
-t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
+t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 {
 	t_redir	*new_redir;
 
-	if (!cmd || !file)
+	if (!sh->cmds[i] || !file)
 		return (PTR_NULL);
 	new_redir = create_redir(redir_type, file);
 	if (!new_redir)
 	{
-		cmd->exit_code = 1;
+		sh->cmds[i]->exit_code = 1;
 		return (FAILED);
 	}
 	if (redir_type == TOKEN_REDIR_HEREDOC)
@@ -87,7 +87,7 @@ t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
         new_redir->fd = open("/tmp/heredoc_tmp", O_RDONLY);
         //new_redir->file = ft_strdup("/tmp/heredoc_tmp");
     }
-	if (!update_redir(cmd, new_redir))
+	if (!update_redir(sh->cmds[i], new_redir))
 	{
         ft_printf("Est ce que ca failed ?\n");
 		free(new_redir);
@@ -96,15 +96,15 @@ t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
 	return (SUCCESS);
 }
 
-t_token	*process_redir(t_cmd *cmd, t_token *current)
+t_token	*process_redir(t_shell *sh, t_token *current, int i)
 {
 	t_token	*new_current;
 
 	if (is_redir_op(current))
 	{
-		if (!add_redir(cmd, current->type, current->next->value))
+		if (!add_redir(sh, current->type, current->next->value, i))
 		{
-			cmd->exit_code = 1;
+			sh->cmds[i]->exit_code = 1;
 			clear_redir_token(current);
 			return (current->next->next);
 		}
@@ -119,12 +119,12 @@ t_token	*process_redir(t_cmd *cmd, t_token *current)
 	return (current);
 }
 
-t_token	*set_redir(t_cmd **cmds, t_token *current)
+t_token	*set_redir(t_shell *sh, t_token *current)
 {
 	t_token	*head;
 	int		i;
 
-	if (!cmds || !current)
+	if (!sh->cmds || !current)
 		return (NULL);
 	head = current;
 	i = 0;
@@ -133,7 +133,7 @@ t_token	*set_redir(t_cmd **cmds, t_token *current)
 		while (current && current->type != TOKEN_PIPE
 			&& current->type != TOKEN_EOF)
 		{
-			current = process_redir(cmds[i], current);
+			current = process_redir(sh, current, i);
 			if (!current)
 				ft_printf("failed process_redir\n");
 		}

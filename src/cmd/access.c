@@ -92,15 +92,10 @@ t_status    cmds_path(t_shell *shell)
 	// printf("cmd path------------\n");
 	while (shell->cmds[++i] && shell->cmds[i]->cmd)
 	{
-		// printf("---------boucle cmd path [%d]\n", i);
-		//printf("access cmd %s\n", cmd_tab[i]->cmd[0]);
 		if (access(shell->cmds[i]->cmd[0], X_OK) == 0)
-		{
 			shell->cmds[i]->path = shell->cmds[i]->cmd[0];
-		}
 		else
 		{
-			// printf("set path\n");
 			if (!set_path(shell->cmds[i], env))
 				shell->cmds[i]->path = NULL;
 		}	

@@ -66,18 +66,12 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	manage_quote(&(sh->tokens));
 	if(!parsing(sh->tokens))
 		return (false);
-	// print_tokens(sh->tokens);
-	tokens_to_cmd(sh);
-	// printf("kdcxqjskhxl<bchbqch\n");
+	if (!tokens_to_cmd(sh))
+		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), false);
 	if(!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in && sh->cmds[0]->in->is_heredoc))
 	{
 		add_history(saved_input);
 		ft_free(1, &saved_input);
 	}
-	if (!(sh->cmds))
-		return (false);
-	return (free_tokens(sh->tokens, NULL), ft_free(2,
-	&(lexer->input),&lexer), true);
-	// printf("kdcxqjskhxl<bchbqch\n");
-	// return (true);
+	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), true);
 }

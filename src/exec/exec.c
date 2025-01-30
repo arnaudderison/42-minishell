@@ -121,10 +121,15 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 			perror("waitpid");
 			exit(EXIT_FAILURE);
 		}
-		if (WIFEXITED(status))
+		if (WIFSIGNALED(status))
+		{
+			cmd->exit_code = 128 + WTERMSIG(status);
+			ft_printf("tqt %d\n", cmd->exit_code);
+		}
+		else if (WIFEXITED(status))
 			cmd->exit_code = status;
 		else
-			cmd->exit_code = 1;
+			cmd->exit_code = status;
 	}
 	setup_prompt_signals();
 	return (cmd->exit_code);

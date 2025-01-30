@@ -75,6 +75,7 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 			return (SUCCESS);
 		ft_free(1, &cmd->path);
 	}
+	cmd->exit_code = 1;
 	ft_printf(" command not found: %s\n", cmd->cmd[0]);
 	return (FAILED);
 }
@@ -88,8 +89,6 @@ t_status    cmds_path(t_shell *shell)
 	shell->env_execve = malloc(sizeof(char *) * 2);
 	shell->env_execve[0] = ft_strdup(str_env);
 	shell->env_execve[1] = NULL;
-	ft_free(1, &str_env);
-	// printf("cmd path------------\n");
 	while (shell->cmds[++i] && shell->cmds[i]->cmd)
 	{
 		if (access(shell->cmds[i]->cmd[0], X_OK) == 0)
@@ -101,7 +100,7 @@ t_status    cmds_path(t_shell *shell)
 		}	
 	}
 	ft_free(1, env);
-	return (FAILED);
+	return (SUCCESS);
 }
  /*
 // Vérifie si les commandes du tableau cmd_tab sont accessibles/exécutables.

@@ -116,18 +116,16 @@ int	main(int argc, char **argv, char **envp)
 		input = readline(GREEN "minish ~ " RESET);
 		if (handle_eof(input, shell.envp) == 1)
 		{
-			add_history(input);
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
 				handle_parsing((const char *)input, &shell);
+			ft_free(1, &input);
+			cmds_path(&shell);
+			if (!shell.cmds[0])
+				continue ;
+			shell.exit_code = execute_cmds(&shell);
+			// free_cmd_array(shell.cmds, -1);
 		}
-		ft_free(1, &input);
-		cmds_path(&shell);
-		if (!shell.cmds[0])
-			continue ;
-		shell.exit_code = execute_cmds(&shell);
-		// free_cmd_array(shell.cmds, -1);
-		ft_free(1, &shell.envp);
 	}
-	
+	ft_free(1, &shell.envp);
 	return (0);
 }

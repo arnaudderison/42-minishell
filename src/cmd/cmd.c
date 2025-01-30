@@ -55,7 +55,7 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 
 	cmd->cmd = malloc(sizeof(char *) * (cmd_args_count(token_lst) + 1));
 	if (!cmd->cmd)
-		exit(1); // free
+		return (NULL);//free tab cmd
 	j = 0;
 	while (token_lst->type != TOKEN_EOF && token_lst->type != TOKEN_PIPE)
 	{
@@ -63,7 +63,7 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 		{
 			cmd->cmd[j] = strdup(token_lst->value);
 			if (!cmd->cmd[j++])
-				exit(1); // free if error
+				return (NULL);//free tab cmd
 		}
 		token_lst = token_lst->next;
 	} // PIPE || EOF
@@ -85,8 +85,7 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	while (token_lst->type != TOKEN_EOF)
 	{
 		token_lst = find_cmd(cmd_tab[i], token_lst);
-		
-		if (!token_lst && i == 0)
+		if (!token_lst && i == 0) //if (!token_lst) ??
 			return (FAILED);
 		++i;
 	}
@@ -108,7 +107,7 @@ t_status tokens_to_cmd(t_shell *shell)
 	token_lst = set_redir(shell, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
 	{
-		// free_cmd_array(shell->cmds, -1);
+		//free_cmd_array(shell->cmds, -1);
 		return (FAILED);
 	}
 	return (SUCCESS);

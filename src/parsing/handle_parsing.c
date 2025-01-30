@@ -67,9 +67,13 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if(!parsing(sh->tokens))
 		return (false);
 	if (!tokens_to_cmd(sh))
+	{
+		printf("oupsi\n");
 		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), false);
+	}
 	if(!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in && sh->cmds[0]->in->is_heredoc))
 	{
+		ft_printf("%s\n", saved_input);
 		add_history(saved_input);
 		ft_free(1, &saved_input);
 	}

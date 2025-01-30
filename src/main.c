@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 16:18:41 by arnaud           ###   ########.fr       */
+/*   Updated: 2025/01/30 21:15:41 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	handle_eof(char *line, t_env *envp)
+t_bool	handle_eof(char *line, t_shell *sh)
 {
 	char	c;
 
+	(void)sh;
 	if (line)
 	{
 		while (*line)
@@ -26,10 +27,18 @@ t_bool	handle_eof(char *line, t_env *envp)
 			line++;
 		}
 	}
-	if (line == NULL)
+	if (!line)
 	{
 		ft_printf("exit\n");
-		free(envp->name);
+		// // free(envp->name);
+		// if(sh->envp)
+		// 	free_env(sh->envp);
+		// if(sh->user_env)
+		// 	free_env(sh->user_env);
+		// if(sh->path)
+		// 	ft_free(1, &sh->path);
+		// if(sh->env_execve)
+		// 	ft_free_matrice(1, &sh->env_execve);
 		exit(0);
 	}
 	return (false);
@@ -58,46 +67,6 @@ void	print_tokens(t_token *tokens)
 	}
 }
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	char	*input;
-// 	t_shell	shell;
-
-// 	(void)argv;
-// 	input = NULL;
-// 	shell.envp = NULL;
-// 	if (argc != 1)
-// 		exit(EXIT_FAILURE);
-// 	shell.envp = init_envp(envp);
-// 	shell.user_env = NULL;
-// 	while (true)expansion
-// 	{
-// 		setup_prompt_signals();
-// 		input = readline(GREEN "minish ~ " RESET);
-// 		if (handle_eof(input, shell.envp) == 1)
-// 		{
-// 			add_history(input);
-// 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-// 				handle_parsing((const char *)input, &shell);
-// 		}
-//         //free(input);
-// 		char **env = all_path();
-// 		cmds_path(shell.cmds, env);
-// 		printf("Checking access to commands...\n");
-// 		if(!execb(shell.cmds[0]->cmd, &shell))
-// 		{
-// 			if (access_cmd(shell.cmds))
-// 			{
-// 				printf("execute\n");
-// 				execute_simple_cmd(shell.cmds[0]);
-// 			}
-// 			else
-// 				printf("Access to commands failed.\n");
-// 		}
-// 	}
-// 	return (0);
-// }
-
 int	main(int argc, char **argv, char **envp)
 {
 	char *input;
@@ -114,17 +83,21 @@ int	main(int argc, char **argv, char **envp)
 	{
 		setup_prompt_signals();
 		input = readline(GREEN "minish ~ " RESET);
-		if (handle_eof(input, shell.envp) == 1)
+		if (handle_eof(input, &shell) == 1)
 		{
 			if (input[0] && ft_strlen(input) < MAX_INPUT_LENGHT)
-				handle_parsing((const char *)input, &shell);
+				if(!handle_parsing((const char *)input, &shell))
+					continue;
 			ft_free(1, &input);
 			cmds_path(&shell);
 			if (!shell.cmds[0])
 				continue ;
 			shell.exit_code = execute_cmds(&shell);
-			// free_cmd_array(shell.cmds, -1);
+			free_cmd_array(shell.cmds, -1);
+			ft_free_matrice(1, &shell.env_execve);
 		}
+		if(input)
+			ft_free(1, &input);
 	}
 	ft_free(1, &shell.envp);
 	return (0);

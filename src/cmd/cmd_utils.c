@@ -5,24 +5,30 @@
 FONCTION                  RESPONSABILITÉ
 
 free_cmd                 Libère la mémoire allouée pour une commande (t_cmd) et ses redirections associées.
-free_cmd_array           Libère un tableau de commandes (t_cmd) et ses éléments, puis termine le programme avec un status.
+free_cmd_array           Libère un tableau de commandes (t_cmd) et ses éléments,
+	puis termine le programme avec un status.
 pipe_count               Compte le nombre de pipes dans une liste de tokens.
 cmd_args_count           Compte le nombre d'arguments dans une commande en fonction des tokens.
-init_redir                Initialise les redirections (in, out, heredoc, append) d'une commande à NULL.
+init_redir                Initialise les redirections (in, out, heredoc,
+	append) d'une commande à NULL.
 */
 
 void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
+	if (cmd->path)
+		ft_free(1, &cmd->path);
+	if (cmd->cmd)
+		ft_free_matrice(1, &cmd->cmd);
 	if (cmd->in)
 		ft_free(2, &cmd->in->file, &cmd->in);
 	if (cmd->out)
-		ft_free(2, &cmd->out->file, &cmd->in);
+		ft_free(2, &cmd->out->file, &cmd->out);
 	if (cmd->heredoc)
-	{	
-		//print_redir(cmd);
-		//ft_free(1, &(cmd->heredoc->file));
+	{
+		// print_redir(cmd);
+		// ft_free(1, &(cmd->heredoc->file));
 		ft_free(1, &(cmd->heredoc));
 	}
 	ft_free(1, &cmd);
@@ -30,20 +36,24 @@ void	free_cmd(t_cmd *cmd)
 
 void	free_cmd_array(t_cmd **cmd_tab, int status)
 {
-    int i;
+	int	i;
 
-    if (!cmd_tab)
+	if (!cmd_tab)
 		return ;
 	i = -1;
-    while (cmd_tab[++i])
-        free_cmd(cmd_tab[i]);
-    free(cmd_tab);
+	while (cmd_tab[++i])
+		free_cmd(cmd_tab[i]);
+	if (cmd_tab)
+	{
+		free(cmd_tab);
+		cmd_tab = NULL;
+	}
 	if (status == -1)
 		return ;
-	exit (status);
+	exit(status);
 }
 
-int		pipe_count(t_token *token_lst)
+int	pipe_count(t_token *token_lst)
 {
 	int	count;
 
@@ -59,7 +69,7 @@ int		pipe_count(t_token *token_lst)
 	return (count);
 }
 
-int		cmd_args_count(t_token *token_lst)
+int	cmd_args_count(t_token *token_lst)
 {
 	int	count;
 
@@ -77,16 +87,18 @@ int		cmd_args_count(t_token *token_lst)
 
 void	display_cmds(t_cmd **cmd_tab)
 {
-    if (!cmd_tab) {
-        printf("Command table is NULL\n");
-        return;
-    }
+	if (!cmd_tab)
+	{
+		printf("Command table is NULL\n");
+		return ;
+	}
 
-    for (int i = 0; cmd_tab[i]; i++) {
-        printf("Command %d:\n", i);
-        printf("  cmd: %p\n", (void *)cmd_tab[i]->cmd);
-        printf("  in: %p\n", (void *)cmd_tab[i]->in);
-        printf("  out: %p\n", (void *)cmd_tab[i]->out);
-        printf("  heredoc: %p\n", (void *)cmd_tab[i]->heredoc);
-    }
+	for (int i = 0; cmd_tab[i]; i++)
+	{
+		printf("Command %d:\n", i);
+		printf("  cmd: %p\n", (void *)cmd_tab[i]->cmd);
+		printf("  in: %p\n", (void *)cmd_tab[i]->in);
+		printf("  out: %p\n", (void *)cmd_tab[i]->out);
+		printf("  heredoc: %p\n", (void *)cmd_tab[i]->heredoc);
+	}
 }

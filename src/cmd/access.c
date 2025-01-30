@@ -109,6 +109,7 @@ t_status	cmds_path(t_shell *shell)
 	shell->env_execve = malloc(sizeof(char *) * 2);
 	shell->env_execve[0] = ft_strdup(str_env);
 	shell->env_execve[1] = NULL;
+	//il faut free cette merde
 	while (shell->cmds[++i] && shell->cmds[i]->cmd)
 	{
 		if (is_builtin(shell->cmds[i]->cmd[0]))
@@ -118,10 +119,13 @@ t_status	cmds_path(t_shell *shell)
 		else
 		{
 			if (!set_path(shell->cmds[i], env))
+			{
+				shell->cmds[i]->exit_code = 1;
 				shell->cmds[i]->path = NULL;
+			}
 		}
 	}
-	ft_free(1, env);
+	ft_free_matrice(1, &env);
 	return (SUCCESS);
 }
 /*

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 16:10:45 by arnaud           ###   ########.fr       */
+/*   Updated: 2025/01/30 20:47:45 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,12 @@ char	*expand_input(char *input, t_shell *sh)
 	init_expand(&state, input);
 	while (state.input[state.i])
 	{
-		if (state.input[state.i] == '\'' && !state.in_dquote)
+		if (state.input[state.i] && state.input[state.i] == '\'' && !state.in_dquote)
 			expand_quote(&state);
-		if (state.input[state.i] != '$' && (state.input[state.i] != '\''
+		if (state.input[state.i] && state.input[state.i] != '$' && (state.input[state.i] != '\''
 				|| state.in_dquote))
 			expand_txt(&state);
-		if (state.input[state.i] == '$')
+		if (state.input[state.i] && state.input[state.i] == '$')
 		{
 			if (handle_alias(&state, sh))
 				continue ;

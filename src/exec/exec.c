@@ -14,11 +14,12 @@ void	free_pipes(int **pipes, int n_pipes)
 			close(pipes[i][0]);
 			close(pipes[i][1]);
 			// Libérer la mémoire du tableau pour ce pipe
-			free(pipes[i]);
+			ft_free(1, &pipes[i]);
 		}
 	}
 	// Libérer la mémoire principale du tableau de pipes
 	free(pipes);
+	pipes = NULL;
 }
 
 static int	cmds_count(t_cmd **cmds)
@@ -209,6 +210,8 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	for (i = 0; i < cmd_count; i++)
 	{
 		status = 0;
+		if (sh->cmds[i]->exit_code == 1)
+			continue ;
 		fprintf(stderr, "cmd[%d] = %s\n", i, sh->cmds[i]->cmd[0]);
 		if (waitpid(pids[i], &status, 0) == -1)
 		{
@@ -220,7 +223,8 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 		else
 			sh->cmds[i]->exit_code = 1;
 	}
-	free(pids);
+	ft_free(1, &pids);
+	fprintf(stderr, "FREE PIPES %d\n", cmd_count);
 	free_pipes(pipes, cmd_count);
 	return (sh->cmds[--i]->exit_code);
 }

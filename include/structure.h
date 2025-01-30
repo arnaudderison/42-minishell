@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/25 17:56:09 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 19:33:01 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_cmd
 	t_redir			*in;
 	t_redir			*out;
 	t_redir			*heredoc;
-	t_redir			*append;
 	int				exit_code;
 }					t_cmd;
 

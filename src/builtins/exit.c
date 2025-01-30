@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:35:20 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/28 19:48:18 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 18:51:45 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void exitb(char **cmd, t_shell *sh)
             exit_code += 256;
         //free_tokens(sh->tokens, NULL);
         free_cmd_array(sh->cmds, -1);
+        ft_free_matrice(1, &sh->env_execve);
         exit(exit_code);
     }
 }

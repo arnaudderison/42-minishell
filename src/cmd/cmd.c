@@ -25,8 +25,10 @@ t_cmd *init_cmd()
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
-    new_cmd->cmd = NULL;
+	new_cmd->cmd = NULL;
+	new_cmd->path = NULL;
     init_redir(new_cmd);
+	new_cmd->exit_code = 0;
     return (new_cmd);
 }
 

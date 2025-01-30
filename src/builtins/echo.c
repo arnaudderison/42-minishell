@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 00:12:35 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/09 17:08:53 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 21:26:41 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_status	echo(char **args, int endl)
 	int	i;
 
 	if (!args || !*args)
-		return (FAILED);
+	{
+		ft_printf("\n");
+		return (SUCCESS);
+	}
 	i = endl - 1;
 	while (args[++i])
 	{

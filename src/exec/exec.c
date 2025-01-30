@@ -152,9 +152,13 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 		// if (j != i + 1)
 		close(pipes[j][1]);
 	}
-	execve(sh->cmds[i]->path, sh->cmds[i]->cmd, sh->env_execve);
-	perror("execvp failed");
-	exit(1);
+	printf("EXEC CHILD = %s\n", sh->cmds[i]->cmd[0]);
+	if (!execb(sh->cmds[i]->cmd, sh))
+	{
+		execve(sh->cmds[i]->path, sh->cmds[i]->cmd, sh->env_execve);
+		perror("execvp failed");
+		exit(1);
+	}
 }
 
 static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
@@ -184,7 +188,6 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 		if (pids[i] == 0)
 		{
 			signal(SIGINT, handle_sigint_child);
-			if (!execb(sh->cmds[i]->cmd, sh))
 				execute_child(sh, pipes, i, cmd_count);
 		}
 	}

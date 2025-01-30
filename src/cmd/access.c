@@ -1,33 +1,33 @@
 
 #include "minishell.h"
 
-char	*cmd_path(t_cmd *cmd, char **env)
-{
-	int		i;
-	char	*tmp;
-	char	*path;
+// char	*cmd_path(t_cmd *cmd, char **env)
+// {
+// 	int		i;
+// 	char	*tmp;
+// 	char	*path;
 
-	if (!cmd)
-		return (NULL);
-	i = -1;
-	while (env && env[++i])
-	{
-		tmp = ft_strjoin(env[i], "/");
-		if (!tmp)
-			exit(1);
-		path = ft_strjoin(tmp, cmd->cmd[0]);
-		if (!path)
-		{
-			ft_free(1, &tmp);
-			exit(1);
-		}
-		if (access(path, X_OK) == 0)
-			return (ft_free(1, &tmp), path);
-		ft_free(1, &tmp, &path);
-	}
-	ft_printf(" command not found: %s\n", cmd->cmd[0]);
-	return (NULL);
-}
+// 	if (!cmd)
+// 		return (NULL);
+// 	i = -1;
+// 	while (env && env[++i])
+// 	{
+// 		tmp = ft_strjoin(env[i], "/");
+// 		if (!tmp)
+// 			exit(1);
+// 		path = ft_strjoin(tmp, cmd->cmd[0]);
+// 		if (!path)
+// 		{
+// 			ft_free(1, &tmp);
+// 			exit(1);
+// 		}
+// 		if (access(path, X_OK) == 0)
+// 			return (ft_free(1, &tmp), path);
+// 		ft_free(1, &tmp, &path);
+// 	}
+// 	ft_printf(" command not found: %s\n", cmd->cmd[0]);
+// 	return (NULL);
+// }
 
 char	**all_path(char *str_env)
 {
@@ -78,6 +78,25 @@ t_status	set_path(t_cmd *cmd, char **env)
 	return (FAILED);
 }
 
+t_bool	is_builtin(char *cmd)
+{
+	if (ft_strcmp(cmd, "echo") == 0 && ft_strlen(cmd) == 4)
+		return (1);
+	if (ft_strcmp(cmd, "cd") == 0 && ft_strlen(cmd) == 2)
+		return (1);
+	if (ft_strcmp(cmd, "unset") == 0 && ft_strlen(cmd) == 5)
+		return (1);
+	if (ft_strcmp(cmd, "export") == 0 && ft_strlen(cmd) == 6)
+		return (1);
+	if (ft_strcmp(cmd, "pwd") == 0 && ft_strlen(cmd) == 3)
+		return (1);
+	if (ft_strcmp(cmd, "exit") == 0 && ft_strlen(cmd) == 4)
+		return (1);
+	if (ft_strcmp(cmd, "env") == 0 && ft_strlen(cmd) == 3)
+		return (1);
+	return (0);
+}
+
 t_status	cmds_path(t_shell *shell)
 {
 	int		i;
@@ -92,6 +111,8 @@ t_status	cmds_path(t_shell *shell)
 	shell->env_execve[1] = NULL;
 	while (shell->cmds[++i] && shell->cmds[i]->cmd)
 	{
+		if (is_builtin(shell->cmds[i]->cmd[0]))
+			continue;
 		if (access(shell->cmds[i]->cmd[0], X_OK) == 0)
 			shell->cmds[i]->path = shell->cmds[i]->cmd[0];
 		else

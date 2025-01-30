@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 17:24:19 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/15 16:59:20 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:13:43 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*get_name(char *env_var, char *equals)
 	return (ft_substr(env_var, 0, equals - env_var));
 }
 
-static char	*get_value(char *equals)
+static char	*get_value_var(char *equals)
 {
 	return (ft_strdup(equals + 1));
 }
@@ -34,7 +34,7 @@ static void	add_variable(char *env_var, t_env **env)
 	name = get_name(env_var, equals);
 	if (!name)
 		return ;
-	value = get_value(equals);
+	value = get_value_var(equals);
 	if (!value)
 	{
 		free(name);

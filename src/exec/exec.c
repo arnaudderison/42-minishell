@@ -88,7 +88,7 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 	pid_t	pid;
 	int		status;
 
-	//ft_printf("%s\n", shell->env_execve[0]);
+	// ft_printf("%s\n", shell->env_execve[0]);
 	status = 0;
 	pid = fork();
 	if (pid < 0)
@@ -108,7 +108,8 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 				exit(1);
 			close(cmd->out->fd);
 		}
-		// ft_printf_fd(2, "PATH = %s  CMD = %s ENV = %s\n", cmd->path, cmd->cmd[0], shell->env_execve[0]);
+		// ft_printf_fd(2, "PATH = %s  CMD = %s ENV = %s\n", cmd->path,
+		// cmd->cmd[0], shell->env_execve[0]);
 		execve(cmd->path, cmd->cmd, shell->env_execve);
 		exit(1);
 	}
@@ -134,7 +135,7 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 	int	j;
 
 	if (sh->cmds[i]->in)
-	{	
+	{
 		if (sh->cmds[i]->in->fd >= 0)
 			if (dup2(sh->cmds[i]->in->fd, STDIN_FILENO) < 0)
 				exit(1);
@@ -183,7 +184,7 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 		if (pids[i] == 0)
 		{
 			signal(SIGINT, handle_sigint_child);
-			if(!execb(sh->cmds[i]->cmd, sh))
+			if (!execb(sh->cmds[i]->cmd, sh))
 				execute_child(sh, pipes, i, cmd_count);
 		}
 	}
@@ -225,7 +226,7 @@ int	execute_cmds(t_shell *shell)
 		return (-1);
 	else if (n_cmds == 1)
 	{
-		if(!execb(shell->cmds[0]->cmd, shell))
+		if (!execb(shell->cmds[0]->cmd, shell))
 			exit_code = execute_simple_cmd(shell->cmds[0], shell);
 	}
 	else
@@ -233,11 +234,13 @@ int	execute_cmds(t_shell *shell)
 	return (exit_code);
 }
 
-int	handle_heredoc(char *delimiter)
+int	handle_heredoc(char *delimiter, t_shell *sh)
 {
 	char	*line;
 	int		fd;
+	char	*expanded;
 
+	expanded = NULL;
 	restore_default_signals();
 	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	while (1)
@@ -248,9 +251,11 @@ int	handle_heredoc(char *delimiter)
 			free(line);
 			break ;
 		}
-		write(fd, line, strlen(line));
+		expanded = expand_input(line, sh);
+		write(fd, expanded, strlen(expanded));
 		write(fd, "\n", 1);
 		free(line);
+		ft_free(1, &expanded);
 	}
 	close(fd);
 	return (1);

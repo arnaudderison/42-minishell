@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/28 19:53:36 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:12:15 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
-	char *saved_input;
+	char	*saved_input;
 
 	lexer = NULL;
 	tokens = NULL;
@@ -56,7 +56,7 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if (!input)
 		exit(EXIT_FAILURE);
 	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
-					sh->envp, sh)));
+				sh)));
 	tokens = malloc(sizeof(t_token));
 	if (!tokens)
 		return (free_env(sh->envp), ft_free(1, &lexer), exit(EXIT_FAILURE),
@@ -64,18 +64,26 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	init_tokens(tokens, sh);
 	create_tokenisation(&(sh->tokens), lexer);
 	manage_quote(&(sh->tokens));
-	if(!parsing(sh->tokens))
+	if (!parsing(sh->tokens))
 		return (false);
 	if (!tokens_to_cmd(sh))
+<<<<<<< Updated upstream
 	{
 		printf("oupsi\n");
 		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), false);
 	}
 	if(!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in && sh->cmds[0]->in->is_heredoc))
+=======
+		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),
+				&lexer), false);
+	if (!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in
+			&& sh->cmds[0]->in->is_heredoc))
+>>>>>>> Stashed changes
 	{
 		ft_printf("%s\n", saved_input);
 		add_history(saved_input);
 		ft_free(1, &saved_input);
 	}
-	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), true);
+	return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input), &lexer),
+		true);
 }

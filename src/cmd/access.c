@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-
 char	*cmd_path(t_cmd *cmd, char **env)
 {
 	int		i;
@@ -58,14 +57,13 @@ char	**all_path(char *str_env)
 	return (env);
 }
 
-
-t_status	set_path(t_cmd	*cmd, char	**env)
+t_status	set_path(t_cmd *cmd, char **env)
 {
-	int		i;
+	int	i;
 
 	i = -1;
 	if (!cmd || !cmd->cmd || !cmd->cmd[0])
-    	return (FAILED);
+		return (FAILED);
 	while (env && env[++i])
 	{
 		cmd->path = ft_strjoin(env[i], cmd->cmd[0]);
@@ -80,12 +78,15 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 	return (FAILED);
 }
 
-t_status    cmds_path(t_shell *shell)
+t_status	cmds_path(t_shell *shell)
 {
-	int i = -1;
-	
-	char *str_env = get_path(shell);
-	char **env = all_path(str_env);
+	int		i;
+	char	*str_env;
+	char	**env;
+
+	i = -1;
+	str_env = get_path(shell);
+	env = all_path(str_env);
 	shell->env_execve = malloc(sizeof(char *) * 2);
 	shell->env_execve[0] = ft_strdup(str_env);
 	shell->env_execve[1] = NULL;
@@ -97,90 +98,86 @@ t_status    cmds_path(t_shell *shell)
 		{
 			if (!set_path(shell->cmds[i], env))
 				shell->cmds[i]->path = NULL;
-		}	
+		}
 	}
 	ft_free(1, env);
 	return (SUCCESS);
 }
- /*
+/*
 // Vérifie si les commandes du tableau cmd_tab sont accessibles/exécutables.
 // Retourne SUCCESS si toutes sont accessibles, sinon FAILED.
 // si fail : print cmd non find ?
-t_status access_cmd(t_cmd **cmd_tab)
+t_status	access_cmd(t_cmd **cmd_tab)
 {
-    int i;
+   int i;
 
-    i = -1;
-    while (cmd_tab[++i])
-    {
+   i = -1;
+   while (cmd_tab[++i])
+   {
 		if (!cmd_tab[i]->path)
 			printf("no path for cmd %s\n", cmd_tab[i]->cmd[0]);
 		printf("cmd[%d] path = %s\n", i, cmd_tab[i]->path);
-        if (!cmd_tab[i]->path)
-        {
-            printf("No path defined for cmd_tab[%d]\n", i);
-            return (FAILED);
-        }
-        if (!cmd_tab[i]->cmd || !cmd_tab[i]->cmd[0])
-        {
-            printf("Invalid command structure at index %d\n", i);
-            return (FAILED);
-        }
-        if (access(cmd_tab[i]->path, X_OK) != 0)
-        {
-            printf("Access denied for cmd_tab[%d]: %s\n", i, cmd_tab[i]->path);
-            return (FAILED);
-        }
+		if (!cmd_tab[i]->path)
+		{
+			printf("No path defined for cmd_tab[%d]\n", i);
+			return (FAILED);
+		}
+		if (!cmd_tab[i]->cmd || !cmd_tab[i]->cmd[0])
+		{
+			printf("Invalid command structure at index %d\n", i);
+			return (FAILED);
+		}
+		if (access(cmd_tab[i]->path, X_OK) != 0)
+		{
+			printf("Access denied for cmd_tab[%d]: %s\n", i, cmd_tab[i]->path);
+			return (FAILED);
+		}
 		printf("access cmd %s\n", cmd_tab[i]->cmd[0]);
-    }
-	printf("access cmd done\n");
-    return (SUCCESS);
+   }
+   printf("access cmd done\n");
+   return (SUCCESS);
 }
 */
 
-t_status access_cmd(t_cmd **cmd_tab)
+t_status	access_cmd(t_cmd **cmd_tab)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (cmd_tab[++i])
-    {
-        // Vérification de la validité du cmd_tab[i]
-        if (!cmd_tab[i])
-        {
-            printf("Error: cmd_tab[%d] is NULL\n", i);
-            return (FAILED);
-        }
-
-        // Vérification de la validité de cmd_tab[i]->path
-        if (!cmd_tab[i]->path)
-        {
-            printf("Error: cmd_tab[%d] has no path defined\n", i);
-            // Affichage de la commande pour aider à comprendre l'origine du problème
-            if (cmd_tab[i]->cmd && cmd_tab[i]->cmd[0])
-                printf("Command: %s\n", cmd_tab[i]->cmd[0]);
-            else
-                printf("Command is NULL or empty.\n");
-            return (FAILED);
-        }
-
-        // Affichage du chemin pour débogage
-        // printf("cmd[%d] path = %s\n", i, cmd_tab[i]->path);
-
-        // Vérification de la validité de cmd et cmd[0]
-        if (!cmd_tab[i]->cmd || !cmd_tab[i]->cmd[0])
-        {
-            printf("Error: cmd[%d] has no valid command structure.\n", i);
-            return (FAILED);
-        }
-
-        // Vérification des permissions d'accès
-        if (access(cmd_tab[i]->path, X_OK) != 0)
-        {
-            printf("Error: access denied for cmd_tab[%d]: %s\n", i, cmd_tab[i]->path);
-            return (FAILED);
-        }
-    }
-
-    return (SUCCESS);
+	i = -1;
+	while (cmd_tab[++i])
+	{
+		// Vérification de la validité du cmd_tab[i]
+		if (!cmd_tab[i])
+		{
+			printf("Error: cmd_tab[%d] is NULL\n", i);
+			return (FAILED);
+		}
+		// Vérification de la validité de cmd_tab[i]->path
+		if (!cmd_tab[i]->path)
+		{
+			printf("Error: cmd_tab[%d] has no path defined\n", i);
+			// Affichage de la commande pour aider à comprendre l'origine du problème
+			if (cmd_tab[i]->cmd && cmd_tab[i]->cmd[0])
+				printf("Command: %s\n", cmd_tab[i]->cmd[0]);
+			else
+				printf("Command is NULL or empty.\n");
+			return (FAILED);
+		}
+		// Affichage du chemin pour débogage
+		// printf("cmd[%d] path = %s\n", i, cmd_tab[i]->path);
+		// Vérification de la validité de cmd et cmd[0]
+		if (!cmd_tab[i]->cmd || !cmd_tab[i]->cmd[0])
+		{
+			printf("Error: cmd[%d] has no valid command structure.\n", i);
+			return (FAILED);
+		}
+		// Vérification des permissions d'accès
+		if (access(cmd_tab[i]->path, X_OK) != 0)
+		{
+			printf("Error: access denied for cmd_tab[%d]: %s\n", i,
+				cmd_tab[i]->path);
+			return (FAILED);
+		}
+	}
+	return (SUCCESS);
 }

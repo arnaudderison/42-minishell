@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/28 19:37:22 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:15:13 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -70,11 +69,11 @@ t_env		*init_envp(char **envp);
 char		*get_env(char *name, t_env **envp);
 t_bool		is_new_var(t_shell *sh, char *name);
 void		set_var_env(char *name, char *value, t_shell *shell);
-char 		*get_path(t_shell *sh);
+char		*get_path(t_shell *sh);
 
 // expansion
 t_status	get_var_name(t_state_expansion *state, int start);
-char		*expand_input(char *input, t_env *envp, t_shell *sh);
+char		*expand_input(char *input, t_shell *sh);
 
 // builtins
 t_status	unset(t_shell *sh, char **args);
@@ -88,7 +87,8 @@ t_status	cd(char *path, t_shell *sh);
 t_status	execb(char **cmd, t_shell *shell);
 void		pwd(void);
 t_status	print_env(t_env *envp);
-void exitb(char **cmd, t_shell *sh);
+void		exitb(char **cmd, t_shell *sh);
+char		*get_value(char *name, t_shell *sh);
 
 // signals
 void		setup_prompt_signals(void);
@@ -97,8 +97,8 @@ void		restore_default_signals(void);
 void		setup_exec_signals(void);
 void		handle_sigint_child(int sigint);
 void		handle_sigint_parent(int sigint);
-void restore_sigquit(int sig);
-void handle_sigquit(int sig);
+void		restore_sigquit(int sig);
+void		handle_sigquit(int sig);
 
 // exec
 // commandes
@@ -132,7 +132,7 @@ t_status	access_cmd(t_cmd **cmd_tab);
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
 int			execute_cmds(t_shell *shell);
-int 		handle_heredoc(char *delimiter);
+int			handle_heredoc(char *delimiter, t_shell *sh);
 
 // utils
 char		*cmd_path(t_cmd *cmd, char **env);
@@ -177,6 +177,5 @@ t_status	add_redir(t_shell *shell, int redir_type, char *file, int i);
  * Traite un token de redirection et l'associe à la commande correspondante.
  */
 t_token		*process_redir(t_shell *shell, t_token *current, int i);
-
 
 #endif

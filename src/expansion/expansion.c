@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2024/12/26 16:33:11 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:10:45 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_status	expand_txt(t_state_expansion *state)
 static t_status	handle_alias(t_state_expansion *state, t_shell *sh)
 {
 	char	*tmp;
-	char *exit_code;
+	char	*exit_code;
 
 	if (!state->input[state->i + 1] || state->input[state->i + 1] == '\''
 		|| state->input[state->i + 1] == '\"')
@@ -89,7 +89,7 @@ static t_status	handle_alias(t_state_expansion *state, t_shell *sh)
 		state->expanded = ft_strjoin(tmp, "$$");
 		return (ft_free(1, &tmp), state->i += 2, SUCCESS);
 	}
-	if(state->input[state->i + 1] == '?')
+	if (state->input[state->i + 1] == '?')
 	{
 		exit_code = ft_itoa(sh->exit_code);
 		tmp = state->expanded;
@@ -99,7 +99,7 @@ static t_status	handle_alias(t_state_expansion *state, t_shell *sh)
 	return (FAILED);
 }
 
-char	*expand_input(char *input, t_env *envp, t_shell *sh)
+char	*expand_input(char *input, t_shell *sh)
 {
 	t_state_expansion	state;
 	char				*tmp;
@@ -117,9 +117,7 @@ char	*expand_input(char *input, t_env *envp, t_shell *sh)
 			if (handle_alias(&state, sh))
 				continue ;
 			get_var_name(&state, ++state.i);
-			state.var_value = get_env(state.var_name, &envp);
-			if (!state.var_value)
-				state.var_value = "";
+			state.var_value = get_value(state.var_name, sh);
 			tmp = state.expanded;
 			state.expanded = ft_strjoin(tmp, state.var_value);
 			ft_free(2, &(state.var_name), &tmp);

@@ -43,7 +43,7 @@ t_redir	*create_redir(int redir_type, char *file)
 	}
 	else
 		new_redir->fd = -1;
-			// comme c'est un heredoc le redir sera set plus tard
+	// comme c'est un heredoc le redir sera set plus tard
 	return (new_redir);
 }
 
@@ -80,16 +80,16 @@ t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 		return (FAILED);
 	}
 	if (redir_type == TOKEN_REDIR_HEREDOC)
-    {
-		handle_heredoc(file);
-        ft_free(1, &new_redir->file);
-        new_redir->type = TOKEN_REDIR_IN;
-        new_redir->fd = open("/tmp/heredoc_tmp", O_RDONLY);
-        //new_redir->file = ft_strdup("/tmp/heredoc_tmp");
-    }
+	{
+		handle_heredoc(file, sh);
+		ft_free(1, &new_redir->file);
+		new_redir->type = TOKEN_REDIR_IN;
+		new_redir->fd = open("/tmp/heredoc_tmp", O_RDONLY);
+		// new_redir->file = ft_strdup("/tmp/heredoc_tmp");
+	}
 	if (!update_redir(sh->cmds[i], new_redir))
 	{
-        ft_printf("Est ce que ca failed ?\n");
+		ft_printf("Est ce que ca failed ?\n");
 		free(new_redir);
 		return (FAILED);
 	}

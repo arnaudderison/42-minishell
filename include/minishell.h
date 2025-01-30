@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:23:42 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 16:15:13 by arnaud           ###   ########.fr       */
+/*   Updated: 2025/01/30 23:29:46 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,22 @@ void		handle_sigint_parent(int sigint);
 void		restore_sigquit(int sig);
 void		handle_sigquit(int sig);
 
-// exec
-// commandes
-void		free_cmd(t_cmd *cmd);
-int			pipe_count(t_token *token_lst);
-t_status	access_cmd(t_cmd **cmd_tab);
-int			cmd_args_count(t_token *token_lst);
-t_cmd		**init_cmds(int cmd_count);
-t_token		*find_cmd(t_cmd *cmd, t_token *token_lst);
-t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst);
-t_token		*set_redir(t_shell *shell, t_token *current);
+// cmd
+	// access.c
+t_status	cmds_path(t_shell *shell);
+
+	// cmd.c
 t_status	tokens_to_cmd(t_shell *shell);
+
+	// cmd_utils.c
 void		free_cmd_array(t_cmd **cmd_tab, int status);
+int			pipe_count(t_token *token_lst);
+int			cmd_args_count(t_token *token_lst);
+void		init_redir(t_cmd *cmd);
+
+
+t_status	access_cmd(t_cmd **cmd_tab);
+t_token		*set_redir(t_shell *shell, t_token *current);
 
 // redirections
 t_token		*next_token(t_token *current);
@@ -122,12 +126,6 @@ t_status	add_redir(t_shell *sh, int redir_type, char *file, int i);
 void		clear_redir(t_token *redir);
 void		free_redir(t_cmd *cmd, int type);
 t_bool		assign_redir(t_cmd *cmd, t_redir *redir);
-
-// access
-char		**all_path(char *str_env);
-t_status	cmds_path(t_shell *shell);
-t_status	set_path(t_cmd *cmd, char **env);
-t_status	access_cmd(t_cmd **cmd_tab);
 
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);

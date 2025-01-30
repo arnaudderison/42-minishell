@@ -196,7 +196,7 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 		if (pids[i] == 0)
 		{
 			signal(SIGINT, handle_sigint_child);
-				execute_child(sh, pipes, i, cmd_count);
+			execute_child(sh, pipes, i, cmd_count);
 			fprintf(stderr, "oupsidouille\n");
 		}
 	}
@@ -209,6 +209,8 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	// attendre enfants
 	for (i = 0; i < cmd_count; i++)
 	{
+		if (sh->cmds[i]->exit_code == 1)
+			continue ;
 		status = 0;
 		if (sh->cmds[i]->exit_code == 1)
 			continue ;

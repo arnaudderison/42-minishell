@@ -1,38 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 23:00:58 by plachard          #+#    #+#             */
+/*   Updated: 2025/01/30 23:28:28 by plachard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-/*	FONCTIONS
-
-FONCTION                  RESPONSABILITÉ
-
-init_cmd                 Crée et initialise une nouvelle commande (t_cmd) avec des redirections vides.
-init_cmd_array           Alloue un tableau de commandes (t_cmd) en fonction du nombre de commandes à traiter.
-find_cmd                 Extrait les arguments d'une commande à partir de la liste de tokens et les assigne à la commande.
-set_cmd                  Associe les commandes à un tableau en parcourant les tokens, et gère l'assignation des arguments.
-tokens_to_cmd            Orchestrer la conversion des tokens en un tableau de commandes avec redirections et arguments.
-*/
-
-void 	init_redir(t_cmd *cmd)
+static t_cmd	*init_cmd(void)
 {
-    cmd->in = NULL;
-    cmd->out = NULL;
-	cmd->heredoc = NULL;
-}
+	t_cmd	*new_cmd;
 
-t_cmd *init_cmd()
-{
-    t_cmd *new_cmd;
-	
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		return (NULL);
 	new_cmd->cmd = NULL;
 	new_cmd->path = NULL;
-    init_redir(new_cmd);
+	init_redir(new_cmd);
 	new_cmd->exit_code = 0;
-    return (new_cmd);
+	return (new_cmd);
 }
 
-t_cmd	**init_cmd_array(int cmd_count)
+static t_cmd	**init_cmd_array(int cmd_count)
 {
 	t_cmd	**cmd_tab;
 	int		i;
@@ -51,13 +45,13 @@ t_cmd	**init_cmd_array(int cmd_count)
 	return (cmd_tab);
 }
 
-t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
+static t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 {
 	int	j;
 
 	cmd->cmd = malloc(sizeof(char *) * (cmd_args_count(token_lst) + 1));
 	if (!cmd->cmd)
-		return (NULL);//free tab cmd
+		return (NULL);
 	j = 0;
 	while (token_lst->type != TOKEN_EOF && token_lst->type != TOKEN_PIPE)
 	{
@@ -65,10 +59,10 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 		{
 			cmd->cmd[j] = strdup(token_lst->value);
 			if (!cmd->cmd[j++])
-				return (NULL);//free tab cmd
+				return (NULL);
 		}
 		token_lst = token_lst->next;
-	} // PIPE || EOF
+	}
 	cmd->cmd[j] = NULL;
 	if (token_lst->type == TOKEN_PIPE)
 		token_lst = token_lst->next;
@@ -77,9 +71,9 @@ t_token	*find_cmd(t_cmd *cmd, t_token *token_lst)
 	return (token_lst);
 }
 
-t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
+static t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 {
-	int		i;
+	int	i;
 
 	if (!cmd_tab || !token_lst)
 		return (FAILED);
@@ -87,7 +81,7 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	while (token_lst->type != TOKEN_EOF)
 	{
 		token_lst = find_cmd(cmd_tab[i], token_lst);
-		if (!token_lst && i == 0) //if (!token_lst) ??
+		if (!token_lst && i == 0)
 			return (FAILED);
 		++i;
 	}
@@ -95,8 +89,7 @@ t_status	set_cmd(t_cmd **cmd_tab, t_token *token_lst)
 	return (SUCCESS);
 }
 
-
-t_status tokens_to_cmd(t_shell *shell)
+t_status	tokens_to_cmd(t_shell *shell)
 {
 	t_token	*token_lst;
 
@@ -108,9 +101,6 @@ t_status tokens_to_cmd(t_shell *shell)
 		return (FAILED);
 	token_lst = set_redir(shell, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
-	{
-		//free_cmd_array(shell->cmds, -1);
 		return (FAILED);
-	}
 	return (SUCCESS);
 }

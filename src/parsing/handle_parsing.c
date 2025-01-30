@@ -6,7 +6,7 @@
 /*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 16:12:15 by arnaud           ###   ########.fr       */
+/*   Updated: 2025/01/30 16:27:29 by arnaud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,11 @@ t_bool	handle_parsing(const char *input, t_shell *sh)
 	if (!parsing(sh->tokens))
 		return (false);
 	if (!tokens_to_cmd(sh))
-<<<<<<< Updated upstream
-	{
-		printf("oupsi\n");
-		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),&lexer), false);
-	}
-	if(!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in && sh->cmds[0]->in->is_heredoc))
-=======
 		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),
 				&lexer), false);
 	if (!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in
 			&& sh->cmds[0]->in->is_heredoc))
->>>>>>> Stashed changes
 	{
-		ft_printf("%s\n", saved_input);
 		add_history(saved_input);
 		ft_free(1, &saved_input);
 	}

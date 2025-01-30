@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: arnaud <arnaud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:32:33 by aderison          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/29 14:24:53 by aderison         ###   ########.fr       */
+=======
+/*   Updated: 2025/01/30 13:27:43 by arnaud           ###   ########.fr       */
+>>>>>>> 0eb4960 (the last leak)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +145,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(input);
 	}
+<<<<<<< HEAD
 	ft_free(1, &shell.envp);
+=======
+	free_cmd_array(shell.cmds, 0);
+>>>>>>> 0eb4960 (the last leak)
 	return (0);
 }

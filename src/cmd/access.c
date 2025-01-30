@@ -75,9 +75,14 @@ t_status	set_path(t_cmd	*cmd, char	**env)
 		ft_free(1, &cmd->path);
 	}
 	ft_printf(" set command not found: %s\n", cmd->cmd[0]);
+<<<<<<< HEAD
 	cmd->path = NULL;
 	cmd->exit_code = 1;
 	return (SUCCESS);
+=======
+	free_cmd(cmd);
+	return (FAILED);
+>>>>>>> 0eb4960 (the last leak)
 }
 
 t_status    cmds_path(t_cmd **cmd_tab, char **env)
@@ -89,10 +94,22 @@ t_status    cmds_path(t_cmd **cmd_tab, char **env)
 	{
 		if (access(cmd_tab[i]->cmd[0], X_OK) == 0)
 			cmd_tab[i]->path = cmd_tab[i]->cmd[0];
+<<<<<<< HEAD
 		else
 		{
 			if (!set_path(cmd_tab[i], env))
 				return (FAILED);
+=======
+			return (SUCCESS);
+		}
+		else
+		{
+			display_cmds(cmd_tab);
+			if (set_path(cmd_tab[i], env))
+			{
+				return (SUCCESS);
+			}
+>>>>>>> 0eb4960 (the last leak)
 		}	
 	}
 	return (SUCCESS);

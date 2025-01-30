@@ -108,7 +108,11 @@ t_status tokens_to_cmd(t_shell *shell)
 	token_lst = set_redir(shell->cmds, token_lst);
 	if (!set_cmd(shell->cmds, token_lst))
 	{
+<<<<<<< HEAD
 		// free_cmd_array(shell->cmds, -1);
+=======
+		free_cmd_array(shell->cmds, -1);
+>>>>>>> 0eb4960 (the last leak)
 		return (FAILED);
 	}
 	return (SUCCESS);

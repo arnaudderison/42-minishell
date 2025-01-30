@@ -1,87 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 00:04:13 by plachard          #+#    #+#             */
+/*   Updated: 2025/01/31 00:54:29 by aderison         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void	free_pipes(int **pipes, int n_pipes)
+static void	simple_cmd_child(t_cmd *cmd, t_shell *shell)
 {
-	int	i;
-
-	if (!pipes)
-		return ;
-	for (i = 0; i < n_pipes; i++)
+	restore_default_signals();
+	if (cmd->in)
 	{
-		if (pipes[i])
-		{
-			// Fermer les descripteurs de fichier associés au pipe
-			close(pipes[i][0]);
-			close(pipes[i][1]);
-			// Libérer la mémoire du tableau pour ce pipe
-			ft_free(1, &pipes[i]);
-		}
+		if (dup2(cmd->in->fd, STDIN_FILENO) < 0)
+			exit(1);
+		close(cmd->in->fd);
 	}
-	// Libérer la mémoire principale du tableau de pipes
-	free(pipes);
-	pipes = NULL;
+	if (cmd->out)
+	{
+		if (dup2(cmd->out->fd, STDOUT_FILENO) < 0)
+			exit(1);
+		close(cmd->out->fd);
+	}
+	execve(cmd->path, cmd->cmd, shell->env_execve);
+	exit(1);
 }
 
-static int	cmds_count(t_cmd **cmds)
+static void	simple_cmd_parent(t_cmd *cmd, pid_t pid, int status)
 {
-	int	count;
-
-	count = 0;
-	while (cmds[count])
-		++count;
-	return (count);
-}
-
-static void	set_pipes(t_cmd **cmds, int **pipes, int i)
-{
-	// attention ajout pas gerer in premiere commande
-	if (!cmds[i]->in && i != 0)
+	setup_exec_signals();
+	if (waitpid(pid, &status, 0) == -1)
 	{
-		cmds[i]->in = (t_redir *)malloc(sizeof(t_redir));
-		if (!cmds[i]->in)
-			exit(1);
-		cmds[i]->in->fd = pipes[i][0];
-		cmds[i]->in->file = NULL;
+		perror("waitpid");
+		exit(EXIT_FAILURE);
 	}
-	if (!cmds[i]->out)
-	{
-		cmds[i]->out = (t_redir *)malloc(sizeof(t_redir));
-		if (!cmds[i]->out)
-			exit(1);
-		if (i == (cmds_count(cmds) - 1))
-			cmds[i]->out->fd = 1;
-		else
-			cmds[i]->out->fd = pipes[i + 1][1];
-		cmds[i]->out->file = NULL;
-	}
-	return ;
-}
-
-static int	**pipe_cmds(t_cmd **cmds)
-{
-	int	**pipes;
-	int	i;
-	int	n;
-
-	// create pipes
-	n = cmds_count(cmds);
-	pipes = malloc(sizeof(int *) * (n + 1));
-	i = -1;
-	while (++i < n + 1) // ??? n ou n + 1
-	{
-		pipes[i] = malloc(sizeof(int) * 2);
-		if (!pipes[i])
-			exit(1);
-		if (pipe(pipes[i]) < 0)
-			exit(1);
-	}
-	// set pipes
-	i = -1;
-	while (++i < n)
-		set_pipes(cmds, pipes, i);
-	// pipes[0][0] = STDIN_FILENO;
-	// pipes[n+1][1] = STDOUT_FILENO;
-	return (pipes);
+	if (WIFSIGNALED(status))
+		cmd->exit_code = 128 + WTERMSIG(status);
+	else if (WIFEXITED(status))
+		cmd->exit_code = status;
+	else
+		cmd->exit_code = status;
 }
 
 static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
@@ -89,7 +52,6 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 	pid_t	pid;
 	int		status;
 
-	// ft_printf("%s\n", shell->env_execve[0]);
 	status = 0;
 	pid = fork();
 	if (pid < 0)
@@ -150,14 +112,12 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 		if (dup2(sh->cmds[i]->out->fd, STDOUT_FILENO) < 0)
 			exit(1);
 	}
-	for (j = 0; j < cmd_count; j++)
+	j = -1;
+	while (++j < cmd_count)
 	{
-		// if (j != i)
 		close(pipes[j][0]);
-		// if (j != i + 1)
 		close(pipes[j][1]);
 	}
-	fprintf(stderr, "EXEC CHILD = %s\n", sh->cmds[i]->cmd[0]);
 	if (execb(sh->cmds[i]->cmd, sh))
 		exit(1);
 	else
@@ -249,31 +209,4 @@ int	execute_cmds(t_shell *shell)
 	else
 		exit_code = execute_multiple_cmds(shell, n_cmds);
 	return (exit_code);
-}
-
-int	handle_heredoc(char *delimiter, t_shell *sh)
-{
-	char	*line;
-	int		fd;
-	char	*expanded;
-
-	expanded = NULL;
-	restore_default_signals();
-	fd = open("/tmp/heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
-		expanded = expand_input(line, sh);
-		write(fd, expanded, strlen(expanded));
-		write(fd, "\n", 1);
-		free(line);
-		ft_free(1, &expanded);
-	}
-	close(fd);
-	return (1);
 }

@@ -153,7 +153,9 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 		close(pipes[j][1]);
 	}
 	fprintf(stderr, "EXEC CHILD = %s\n", sh->cmds[i]->cmd[0]);
-	if (!execb(sh->cmds[i]->cmd, sh))
+	if (execb(sh->cmds[i]->cmd, sh))
+		exit(1);
+	else
 	{
 		execve(sh->cmds[i]->path, sh->cmds[i]->cmd, sh->env_execve);
 		perror("execvp failed");

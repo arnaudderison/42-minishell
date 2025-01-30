@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 23:39:14 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:02:40 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,67 +114,23 @@ int			pipe_count(t_token *token_lst);
 int			cmd_args_count(t_token *token_lst);
 void		init_redir(t_cmd *cmd);
 
-
-t_status	access_cmd(t_cmd **cmd_tab);
+// redir
+	// redir.c
 t_token		*set_redir(t_shell *shell, t_token *current);
 
-// redirections
-t_token		*next_token(t_token *current);
-t_bool		valid_fd(t_cmd *cmd, int redir_type);
-void		close_fd(t_cmd *cmd);
-t_bool		check_fd(t_cmd *cmd, int redir_type, const char *file);
-t_status	add_redir(t_shell *sh, int redir_type, char *file, int i);
-void		clear_redir(t_token *redir);
-void		free_redir(t_cmd *cmd, int type);
-t_bool		assign_redir(t_cmd *cmd, t_redir *redir);
+	// redir_utils.c
+void		clear_redir_token(t_token *redir);
+t_bool		update_redir(t_cmd *cmd, t_redir *redir);
+int			open_redir_fd(t_redir new_redir);
 
 // exec
 void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
 int			execute_cmds(t_shell *shell);
 int			handle_heredoc(char *delimiter, t_shell *sh);
 
-// utils
-char		*cmd_path(t_cmd *cmd, char **env);
+// debbug
 void		print_redir(t_cmd *cmd);
 void		display_cmds(t_cmd **cmd_tab);
 void		print_tokens(t_token *token);
-
-// flemme
-/*
- * Fonction qui marque un token de redirection comme inutilisable (NAO).
- */
-void		clear_redir_token(t_token *redir);
-
-/*
- * Libère les ressources associées à une redirection dans une commande.
- */
-void		free_redir_cmd(t_cmd *cmd, int type);
-
-/*
- * Met à jour la redirection d'une commande en fonction du type.
- */
-t_bool		update_redir(t_cmd *cmd, t_redir *redir);
-
-/*
-
-	* Ouvre un fichier pour une redirection et retourne le descripteur de fichier (fd).
- */
-int			open_redir_fd(t_redir new_redir);
-
-/*
-
-	* Crée et initialise une nouvelle redirection avec le type et le fichier spécifié.
- */
-t_redir		*create_redir(int redir_type, char *file);
-
-/*
- * Ajoute une redirection à une commande.
- */
-t_status	add_redir(t_shell *shell, int redir_type, char *file, int i);
-
-/*
- * Traite un token de redirection et l'associe à la commande correspondante.
- */
-t_token		*process_redir(t_shell *shell, t_token *current, int i);
 
 #endif

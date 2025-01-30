@@ -1,19 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 23:56:33 by plachard          #+#    #+#             */
+/*   Updated: 2025/01/30 23:59:50 by plachard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-FONCTION              RESPONSABILITE
-
-clear_redir_token     Marque un token de redirection et son fichier associé comme inutilisables (type = NAO).
-free_redir_cmd        Libère les ressources associées à une redirection dans une commande,
-	en fonction de son type.
-update_redir          Associe les descripteurs de fichiers ouverts à la commande selon le type de redirection.
-open_redir_fd         Ouvre un fichier pour une redirection et retourne le descripteur de fichier (fd).
-create_redir          Alloue et initialise une nouvelle structure de redirection avec le type et le fichier spécifié.
-add_redir             Ajoute une redirection à une commande en libérant les anciennes redirections si nécessaire.
-process_redir         Traite un token de redirection et l'associe à la commande correspondante.
-set_redir             Gère les redirections et les pipes dans la liste de tokens et les assigne aux commandes.
-*/
 
 void	clear_redir_token(t_token *redir)
 {
@@ -24,8 +21,7 @@ void	clear_redir_token(t_token *redir)
 		redir->next->type = NAO;
 }
 
-// else if (redir->type == TOKEN_REDIR_HEREDOC)
-void	free_redir_cmd(t_cmd *cmd, int type)
+static void	free_redir_cmd(t_cmd *cmd, int type)
 {
 	t_redir	**redir;
 
@@ -75,36 +71,4 @@ int	open_redir_fd(t_redir new_redir)
 	if (fd < 0)
 		ft_printf("%s: no file or directory with this name\n", new_redir.file);
 	return (fd);
-}
-
-void	print_redir(t_cmd *cmd)
-{
-	if (!cmd)
-	{
-		ft_printf("Commande vide.\n");
-		return ;
-	}
-	if (cmd->in)
-		ft_printf("  Redirection entrée (<): %s\n", cmd->in->file);
-	else
-		ft_printf("  Pas de redirection entrée (<)\n");
-	if (cmd->out)
-		ft_printf("  Redirection sortie (>): %s\n", cmd->out->file);
-	else
-		ft_printf("  Pas de redirection sortie (>)\n");
-	if (cmd->heredoc)
-		ft_printf("  Heredoc (<<): %s\n", cmd->heredoc->file);
-	else
-		printf("  Pas de Heredoc (<<)\n");
-	ft_printf("\n");
-}
-
-void	close_fd(t_cmd *cmd)
-{
-	if (cmd->type == TOKEN_REDIR_IN)
-		close(cmd->in->fd);
-	else if (cmd->type == TOKEN_REDIR_OUT || cmd->type == TOKEN_REDIR_APP)
-		close(cmd->out->fd);
-	else if (cmd->type == TOKEN_REDIR_HEREDOC)
-		close(cmd->heredoc->fd);
 }

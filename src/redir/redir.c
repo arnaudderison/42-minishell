@@ -1,24 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 23:41:06 by plachard          #+#    #+#             */
+/*   Updated: 2025/01/30 23:55:16 by plachard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-FONCTION              RESPONSABILITE
-
-clear_redir_token     Marque un token de redirection et son fichier associé comme inutilisables (type = NAO).
-free_redir_cmd        Libère les ressources associées à une redirection dans une commande,
-	en fonction de son type.
-update_redir          Associe les descripteurs de fichiers ouverts à la commande selon le type de redirection.
-open_redir_fd         Ouvre un fichier pour une redirection et retourne le descripteur de fichier (fd).
-create_redir          Alloue et initialise une nouvelle structure de redirection avec le type et le fichier spécifié.
-add_redir             Ajoute une redirection à une commande en libérant les anciennes redirections si nécessaire.
-process_redir         Traite un token de redirection et l'associe à la commande correspondante.
-set_redir             Gère les redirections et les pipes dans la liste de tokens et les assigne aux commandes.
-*/
-
-t_redir	*create_redir(int redir_type, char *file)
+static t_redir	*alloc_redir(t_redir *new_redir, char *file)
 {
-	t_redir	*new_redir;
-
 	if (!file)
 	{
 		ft_printf("file = null\n");
@@ -26,9 +21,22 @@ t_redir	*create_redir(int redir_type, char *file)
 	}
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
-		return (NULL);
-	new_redir->type = redir_type;
+		exit(1);
 	new_redir->file = strdup(file);
+	if (!new_redir)
+		exit(1);
+	return (new_redir);
+}
+
+static t_redir	*create_redir(int redir_type, char *file)
+{
+	t_redir	*new_redir;
+
+	new_redir = NULL;
+	new_redir = alloc_redir(new_redir, file);
+	if (!new_redir)
+		exit(1);
+	new_redir->type = redir_type;
 	if (redir_type == TOKEN_REDIR_HEREDOC)
 		new_redir->is_heredoc = 1;
 	else
@@ -43,31 +51,10 @@ t_redir	*create_redir(int redir_type, char *file)
 	}
 	else
 		new_redir->fd = -1;
-	// comme c'est un heredoc le redir sera set plus tard
 	return (new_redir);
 }
 
-// t_status	add_redir(t_cmd *cmd, int redir_type, char *file)
-// {
-// 	t_redir	*new_redir;
-
-// 	if (!cmd || !file)
-// 		return (PTR_NULL);
-// 	new_redir = create_redir(redir_type, file);
-// 	if (!new_redir)
-//     {
-//         cmd->exit_code = 1;
-// 		return (FAILED);
-//     }
-// 	if (!update_redir(cmd, new_redir))
-//     {
-// 		ft_free(1, &new_redir);
-//         return (FAILED);
-//     }
-// 	return (SUCCESS);
-// }
-
-t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
+static t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 {
 	t_redir	*new_redir;
 
@@ -85,7 +72,6 @@ t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 		ft_free(1, &new_redir->file);
 		new_redir->type = TOKEN_REDIR_IN;
 		new_redir->fd = open("/tmp/heredoc_tmp", O_RDONLY);
-		// new_redir->file = ft_strdup("/tmp/heredoc_tmp");
 	}
 	if (!update_redir(sh->cmds[i], new_redir))
 	{
@@ -96,7 +82,7 @@ t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 	return (SUCCESS);
 }
 
-t_token	*process_redir(t_shell *sh, t_token *current, int i)
+static t_token	*process_redir(t_shell *sh, t_token *current, int i)
 {
 	t_token	*new_current;
 

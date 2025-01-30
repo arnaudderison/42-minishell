@@ -42,3 +42,25 @@ t_status	access_cmd(t_cmd **cmd_tab)
 	}
 	return (SUCCESS);
 }
+
+void	print_redir(t_cmd *cmd)
+{
+	if (!cmd)
+	{
+		ft_printf("Commande vide.\n");
+		return ;
+	}
+	if (cmd->in)
+		ft_printf("  Redirection entrée (<): %s\n", cmd->in->file);
+	else
+		ft_printf("  Pas de redirection entrée (<)\n");
+	if (cmd->out)
+		ft_printf("  Redirection sortie (>): %s\n", cmd->out->file);
+	else
+		ft_printf("  Pas de redirection sortie (>)\n");
+	if (cmd->heredoc)
+		ft_printf("  Heredoc (<<): %s\n", cmd->heredoc->file);
+	else
+		printf("  Pas de Heredoc (<<)\n");
+	ft_printf("\n");
+}

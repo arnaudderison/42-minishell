@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/30 23:39:14 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:38:29 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -100,20 +99,21 @@ void		handle_sigint_child(int sigint);
 void		handle_sigint_parent(int sigint);
 void		restore_sigquit(int sig);
 void		handle_sigquit(int sig);
+void		simple_commande(int sigint);
+void		handle_sigquit(int sig);
 
 // cmd
-	// access.c
+// access.c
 t_status	cmds_path(t_shell *shell);
 
-	// cmd.c
+// cmd.c
 t_status	tokens_to_cmd(t_shell *shell);
 
-	// cmd_utils.c
+// cmd_utils.c
 void		free_cmd_array(t_cmd **cmd_tab, int status);
 int			pipe_count(t_token *token_lst);
 int			cmd_args_count(t_token *token_lst);
 void		init_redir(t_cmd *cmd);
-
 
 t_status	access_cmd(t_cmd **cmd_tab);
 t_token		*set_redir(t_shell *shell, t_token *current);

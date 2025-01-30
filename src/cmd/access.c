@@ -113,7 +113,7 @@ t_status	cmds_path(t_shell *shell)
 		if (is_builtin(shell->cmds[i]->cmd[0]))
 			continue ;
 		if (access(shell->cmds[i]->cmd[0], X_OK) == 0)
-			shell->cmds[i]->path = shell->cmds[i]->cmd[0];
+			shell->cmds[i]->path = ft_strdup(shell->cmds[i]->cmd[0]);
 		else
 		{
 			if (!set_path(shell->cmds[i], env))

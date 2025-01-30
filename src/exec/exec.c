@@ -97,6 +97,7 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 	if (pid == 0)
 	{
 		restore_default_signals();
+		signal(SIGQUIT, handle_sigquit);
 		if (cmd->in)
 		{
 			if (dup2(cmd->in->fd, STDIN_FILENO) < 0)
@@ -120,12 +121,13 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("waitpid");
+			cmd->exit_code = status;
 			exit(EXIT_FAILURE);
 		}
 		if (WIFSIGNALED(status))
 			cmd->exit_code = 128 + WTERMSIG(status);
 		else if (WIFEXITED(status))
-			cmd->exit_code = status;
+			cmd->exit_code = WEXITSTATUS(status);
 		else
 			cmd->exit_code = status;
 	}

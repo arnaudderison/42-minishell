@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:04:13 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/31 01:00:00 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:09:49 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	simple_cmd_parent(t_cmd *cmd, pid_t pid, int status)
 	if (WIFSIGNALED(status))
 		cmd->exit_code = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))
-		cmd->exit_code = WIFESTATUS(status);
+		cmd->exit_code = WEXITSTATUS(status);
 	else
 		cmd->exit_code = status;
 }
@@ -59,42 +59,9 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 	if (pid < 0)
 		exit(1);
 	if (pid == 0)
-	{
-		restore_default_signals();
-		signal(SIGQUIT, handle_sigquit);
-		if (cmd->in)
-		{
-			if (dup2(cmd->in->fd, STDIN_FILENO) < 0)
-				exit(1);
-			close(cmd->in->fd);
-		}
-		if (cmd->out)
-		{
-			if (dup2(cmd->out->fd, STDOUT_FILENO) < 0)
-				exit(1);
-			close(cmd->out->fd);
-		}
-		// ft_printf_fd(2, "PATH = %s  CMD = %s ENV = %s\n", cmd->path,
-		// cmd->cmd[0], shell->env_execve[0]);
-		execve(cmd->path, cmd->cmd, shell->env_execve);
-		exit(1);
-	}
+		simple_cmd_child(cmd, shell);
 	else if (pid > 0)
-	{
-		setup_exec_signals();
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid");
-			cmd->exit_code = status;
-			exit(EXIT_FAILURE);
-		}
-		if (WIFSIGNALED(status))
-			cmd->exit_code = 128 + WTERMSIG(status);
-		else if (WIFEXITED(status))
-			cmd->exit_code = WEXITSTATUS(status);
-		else
-			cmd->exit_code = status;
-	}
+		simple_cmd_parent(cmd, pid, status);
 	setup_prompt_signals();
 	return (cmd->exit_code);
 }
@@ -153,7 +120,7 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	if (!pids)
 		return (write(1, "Error allocating PIDs\n", 23), 1);
 		
-	multi_cmd_child(sh, i, cmd_count)
+	//multi_cmd_child(sh, i, cmd_count)
 	// creation des processus enfants
 	for (i = 0; i < cmd_count; i++)
 	{

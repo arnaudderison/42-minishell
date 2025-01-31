@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 23:41:06 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/30 23:55:16 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:40:48 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static t_status	add_redir(t_shell *sh, int redir_type, char *file, int i)
 	}
 	if (!update_redir(sh->cmds[i], new_redir))
 	{
-		ft_printf("Est ce que ca failed ?\n");
 		free(new_redir);
 		return (FAILED);
 	}

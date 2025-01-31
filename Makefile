@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -MD -MP
 I_LIBFT = ./include/lib/libft/include/
 I_MINISH = ./include/
 INCLUDES = -I$(I_LIBFT) -I$(I_MINISH)
@@ -38,7 +38,50 @@ ifeq ($(UNAME_S),Darwin)
     READLINE_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline -I$(shell brew --prefix readline)/include
 endif
 
-MINISH_SRCS = src/main.c $(wildcard src/*/*.c) src/builtins/export/export.c src/builtins/export/is_valid_identifier.c src/builtins/export/print_env.c
+MINISH_SRCS = src/main.c \
+src/builtins/cd.c \
+src/builtins/echo.c \
+src/builtins/pwd.c \
+src/builtins/env.c \
+src/builtins/execb.c \
+src/builtins/exit.c \
+src/builtins/unset.c \
+src/builtins/export/is_valid_identifier.c \
+src/builtins/export/export.c \
+src/builtins/export/print_env.c \
+src/cmd/cmd.c \
+src/cmd/access.c \
+src/cmd/cmd_utils.c \
+src/environment/edit_var_env.c \
+src/environment/get_env.c \
+src/environment/is_new_var.c \
+src/environment/set_var_env.c \
+src/environment/add_var_env.c \
+src/environment/get_path.c \
+src/environment/init_envp.c \
+src/error/free_env.c \
+src/error/free_tokens.c \
+src/error/print_error.c \
+src/exec/exec.c \
+src/exec/exec_multi_cmd.c \
+src/exec/pipes.c \
+src/expansion/get_var_name.c \
+src/expansion/expansion.c \
+src/expansion/get_value.c \
+src/lexer/create_tokenisation.c \
+src/lexer/manage_quote.c \
+src/lexer/utils.c \
+src/parsing/clean_quote.c \
+src/parsing/is_operator.c \
+src/parsing/is_pipe_syntax.c \
+src/parsing/is_redir_syntax.c \
+src/parsing/parsing.c \
+src/parsing/print_parse_error.c \
+src/parsing/handle_parsing.c \
+src/redir/redir.c \
+src/redir/redir_utils.c \
+src/signals/handle_sigint_prompt.c \
+src/signals/signals.c
 MINISH_OBJS = $(patsubst src/%.c,$(OBJ_DIR)/%.o,$(MINISH_SRCS))
 DEPS = $(MINISH_OBJS:.o=.d)
 

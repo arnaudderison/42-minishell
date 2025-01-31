@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 14:43:56 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 23:22:31 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:11:33 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_status	expand_quote(t_state_expansion *state)
 	while (state->input[offset] && state->input[offset] != '\'')
 		offset++;
 	tmp_value = ft_substr(state->input, state->i, ++offset - state->i);
-	state->i = offset;
+	state->i = offset - 1;
 	state->expanded = ft_strjoin(tmp_exp, tmp_value);
 	ft_free(2, &tmp_exp, &tmp_value);
 	return (SUCCESS);

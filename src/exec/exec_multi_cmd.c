@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_multi_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 01:44:20 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/31 01:48:11 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:41:45 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static void	wait_child(t_shell *sh, pid_t *pids, int cmd_count)
 		status = 0;
 		if (sh->cmds[i]->exit_code == 1)
 			continue ;
-		fprintf(stderr, "cmd[%d] = %s\n", i, sh->cmds[i]->cmd[0]);
 		if (waitpid(pids[i], &status, 0) == -1)
 		{
 			perror("waitpidcaca");
@@ -116,7 +115,6 @@ int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	close_pipes(pipes, cmd_count);
 	wait_child(sh, pids, cmd_count);
 	ft_free(1, &pids);
-	fprintf(stderr, "FREE PIPES %d\n", cmd_count);
 	free_pipes(pipes, cmd_count);
 	return (sh->cmds[--cmd_count]->exit_code);
 }

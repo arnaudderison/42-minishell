@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 20:27:35 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 19:33:01 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/31 02:57:55 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef struct s_state_expansion
 
 typedef struct s_redir
 {
-	int type;   // Type de redirection (<, >, >>, <<)
-	char *file; // Nom du fichier
+	int				type;
+	char			*file;
 	int				fd;
-	int is_heredoc;
+	int				is_heredoc;
 }					t_redir;
 
 typedef struct s_cmd
@@ -76,12 +76,7 @@ typedef struct s_shell
 	t_cmd			**cmds;
 	int				exit_code;
 	char			*path;
-	char			**env_execve;	
-	// char *home;
+	char			**env_execve;
 }					t_shell;
-
-/*
-	PLAAAAAAAAACHAAAAAAAAAARD
-*/
 
 #endif

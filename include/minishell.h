@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/31 01:51:23 by plachard         ###   ########.fr       */
+/*   Created: 2024/10/19 20:29:57 by aderison          #+#    #+#             */
+/*   Updated: 2025/01/31 02:59:55 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,5 @@ void		free_pipes(int **pipes, int n_pipes);
 void		set_pipes(t_cmd **cmds, int **pipes, int i);
 int			**pipe_cmds(t_cmd **cmds);
 void		close_pipes(int **pipes, int count);
-
-// debbug
-// void		print_redir(t_cmd *cmd);
-// void		display_cmds(t_cmd **cmd_tab);
-// void		print_tokens(t_token *token);
 
 #endif

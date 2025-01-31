@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:04:13 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/31 00:54:29 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:00:00 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	simple_cmd_child(t_cmd *cmd, t_shell *shell)
 {
 	restore_default_signals();
+	signal(SIGQUIT, handle_sigquit);
 	if (cmd->in)
 	{
 		if (dup2(cmd->in->fd, STDIN_FILENO) < 0)
@@ -37,12 +38,13 @@ static void	simple_cmd_parent(t_cmd *cmd, pid_t pid, int status)
 	if (waitpid(pid, &status, 0) == -1)
 	{
 		perror("waitpid");
+		cmd->exit_code = status;
 		exit(EXIT_FAILURE);
 	}
 	if (WIFSIGNALED(status))
 		cmd->exit_code = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))
-		cmd->exit_code = status;
+		cmd->exit_code = WIFESTATUS(status);
 	else
 		cmd->exit_code = status;
 }
@@ -97,10 +99,8 @@ static int	execute_simple_cmd(t_cmd *cmd, t_shell *shell)
 	return (cmd->exit_code);
 }
 
-static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
+static void	dup_io(t_shell *sh, int i)
 {
-	int	j;
-
 	if (sh->cmds[i]->in)
 	{
 		if (sh->cmds[i]->in->fd >= 0)
@@ -112,6 +112,14 @@ static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
 		if (dup2(sh->cmds[i]->out->fd, STDOUT_FILENO) < 0)
 			exit(1);
 	}
+	return ;
+}
+
+static void	execute_child(t_shell *sh, int **pipes, int i, int cmd_count)
+{
+	int	j;
+
+	dup_io(sh, i);
 	j = -1;
 	while (++j < cmd_count)
 	{
@@ -136,12 +144,16 @@ static int	execute_multiple_cmds(t_shell *sh, int cmd_count)
 	int	status;
 
 	// Allocation pipes and PIDs
+	//	if (!(alloc_exec(&pipes, &pids)))
+	// return (1);
 	pipes = pipe_cmds(sh->cmds);
 	if (!pipes)
 		return (write(1, "Error creating pipes\n", 22), 1);
 	pids = malloc(sizeof(pid_t) * cmd_count);
 	if (!pids)
 		return (write(1, "Error allocating PIDs\n", 23), 1);
+		
+	multi_cmd_child(sh, i, cmd_count)
 	// creation des processus enfants
 	for (i = 0; i < cmd_count; i++)
 	{

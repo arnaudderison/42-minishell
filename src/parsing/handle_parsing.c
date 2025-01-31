@@ -6,7 +6,7 @@
 /*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 22:00:31 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/30 22:56:46 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:22:48 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static t_lexer	*create_lexer(const char *input)
 		exit(EXIT_FAILURE);
 	}
 	lexer->input = input;
-	// ft_printf("NEW INPUT: [%s]\n", input);
 	lexer->position = 0;
 	lexer->last_token = NULL;
 	return (lexer);
@@ -41,39 +40,56 @@ static void	init_tokens(t_token *tokens, t_shell *sh)
 	sh->tokens = tokens;
 }
 
+static t_bool	init_lexer_and_tokens(const char *input, t_shell *sh,
+		t_lexer **lexer, t_token **tokens)
+{
+	char	*expanded_input;
+
+	expanded_input = expand_input((char *)input, sh);
+	*lexer = create_lexer((const char *)clean_quote(expanded_input));
+	if (!*lexer)
+		return (false);
+	*tokens = malloc(sizeof(t_token));
+	if (!*tokens)
+	{
+		ft_free(1, lexer);
+		return (false);
+	}
+	init_tokens(*tokens, sh);
+	create_tokenisation(&(sh->tokens), *lexer);
+	manage_quote(&(sh->tokens));
+	return (true);
+}
+
+static void	handle_history(char *saved_input, t_shell *sh)
+{
+	if (!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in
+			&& sh->cmds[0]->in->is_heredoc))
+		add_history(saved_input);
+	ft_free(1, &saved_input);
+}
+
 t_bool	handle_parsing(const char *input, t_shell *sh)
 {
 	t_lexer	*lexer;
 	t_token	*tokens;
 	char	*saved_input;
 
-	lexer = NULL;
-	tokens = NULL;
-	saved_input = ft_strdup(input);
 	if (!input)
 		exit(EXIT_FAILURE);
-	lexer = create_lexer((const char *)clean_quote(expand_input((char *)input,
-					sh)));
-	if (!lexer)
+	saved_input = ft_strdup(input);
+	if (!init_lexer_and_tokens(input, sh, &lexer, &tokens))
 		return (false);
-	tokens = malloc(sizeof(t_token));
-	if (!tokens)
-		return (free_env(sh->envp), ft_free(1, &lexer), exit(EXIT_FAILURE),
-			false);
-	init_tokens(tokens, sh);
-	create_tokenisation(&(sh->tokens), lexer);
-	manage_quote(&(sh->tokens));
 	if (!parsing(sh->tokens))
 		return (false);
 	if (!tokens_to_cmd(sh))
-		return (free_tokens(sh->tokens, NULL), ft_free(2, &(lexer->input),
-				&lexer), false);
-	if (!(pipe_count(sh->tokens) == 0 && sh->cmds[0]->in
-			&& sh->cmds[0]->in->is_heredoc))
 	{
-		add_history(saved_input);
-		ft_free(1, &saved_input);
+		free_tokens(sh->tokens, NULL);
+		ft_free(2, &(lexer->input), &lexer);
+		return (false);
 	}
-	return (free_tokens(sh->tokens, NULL), ft_free(3, &(lexer->input), &lexer,
-			&saved_input), true);
+	handle_history(saved_input, sh);
+	free_tokens(sh->tokens, NULL);
+	ft_free(2, &(lexer->input), &lexer);
+	return (true);
 }

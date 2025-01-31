@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_sigint_prompt.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
+/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 21:59:04 by aderison          #+#    #+#             */
-/*   Updated: 2025/01/31 01:00:30 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:11:43 by aderison         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_sigint_parent(int sigint)
 	(void)sigint;
 }
 
-void handle_sigquit(int sig)
+void	handle_sigquit(int sig)
 {
-    (void)sig;
+	(void)sig;
 }

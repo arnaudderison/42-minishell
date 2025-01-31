@@ -6,7 +6,7 @@
 /*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:21:27 by plachard          #+#    #+#             */
-/*   Updated: 2025/01/31 00:24:02 by plachard         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:48:28 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,16 @@ int	**pipe_cmds(t_cmd **cmds)
 	while (++i < n)
 		set_pipes(cmds, pipes, i);
 	return (pipes);
+}
+
+void	close_pipes(int **pipes, int count)
+{
+	int	i;
+
+	i = -1;
+	while (++i < count)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+	}
 }

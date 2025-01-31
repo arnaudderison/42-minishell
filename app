@@ -1,0 +1,16 @@
+&1
+GIT.md
+KBS
+LICENSE
+Makefile
+README.md
+app
+debbuging.c
+include
+minishell
+obj
+out
+outfile
+output.txt
+src
+test

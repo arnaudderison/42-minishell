@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderison <aderison@student.s19.be>         +#+  +:+       +#+        */
+/*   By: plachard <plachard@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/01/31 00:56:01 by aderison         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:51:23 by plachard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,27 +111,24 @@ int			cmd_args_count(t_token *token_lst);
 void		init_redir(t_cmd *cmd);
 
 // redir
-	// redir.c
 t_token		*set_redir(t_shell *shell, t_token *current);
-
-	// redir_utils.c
 void		clear_redir_token(t_token *redir);
 t_bool		update_redir(t_cmd *cmd, t_redir *redir);
 int			open_redir_fd(t_redir new_redir);
+int			handle_heredoc(char *delimiter, t_shell *sh);
 
 // exec
+int			execute_cmds(t_shell *shell);
+int			execute_multiple_cmds(t_shell *sh, int cmd_count);
 int			pipe_count(t_token *token_lst);
 void		free_pipes(int **pipes, int n_pipes);
 void		set_pipes(t_cmd **cmds, int **pipes, int i);
 int			**pipe_cmds(t_cmd **cmds);
-
-void		process_pipe(t_cmd *cmd1, t_cmd *cmd2);
-int			execute_cmds(t_shell *shell);
-int			handle_heredoc(char *delimiter, t_shell *sh);
+void		close_pipes(int **pipes, int count);
 
 // debbug
-void		print_redir(t_cmd *cmd);
-void		display_cmds(t_cmd **cmd_tab);
-void		print_tokens(t_token *token);
+// void		print_redir(t_cmd *cmd);
+// void		display_cmds(t_cmd **cmd_tab);
+// void		print_tokens(t_token *token);
 
 #endif
